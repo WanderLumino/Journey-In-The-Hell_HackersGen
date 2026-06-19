@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Manuale — Inferno Quest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<div id="cursor"></div>
+<canvas id="cvs"></canvas>
+<div class="vignette"></div>
+
+<a class="back-link" href="home.html">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <polyline points="15 18 9 12 15 6"/>
+  </svg>
+  Torna al Menu
+</a>
+
+<div class="page">
+<div class="manual-wrap">
+
+  <!-- Header -->
+  <header class="manual-header">
+    <div class="orn" style="justify-content:center">CODEX INFERNALIS</div>
+    <h1 class="manual-title">Manuale del Gioco</h1>
+    <p class="manual-subtitle">
+      Tutto ciò che devi sapere per sopravvivere<br/>
+      ai Nove Cerchi dell'Eterno Abisso.
+    </p>
+  </header>
+
+  <!-- CHAPTER I — Storia -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Capitolo I</span>
+      <span class="chapter-title">La Storia</span>
+    </div>
+    <p>
+      Nell'anno 1300, il poeta <strong>Dante Alighieri</strong> si ritrova perduto in una selva oscura.
+      Guidato dall'anima di <strong>Virgilio</strong>, intraprende un viaggio attraverso i Nove Cerchi
+      dell'Inferno — un regno di tormento eterno popolato da demoni, mostri e anime dannate.
+    </p>
+    <p>
+      In <strong>Inferno Quest</strong>, tu sei Dante. Esplori un mondo semi-aperto ispirato alla
+      <em>Divina Commedia</em>. Ogni cerchio è un bioma unico, pieno di creature da catturare,
+      enigmi da risolvere e boss leggendari da sfidare.
+    </p>
+    <p>
+      Il tuo obiettivo: raggiungere il nucleo dell'Inferno, affrontare <strong>Lucifero</strong> e
+      trovare la via di ritorno verso la luce.
+    </p>
+  </div>
+
+  <!-- CHAPTER II — Controlli -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Capitolo II</span>
+      <span class="chapter-title">Controlli</span>
+    </div>
+    <p>Il gioco si controlla con tastiera e mouse, oppure con un gamepad.</p>
+
+    <table class="cmd-table">
+      <thead>
+        <tr>
+          <th>Tasto</th>
+          <th>Azione</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>W A S D / ↑↓←→</td><td>Movimento del personaggio</td></tr>
+        <tr><td>Spazio</td><td>Interagisci / Conferma</td></tr>
+        <tr><td>E</td><td>Apri lo zaino / inventario</td></tr>
+        <tr><td>Q</td><td>Usa oggetto equipaggiato</td></tr>
+        <tr><td>Tab</td><td>Mappa dell'Inferno</td></tr>
+        <tr><td>Esc</td><td>Menu di pausa</td></tr>
+        <tr><td>Click sinistro</td><td>Attacca / Seleziona</td></tr>
+        <tr><td>Click destro</td><td>Difendi / Osserva</td></tr>
+        <tr><td>F</td><td>Tenta la cattura del dannato</td></tr>
+        <tr><td>1 2 3 4</td><td>Abilità speciali di Dante</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHAPTER III — Combattimento -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Capitolo III</span>
+      <span class="chapter-title">Sistema di Combattimento</span>
+    </div>
+    <p>
+      Il combattimento è <strong>a turni</strong>. Quando incontri un'anima dannata o una creatura
+      dell'Inferno, la scena passa alla modalità battaglia. Ogni turno puoi scegliere tra quattro azioni:
+    </p>
+
+    <div class="stat-grid">
+      <div class="stat-card" data-i="0">
+        <div class="stat-name">Attacca</div>
+        <div class="stat-desc">Infliggi danni fisici con lo stilo di Dante o un'arma equipaggiata.</div>
+      </div>
+      <div class="stat-card" data-i="1">
+        <div class="stat-name">Abilità</div>
+        <div class="stat-desc">Usa un potere speciale: versi danteschi, fuoco sacro, o invocazioni.</div>
+      </div>
+      <div class="stat-card" data-i="2">
+        <div class="stat-name">Oggetto</div>
+        <div class="stat-desc">Usa una fiala di acqua lustrale, un'erba del Limbo, o una reliquia.</div>
+      </div>
+      <div class="stat-card" data-i="3">
+        <div class="stat-name">Cattura</div>
+        <div class="stat-desc">Prova a intrappolare il dannato con il Sigillo Infernale. Richiede HP bassi.</div>
+      </div>
+    </div>
+
+    <p>
+      Ogni creatura ha <strong>resistenze elementali</strong> legate al suo cerchio di origine.
+      Le creature del fuoco resistono alle fiamme, quelle del ghiaccio al freddo. Studia le debolezze
+      per vincere più facilmente.
+    </p>
+  </div>
+
+  <!-- CHAPTER IV — Statistiche -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Capitolo IV</span>
+      <span class="chapter-title">Statistiche di Dante</span>
+    </div>
+    <p>Dante ha sei statistiche principali che crescono con l'esperienza o con le reliquie trovate.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card" data-i="0">
+        <div class="stat-name">Anima (HP)</div>
+        <div class="stat-desc">Punti vita. Se si azzera, Dante viene ricacciato all'ultimo accampamento.</div>
+      </div>
+      <div class="stat-card" data-i="1">
+        <div class="stat-name">Fede</div>
+        <div class="stat-desc">Potenzia le abilità divine e le preghiere. Consumata dagli incantesimi.</div>
+      </div>
+      <div class="stat-card" data-i="2">
+        <div class="stat-name">Forza</div>
+        <div class="stat-desc">Danni fisici e capacità di sfondare le difese nemiche.</div>
+      </div>
+      <div class="stat-card" data-i="3">
+        <div class="stat-name">Mente</div>
+        <div class="stat-desc">Efficacia degli incantesimi poetici e dei versi della Commedia.</div>
+      </div>
+      <div class="stat-card" data-i="4">
+        <div class="stat-name">Prontezza</div>
+        <div class="stat-desc">Velocità di azione in battaglia. Determina chi agisce per primo.</div>
+      </div>
+      <div class="stat-card" data-i="5">
+        <div class="stat-name">Fortuna</div>
+        <div class="stat-desc">Probabilità di cattura, drop di oggetti rari e colpi critici.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAPTER V — I Cerchi -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Capitolo V</span>
+      <span class="chapter-title">I Nove Cerchi</span>
+    </div>
+    <p>
+      L'Inferno è diviso in <strong>nove cerchi concentrici</strong>, ognuno dedicato a una categoria
+      di peccato. Più si scende, più il pericolo aumenta e le creature diventano feroci.
+    </p>
+
+    <div class="circle-list">
+      <div class="circle-row" data-i="0">
+        <span class="circle-n">I</span>
+        <span class="circle-name">Limbo</span>
+        <span class="circle-diff">Facile</span>
+      </div>
+      <div class="circle-row" data-i="1">
+        <span class="circle-n">II</span>
+        <span class="circle-name">Lussuriosi</span>
+        <span class="circle-diff">Facile</span>
+      </div>
+      <div class="circle-row" data-i="2">
+        <span class="circle-n">III</span>
+        <span class="circle-name">Golosi — Cerbero</span>
+        <span class="circle-diff">Medio</span>
+      </div>
+      <div class="circle-row" data-i="3">
+        <span class="circle-n">IV</span>
+        <span class="circle-name">Avari e Prodighi</span>
+        <span class="circle-diff">Medio</span>
+      </div>
+      <div class="circle-row" data-i="4">
+        <span class="circle-n">V</span>
+        <span class="circle-name">Iracondi — Stige</span>
+        <span class="circle-diff">Medio</span>
+      </div>
+      <div class="circle-row" data-i="5">
+        <span class="circle-n">VI</span>
+        <span class="circle-name">Eretici — Città di Dite</span>
+        <span class="circle-diff">Difficile</span>
+      </div>
+      <div class="circle-row" data-i="6">
+        <span class="circle-n">VII</span>
+        <span class="circle-name">Violenti — Minotauro</span>
+        <span class="circle-diff">Difficile</span>
+      </div>
+      <div class="circle-row" data-i="7">
+        <span class="circle-n">VIII</span>
+        <span class="circle-name">Malebolge — Gerione</span>
+        <span class="circle-diff high">Estremo</span>
+      </div>
+      <div class="circle-row" data-i="8">
+        <span class="circle-n">IX</span>
+        <span class="circle-name">Cocito — Lucifero</span>
+        <span class="circle-diff high">Boss Finale</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAPTER VI — Cattura -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Capitolo VI</span>
+      <span class="chapter-title">Catturare i Dannati</span>
+    </div>
+    <p>
+      I dannati catturati diventano tuoi alleati in battaglia. Per catturarne uno, devi prima
+      indebolirlo portandolo <strong>sotto il 25% degli HP</strong>, poi usare il comando
+      <strong>Cattura</strong> con un <em>Sigillo Infernale</em>.
+    </p>
+    <p>
+      La probabilità di cattura dipende dalla tua statistica <strong>Fortuna</strong> e dalla
+      rarità della creatura. I boss non possono essere catturati, ma possono essere liberati
+      dopo la sconfitta in cambio di reliquie potenti.
+    </p>
+    <p>
+      Puoi portare con te fino a <strong>6 dannati</strong> nella tua squadra. Gli altri vengono
+      conservati nel <em>Limbo Personale</em>, accessibile dagli accampamenti.
+    </p>
+  </div>
+
+  <!-- Bottom nav -->
+  <div style="text-align:center;margin-top:4rem;">
+    <div class="orn" style="justify-content:center;margin-bottom:2rem;">Fine del Codex</div>
+    <a href="home.html" style="font-family:var(--f-ui);font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;transition:color .2s;" onmouseenter="this.style.color='var(--gold)'" onmouseleave="this.style.color='var(--gold-dim)'">
+      ← Torna al Menu Principale
+    </a>
+  </div>
+
+</div><!-- /manual-wrap -->
+</div><!-- /page -->
+
+<script src="../js/shared.js"></script>
+</body>
+</html>

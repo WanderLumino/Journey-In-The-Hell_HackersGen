@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Inferno Quest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<div id="cursor"></div>
+<canvas id="cvs"></canvas>
+<div class="vignette"></div>
+
+<div class="page">
+  <div class="home-wrap">
+    <div class="home-glow"></div>
+
+    <!-- Crest emblem -->
+    <div class="crest">
+      <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- outer ring -->
+        <circle cx="50" cy="52" r="44" stroke="#5A4530" stroke-width=".8"/>
+        <circle cx="50" cy="52" r="40" stroke="#A8875A" stroke-width=".4" stroke-dasharray="3 4"/>
+        <!-- cross -->
+        <line x1="50" y1="12" x2="50" y2="92" stroke="#A8875A" stroke-width=".7"/>
+        <line x1="10" y1="52" x2="90" y2="52" stroke="#A8875A" stroke-width=".7"/>
+        <!-- star -->
+        <polygon points="50,26 53,38 65,38 56,46 59,58 50,51 41,58 44,46 35,38 47,38"
+                 fill="none" stroke="#A8875A" stroke-width=".8"/>
+        <!-- bottom text arch placeholder dots -->
+        <circle cx="30" cy="84" r="1" fill="#5A4530"/>
+        <circle cx="50" cy="90" r="1" fill="#5A4530"/>
+        <circle cx="70" cy="84" r="1" fill="#5A4530"/>
+      </svg>
+    </div>
+
+    <div class="orn" style="width:200px;margin:0 auto .8rem;">ANNO DOMINI MCCC</div>
+
+    <h1 class="home-title">
+      INFERNO
+      <span class="accent">QUEST</span>
+    </h1>
+
+    <p class="home-tagline">
+      Nel mezzo del cammin di nostra vita<br/>
+      mi ritrovai in una selva oscura.
+    </p>
+
+    <nav class="menu" role="navigation" aria-label="Menu principale">
+      <a href="#" class="menu-btn primary" id="startBtn">
+        <span class="btn-icon">⚔</span>
+        Inizia il Viaggio
+      </a>
+      <div class="menu-sep"></div>
+      <a href="./settings.html" class="menu-btn">
+        <span class="btn-icon">⚙</span>
+        Impostazioni
+      </a>
+      <div class="menu-sep"></div>
+      <a href="./manuale.html" class="menu-btn">
+        <span class="btn-icon">📜</span>
+        Manuale
+      </a>
+    </nav>
+
+    <p class="home-quote">
+      «Lasciate ogni speranza, o voi ch'entrate»
+    </p>
+  </div>
+</div>
+
+<script src="../js/shared.js"></script>
+<script>
+  /* Dramatic "start" transition */
+  document.getElementById('startBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.body.style.transition = 'opacity .8s';
+    document.body.style.opacity = '0';
+    setTimeout(() => { document.body.style.opacity = '1'; document.body.style.transition = ''; }, 900);
+  });
+</script>
+</body>
+</html>
