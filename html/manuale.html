@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Manual — Inferno Quest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<div id="cursor"></div>
+<canvas id="cvs"></canvas>
+<div class="vignette"></div>
+
+<a class="back-link" href="home.html">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <polyline points="15 18 9 12 15 6"/>
+  </svg>
+  Main Menu
+</a>
+
+<div class="page">
+<div class="manual-wrap">
+
+  <!-- Header -->
+  <header class="manual-header">
+    <div class="orn" style="justify-content:center">CODEX INFERNALIS</div>
+    <h1 class="manual-title">Game Manual</h1>
+    <p class="manual-subtitle">
+      Everything you need to know to survive<br/>
+      the Nine Circles of the Eternal Abyss.
+    </p>
+  </header>
+
+  <!-- CHAPTER I — Story -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Chapter I</span>
+      <span class="chapter-title">The Story</span>
+    </div>
+    <p>
+      In the year 1300, the poet <strong>Dante Alighieri</strong> finds himself lost in a dark forest.
+      Guided by the soul of <strong>Virgil</strong>, he embarks on a journey through the Nine Circles
+      of Hell — an eternal realm of torment populated by demons, monsters, and damned souls.
+    </p>
+    <p>
+      In <strong>Inferno Quest</strong>, you are Dante. You explore a vast <strong>open-world RPG</strong>
+      inspired by the <em>Divine Comedy</em>. Every circle is a unique biome with its own enemies,
+      quests, secrets, and lore to uncover. The world breathes — roam freely, discover hidden
+      passages, and forge your own path through the darkness.
+    </p>
+    <p>
+      Your goal: reach the frozen core of Hell, defeat <strong>Lucifer</strong>,
+      and find your way back to the light.
+    </p>
+  </div>
+
+  <!-- CHAPTER II — Open World -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Chapter II</span>
+      <span class="chapter-title">The Open World</span>
+    </div>
+    <p>
+      Hell is not a straight road. Inferno Quest gives you <strong>complete freedom</strong> to explore
+      each circle at your own pace. Venture off the main path to discover hidden shrines,
+      secret dungeons, rare creatures, and forgotten relics.
+    </p>
+
+    <div class="stat-grid">
+      <div class="stat-card" data-i="0">
+        <div class="stat-name">Free Exploration</div>
+        <div class="stat-desc">Roam every circle without restrictions. No invisible walls, no forced paths.</div>
+      </div>
+      <div class="stat-card" data-i="1">
+        <div class="stat-name">Side Quests</div>
+        <div class="stat-desc">Help — or betray — the damned souls you meet. Every choice has consequences.</div>
+      </div>
+      <div class="stat-card" data-i="2">
+        <div class="stat-name">Hidden Areas</div>
+        <div class="stat-desc">Crack the walls of Hell. Secret passages hide the rarest loot and creatures.</div>
+      </div>
+      <div class="stat-card" data-i="3">
+        <div class="stat-name">Dynamic World</div>
+        <div class="stat-desc">Enemies patrol, respond to your actions, and grow stronger as you descend.</div>
+      </div>
+    </div>
+
+    <p>
+      Use the <strong>Hell Map</strong> (Tab) to track discovered areas, mark points of interest,
+      and plan your descent. Fog of war hides unexplored regions — nothing is revealed until
+      you walk through it yourself.
+    </p>
+  </div>
+
+  <!-- CHAPTER III — Controls -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Chapter III</span>
+      <span class="chapter-title">Controls</span>
+    </div>
+    <p>Inferno Quest is played with keyboard and mouse, or a gamepad.</p>
+
+    <table class="cmd-table">
+      <thead>
+        <tr><th>Key</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>W A S D / ↑↓←→</td><td>Move character</td></tr>
+        <tr><td>Left Click</td><td>Attack / Confirm</td></tr>
+        <tr><td>Right Click</td><td>Block / Observe</td></tr>
+        <tr><td>Space</td><td>Dodge roll</td></tr>
+        <tr><td>E</td><td>Interact with object or NPC</td></tr>
+        <tr><td>I</td><td>Open inventory</td></tr>
+        <tr><td>Tab</td><td>Hell Map</td></tr>
+        <tr><td>Esc</td><td>Pause menu</td></tr>
+        <tr><td>F</td><td>Attempt to capture a damned soul</td></tr>
+        <tr><td>1 2 3 4</td><td>Use equipped special abilities</td></tr>
+        <tr><td>Shift</td><td>Sprint</td></tr>
+        <tr><td>C</td><td>Character & stats screen</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHAPTER IV — Combat -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Chapter IV</span>
+      <span class="chapter-title">Combat System</span>
+    </div>
+    <p>
+      Combat in Inferno Quest is <strong>real-time with tactical depth</strong>. You fight directly
+      — dodge, block, and strike in fluid motion. When you encounter a damned soul or a creature
+      of Hell, battle begins immediately in the open world. No loading screens, no separate arenas.
+    </p>
+    <p>
+      Every enemy has an <strong>attack pattern</strong> you can learn. Watch for telegraphed moves,
+      find the opening, and punish. Timing your dodge at the last moment triggers a
+      <strong>Perfect Evade</strong> — slowing time briefly and opening a window for a powerful counter.
+    </p>
+
+    <div class="stat-grid">
+      <div class="stat-card" data-i="0">
+        <div class="stat-name">Light Attack</div>
+        <div class="stat-desc">Fast strikes with low stamina cost. Good for building combos.</div>
+      </div>
+      <div class="stat-card" data-i="1">
+        <div class="stat-name">Heavy Attack</div>
+        <div class="stat-desc">Slow but devastating. Breaks enemy guards and staggers larger foes.</div>
+      </div>
+      <div class="stat-card" data-i="2">
+        <div class="stat-name">Special Ability</div>
+        <div class="stat-desc">Dante's class powers — arcane spells, shadow strikes, sacred light, or war cries.</div>
+      </div>
+      <div class="stat-card" data-i="3">
+        <div class="stat-name">Capture</div>
+        <div class="stat-desc">Weaken a soul below 25% HP, then press F to attempt capture with an Infernal Seal.</div>
+      </div>
+    </div>
+
+    <p>
+      Every creature has <strong>elemental resistances</strong> tied to its circle of origin.
+      Fire creatures resist flames. Ice dwellers shrug off cold. Study your enemy's weaknesses
+      before diving in — in Hell, arrogance is a death sentence.
+    </p>
+  </div>
+
+  <!-- CHAPTER V — Stats -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Chapter V</span>
+      <span class="chapter-title">Character Statistics</span>
+    </div>
+    <p>
+      Dante has six core statistics. They grow through experience, relics found in the world,
+      and choices made during quests. Invest wisely — the deep circles demand specialization.
+    </p>
+
+    <div class="stat-grid">
+      <div class="stat-card" data-i="0">
+        <div class="stat-name">Soul (HP)</div>
+        <div class="stat-desc">Your life force. Reach zero and Dante is cast back to the last Waypoint.</div>
+      </div>
+      <div class="stat-card" data-i="1">
+        <div class="stat-name">Faith</div>
+        <div class="stat-desc">Fuels divine abilities and prayers. Depleted by spells, restored at shrines.</div>
+      </div>
+      <div class="stat-card" data-i="2">
+        <div class="stat-name">Strength</div>
+        <div class="stat-desc">Physical damage and the ability to break enemy defenses.</div>
+      </div>
+      <div class="stat-card" data-i="3">
+        <div class="stat-name">Mind</div>
+        <div class="stat-desc">Power of poetic incantations and Commedia-based spells.</div>
+      </div>
+      <div class="stat-card" data-i="4">
+        <div class="stat-name">Agility</div>
+        <div class="stat-desc">Movement speed, dodge distance, and attack speed. Critical for Assassins.</div>
+      </div>
+      <div class="stat-card" data-i="5">
+        <div class="stat-name">Fortune</div>
+        <div class="stat-desc">Capture rate, rare item drops, and critical hit probability.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAPTER VI — The Nine Circles -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Chapter VI</span>
+      <span class="chapter-title">The Nine Circles</span>
+    </div>
+    <p>
+      Hell is divided into <strong>nine concentric circles</strong>, each dedicated to a category
+      of sin. The deeper you go, the more dangerous the world becomes — and the more powerful
+      the creatures, the rarer the rewards.
+    </p>
+
+    <div class="circle-list">
+      <div class="circle-row" data-i="0">
+        <span class="circle-n">I</span>
+        <span class="circle-name">Limbo</span>
+        <span class="circle-diff">Easy</span>
+      </div>
+      <div class="circle-row" data-i="1">
+        <span class="circle-n">II</span>
+        <span class="circle-name">The Lustful</span>
+        <span class="circle-diff">Easy</span>
+      </div>
+      <div class="circle-row" data-i="2">
+        <span class="circle-n">III</span>
+        <span class="circle-name">The Gluttonous — Cerberus</span>
+        <span class="circle-diff">Medium</span>
+      </div>
+      <div class="circle-row" data-i="3">
+        <span class="circle-n">IV</span>
+        <span class="circle-name">The Greedy & Wasteful</span>
+        <span class="circle-diff">Medium</span>
+      </div>
+      <div class="circle-row" data-i="4">
+        <span class="circle-n">V</span>
+        <span class="circle-name">The Wrathful — River Styx</span>
+        <span class="circle-diff">Medium</span>
+      </div>
+      <div class="circle-row" data-i="5">
+        <span class="circle-n">VI</span>
+        <span class="circle-name">The Heretics — City of Dis</span>
+        <span class="circle-diff">Hard</span>
+      </div>
+      <div class="circle-row" data-i="6">
+        <span class="circle-n">VII</span>
+        <span class="circle-name">The Violent — Minotaur</span>
+        <span class="circle-diff">Hard</span>
+      </div>
+      <div class="circle-row" data-i="7">
+        <span class="circle-n">VIII</span>
+        <span class="circle-name">Malebolge — Geryon</span>
+        <span class="circle-diff high">Extreme</span>
+      </div>
+      <div class="circle-row" data-i="8">
+        <span class="circle-n">IX</span>
+        <span class="circle-name">Cocytus — Lucifer</span>
+        <span class="circle-diff high">Final Boss</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAPTER VII — Capture -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Chapter VII</span>
+      <span class="chapter-title">Capturing the Damned</span>
+    </div>
+    <p>
+      Captured souls become your allies in combat. To catch one, weaken it
+      <strong>below 25% HP</strong> in the open world, then press <strong>F</strong>
+      to use an <em>Infernal Seal</em>.
+    </p>
+    <p>
+      Capture rate depends on your <strong>Fortune</strong> stat and the creature's rarity.
+      Bosses cannot be captured, but defeating them unlocks powerful <strong>Pact Relics</strong>
+      that grant you a fraction of their power.
+    </p>
+    <p>
+      You can carry up to <strong>6 damned allies</strong> in your active party.
+      The rest are stored in your <em>Personal Limbo</em>, accessible from any Waypoint.
+    </p>
+  </div>
+
+  <!-- CHAPTER VIII — Waypoints -->
+  <div class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">Chapter VIII</span>
+      <span class="chapter-title">Waypoints & Saving</span>
+    </div>
+    <p>
+      Scattered across Hell are <strong>Waypoints</strong> — ancient stone pillars marked with
+      Dante's crest. Interact with one to:
+    </p>
+
+    <div class="stat-grid">
+      <div class="stat-card" data-i="0">
+        <div class="stat-name">Save Progress</div>
+        <div class="stat-desc">Your game is saved. If you die, you return here with half your carried gold.</div>
+      </div>
+      <div class="stat-card" data-i="1">
+        <div class="stat-name">Fast Travel</div>
+        <div class="stat-desc">Teleport to any previously discovered Waypoint across all Nine Circles.</div>
+      </div>
+      <div class="stat-card" data-i="2">
+        <div class="stat-name">Manage Party</div>
+        <div class="stat-desc">Swap allies from your Personal Limbo, heal, and equip relics.</div>
+      </div>
+      <div class="stat-card" data-i="3">
+        <div class="stat-name">Restore Faith</div>
+        <div class="stat-desc">Your Faith meter is fully restored every time you activate a Waypoint.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom nav -->
+  <div style="text-align:center;margin-top:4rem;">
+    <div class="orn" style="justify-content:center;margin-bottom:2rem;">End of Codex</div>
+    <a href="home.html"
+       style="font-family:var(--f-ui);font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;transition:color .2s;"
+       onmouseenter="this.style.color='var(--gold)'"
+       onmouseleave="this.style.color='var(--gold-dim)'">
+      ← Return to Main Menu
+    </a>
+  </div>
+
+</div><!-- /manual-wrap -->
+</div><!-- /page -->
+
+<script src="../js/shared.js"></script>
+</body>
+</html>
