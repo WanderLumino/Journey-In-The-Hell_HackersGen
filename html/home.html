@@ -37,7 +37,7 @@
       </svg>
     </div>
 
-    <div class="orn" style="width:200px;margin:0 auto .8rem;">ANNO DOMINI MCCC</div>
+    <div class="orn" style="width:200px;margin:0 auto .8rem;">DEMONIC YEAR MCCC</div> 
 
     <h1 class="home-title">
       INFERNO
@@ -50,14 +50,14 @@
     </p>
 
     <nav class="menu" role="navigation" aria-label="Menu principale">
-      <a href="#" class="menu-btn primary" id="startBtn">
+      <a href="./characthers.html" class="menu-btn primary" id="startBtn">
         <span class="btn-icon">⚔</span>
-        Inizia il Viaggio
+        Start the journey
       </a>
       <div class="menu-sep"></div>
       <a href="./settings.html" class="menu-btn">
         <span class="btn-icon">⚙</span>
-        Impostazioni
+        Settings
       </a>
       <div class="menu-sep"></div>
       <a href="./manuale.html" class="menu-btn">
@@ -79,7 +79,7 @@
     e.preventDefault();
     document.body.style.transition = 'opacity .8s';
     document.body.style.opacity = '0';
-    setTimeout(() => { document.body.style.opacity = '1'; document.body.style.transition = ''; }, 900);
+    setTimeout(() => { window.location.href = this.getAttribute('href'); }, 820);
   });
 </script>
 </body>

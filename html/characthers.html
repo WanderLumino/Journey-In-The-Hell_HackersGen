@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Choose Your Class — Inferno Quest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/chosse.css"/>
+</head>
+<body>
+
+<div id="cursor"></div>
+<canvas id="cvs"></canvas>
+
+<!-- Vignette -->
+<div class="vignette"></div>
+
+<!-- Back -->
+<a class="back-link" href="./home.html">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <polyline points="15 18 9 12 15 6"/>
+  </svg>
+  Main Menu
+</a>
+
+<div class="page">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-label">— The Journey Begins —</div>
+    <h1 class="page-title">Choose Your Class</h1>
+    <p class="page-sub">
+      Each soul that descends into Hell carries a different gift.<br/>
+      Choose wisely — your path through the Nine Circles depends on it.
+    </p>
+  </header>
+
+  <!-- Class grid -->
+  <div class="class-grid" id="classGrid">
+
+    <!-- WARRIOR -->
+    <div class="class-card" data-class="warrior" tabindex="0" role="button" aria-label="Select Warrior">
+      <div class="card-bg">
+        <div class="card-bg-glow warrior-glow"></div>
+      </div>
+      <div class="card-emblem">
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Sword -->
+          <line x1="30" y1="8" x2="30" y2="48" stroke="#C8A96E" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- Crossguard -->
+          <line x1="18" y1="28" x2="42" y2="28" stroke="#C8A96E" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- Shield outline -->
+          <path d="M14 16 Q30 8 46 16 L46 36 Q38 50 30 54 Q22 50 14 36 Z" stroke="#8B6A40" stroke-width=".8" fill="none"/>
+          <!-- Diamond handle -->
+          <polygon points="30,48 26,56 30,60 34,56" fill="#C8A96E" opacity=".6"/>
+        </svg>
+      </div>
+      <div class="card-number">I</div>
+      <div class="card-body">
+        <h2 class="card-title">Warrior</h2>
+        <p class="card-role">Vanguard of Steel</p>
+        <p class="card-desc">
+          A fearless soul who carves through the damned with iron and fury.
+          Unmatched in close combat, the Warrior endures where others fall.
+        </p>
+        <div class="card-stats">
+          <div class="stat"><span class="stat-name">Strength</span><div class="stat-bar"><div class="stat-fill" style="--w:90%"></div></div></div>
+          <div class="stat"><span class="stat-name">Defense</span><div class="stat-bar"><div class="stat-fill" style="--w:80%"></div></div></div>
+          <div class="stat"><span class="stat-name">Speed</span><div class="stat-bar"><div class="stat-fill" style="--w:45%"></div></div></div>
+          <div class="stat"><span class="stat-name">Magic</span><div class="stat-bar"><div class="stat-fill" style="--w:20%"></div></div></div>
+        </div>
+        <div class="card-tags">
+          <span class="tag">Melee</span>
+          <span class="tag">Tank</span>
+          <span class="tag">High HP</span>
+        </div>
+      </div>
+      <button class="card-select-btn">Select Class</button>
+      <div class="card-border-anim"></div>
+    </div>
+
+    <!-- MAGE -->
+    <div class="class-card" data-class="mage" tabindex="0" role="button" aria-label="Select Mage">
+      <div class="card-bg">
+        <div class="card-bg-glow mage-glow"></div>
+      </div>
+      <div class="card-emblem">
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Staff -->
+          <line x1="30" y1="12" x2="30" y2="56" stroke="#C8A96E" stroke-width="1.6" stroke-linecap="round"/>
+          <!-- Orb -->
+          <circle cx="30" cy="12" r="7" stroke="#C8A96E" stroke-width=".9" fill="none"/>
+          <circle cx="30" cy="12" r="3" fill="#C8A96E" opacity=".5"/>
+          <!-- Arcane lines -->
+          <path d="M20 30 Q30 24 40 30" stroke="#8B6A40" stroke-width=".7" fill="none"/>
+          <path d="M17 38 Q30 30 43 38" stroke="#8B6A40" stroke-width=".7" fill="none"/>
+          <!-- Stars -->
+          <circle cx="14" cy="22" r="1.5" fill="#C8A96E" opacity=".6"/>
+          <circle cx="46" cy="22" r="1.5" fill="#C8A96E" opacity=".6"/>
+          <circle cx="12" cy="42" r="1" fill="#C8A96E" opacity=".4"/>
+          <circle cx="48" cy="42" r="1" fill="#C8A96E" opacity=".4"/>
+        </svg>
+      </div>
+      <div class="card-number">II</div>
+      <div class="card-body">
+        <h2 class="card-title">Mage</h2>
+        <p class="card-role">Arcane Scholar</p>
+        <p class="card-desc">
+          A master of forbidden arts who bends fire, frost, and lightning to
+          his will. Fragile in body, devastating in power.
+        </p>
+        <div class="card-stats">
+          <div class="stat"><span class="stat-name">Strength</span><div class="stat-bar"><div class="stat-fill" style="--w:20%"></div></div></div>
+          <div class="stat"><span class="stat-name">Defense</span><div class="stat-bar"><div class="stat-fill" style="--w:25%"></div></div></div>
+          <div class="stat"><span class="stat-name">Speed</span><div class="stat-bar"><div class="stat-fill" style="--w:60%"></div></div></div>
+          <div class="stat"><span class="stat-name">Magic</span><div class="stat-bar"><div class="stat-fill" style="--w:95%"></div></div></div>
+        </div>
+        <div class="card-tags">
+          <span class="tag">Ranged</span>
+          <span class="tag">High DMG</span>
+          <span class="tag">Fragile</span>
+        </div>
+      </div>
+      <button class="card-select-btn">Select Class</button>
+      <div class="card-border-anim"></div>
+    </div>
+
+    <!-- ASSASSIN -->
+    <div class="class-card" data-class="assassin" tabindex="0" role="button" aria-label="Select Assassin">
+      <div class="card-bg">
+        <div class="card-bg-glow assassin-glow"></div>
+      </div>
+      <div class="card-emblem">
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Two daggers crossed -->
+          <line x1="14" y1="14" x2="46" y2="46" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="46" y1="14" x2="14" y2="46" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Tips -->
+          <polygon points="14,14 10,10 18,10" fill="#C8A96E" opacity=".7"/>
+          <polygon points="46,14 50,10 42,10" fill="#C8A96E" opacity=".7"/>
+          <polygon points="14,46 10,50 18,50" fill="#C8A96E" opacity=".7"/>
+          <polygon points="46,46 50,50 42,50" fill="#C8A96E" opacity=".7"/>
+          <!-- Center gem -->
+          <polygon points="30,24 36,30 30,36 24,30" stroke="#8B6A40" stroke-width=".8" fill="none"/>
+        </svg>
+      </div>
+      <div class="card-number">III</div>
+      <div class="card-body">
+        <h2 class="card-title">Assassin</h2>
+        <p class="card-role">Shadow of the Abyss</p>
+        <p class="card-desc">
+          Silent as death itself. The Assassin strikes before the enemy
+          sees the blade, vanishing back into darkness unscathed.
+        </p>
+        <div class="card-stats">
+          <div class="stat"><span class="stat-name">Strength</span><div class="stat-bar"><div class="stat-fill" style="--w:65%"></div></div></div>
+          <div class="stat"><span class="stat-name">Defense</span><div class="stat-bar"><div class="stat-fill" style="--w:35%"></div></div></div>
+          <div class="stat"><span class="stat-name">Speed</span><div class="stat-bar"><div class="stat-fill" style="--w:95%"></div></div></div>
+          <div class="stat"><span class="stat-name">Magic</span><div class="stat-bar"><div class="stat-fill" style="--w:40%"></div></div></div>
+        </div>
+        <div class="card-tags">
+          <span class="tag">Stealth</span>
+          <span class="tag">Critical</span>
+          <span class="tag">Swift</span>
+        </div>
+      </div>
+      <button class="card-select-btn">Select Class</button>
+      <div class="card-border-anim"></div>
+    </div>
+
+    <!-- HEALER -->
+    <div class="class-card" data-class="healer" tabindex="0" role="button" aria-label="Select Healer">
+      <div class="card-bg">
+        <div class="card-bg-glow healer-glow"></div>
+      </div>
+      <div class="card-emblem">
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cross of light -->
+          <rect x="26" y="10" width="8" height="40" rx="1" stroke="#C8A96E" stroke-width=".8" fill="none"/>
+          <rect x="10" y="26" width="40" height="8" rx="1" stroke="#C8A96E" stroke-width=".8" fill="none"/>
+          <!-- Inner glow cross -->
+          <rect x="28" y="14" width="4" height="32" rx=".5" fill="#C8A96E" opacity=".25"/>
+          <rect x="14" y="28" width="32" height="4" rx=".5" fill="#C8A96E" opacity=".25"/>
+          <!-- Halo -->
+          <circle cx="30" cy="30" r="20" stroke="#8B6A40" stroke-width=".5" stroke-dasharray="2 3" fill="none"/>
+        </svg>
+      </div>
+      <div class="card-number">IV</div>
+      <div class="card-body">
+        <h2 class="card-title">Healer</h2>
+        <p class="card-role">Divine Shepherd</p>
+        <p class="card-desc">
+          Wielder of sacred light in a realm of eternal darkness. The Healer
+          keeps companions alive and turns divine wrath against the damned.
+        </p>
+        <div class="card-stats">
+          <div class="stat"><span class="stat-name">Strength</span><div class="stat-bar"><div class="stat-fill" style="--w:30%"></div></div></div>
+          <div class="stat"><span class="stat-name">Defense</span><div class="stat-bar"><div class="stat-fill" style="--w:70%"></div></div></div>
+          <div class="stat"><span class="stat-name">Speed</span><div class="stat-bar"><div class="stat-fill" style="--w:50%"></div></div></div>
+          <div class="stat"><span class="stat-name">Magic</span><div class="stat-bar"><div class="stat-fill" style="--w:85%"></div></div></div>
+        </div>
+        <div class="card-tags">
+          <span class="tag">Support</span>
+          <span class="tag">Heals</span>
+          <span class="tag">Holy DMG</span>
+        </div>
+      </div>
+      <button class="card-select-btn">Select Class</button>
+      <div class="card-border-anim"></div>
+    </div>
+
+  </div><!-- /class-grid -->
+
+  <!-- Confirm bar (hidden until selection) -->
+  <div class="confirm-bar" id="confirmBar">
+    <div class="confirm-info">
+      <span class="confirm-label">Selected Class</span>
+      <span class="confirm-name" id="confirmName">—</span>
+    </div>
+    <button class="confirm-btn" id="confirmBtn">
+      Begin Your Descent
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
+  </div>
+
+</div><!-- /page -->
+
+<!-- Confirmation modal -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <div class="modal-emblem" id="modalEmblem"></div>
+    <div class="modal-label">Your soul shall walk as</div>
+    <div class="modal-class-name" id="modalClassName">—</div>
+    <p class="modal-desc" id="modalDesc">—</p>
+    <div class="modal-btns">
+      <button class="modal-btn ghost" id="modalCancel">Choose Again</button>
+      <button class="modal-btn primary" id="modalConfirm">Enter Hell</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── Cursor ── */
+const cur = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top  = e.clientY + 'px';
+}, { passive: true });
+document.querySelectorAll('button, a, .class-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cur.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cur.classList.remove('hover'));
+});
+
+/* ── Embers ── */
+const cvs = document.getElementById('cvs');
+const ctx = cvs.getContext('2d');
+let W, H, embers = [];
+function resize() { W = cvs.width = window.innerWidth; H = cvs.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize, { passive: true });
+function spawn() {
+  embers.push({ x: Math.random()*W, y: H+4, r: .4+Math.random()*1.6, vx: (Math.random()-.5)*.5, vy: -(Math.random()*1+.3), life: 1, decay: .004+Math.random()*.005 });
+}
+(function loop() {
+  ctx.clearRect(0,0,W,H);
+  if (Math.random() < .22) spawn();
+  embers = embers.filter(p => p.life > 0);
+  embers.forEach(p => {
+    p.x+=p.vx; p.y+=p.vy; p.life-=p.decay;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle = `hsla(${18+Math.random()*14},88%,55%,${p.life*.8})`; ctx.fill();
+  });
+  requestAnimationFrame(loop);
+})();
+
+/* ── Class selection ── */
+const classData = {
+  warrior:  { name: 'Warrior',  desc: 'Iron blade and unbreakable will. You meet every demon face to face.' },
+  mage:     { name: 'Mage',     desc: 'Words of power reshape Hell itself. Knowledge is your sharpest weapon.' },
+  assassin: { name: 'Assassin', desc: 'You were never here. The damned fall before they know you existed.' },
+  healer:   { name: 'Healer',   desc: 'Light endures in the darkest pit. Your faith is a shield for all.' }
+};
+
+let selected = null;
+
+const confirmBar  = document.getElementById('confirmBar');
+const confirmName = document.getElementById('confirmName');
+const modal       = document.getElementById('modal');
+const modalClass  = document.getElementById('modalClassName');
+const modalDesc   = document.getElementById('modalDesc');
+
+document.querySelectorAll('.class-card').forEach(card => {
+  const activate = () => {
+    document.querySelectorAll('.class-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+    selected = card.dataset.class;
+    const d = classData[selected];
+    confirmName.textContent = d.name;
+    confirmBar.classList.add('visible');
+  };
+  card.addEventListener('click', activate);
+  card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+});
+
+document.querySelectorAll('.card-select-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const card = btn.closest('.class-card');
+    card.click();
+    openModal();
+  });
+});
+
+document.getElementById('confirmBtn').addEventListener('click', openModal);
+
+function openModal() {
+  if (!selected) return;
+  const d = classData[selected];
+  modalClass.textContent = d.name;
+  modalDesc.textContent  = d.desc;
+  modal.classList.add('open');
+}
+
+document.getElementById('modalCancel').addEventListener('click', () => modal.classList.remove('open'));
+document.getElementById('modalConfirm').addEventListener('click', () => {
+  document.body.style.transition = 'opacity .9s';
+  document.body.style.opacity = '0';
+  localStorage.setItem("selectedClass", selected);
+  setTimeout(() => { document.body.style.opacity = '1'; document.body.style.transition = ''; modal.classList.remove('open'); }, 1000);
+  window.location.href = "./home.html"
+});
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+
+/* ── Card entrance animation ── */
+const cards = document.querySelectorAll('.class-card');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const i = [...cards].indexOf(e.target);
+    setTimeout(() => e.target.classList.add('entered'), i * 120);
+    io.unobserve(e.target);
+  });
+}, { threshold: .08 });
+cards.forEach(c => io.observe(c));
+</script>
+</body>
+</html>
