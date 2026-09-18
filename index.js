@@ -41,75 +41,132 @@ const random = mulberry32(12345);
 //const random = mulberry32(Math.floor(Math.random() * 11111));
 
 
+
+
+
+
+//caricamento collisioni
+
+function genera_rettangoli_da_griglia(griglia, min_gx, min_gy, max_gx, max_gy) {
+    const rettangoli = [];
+    const visitata = new Set();
+
+    const chiave = (gx, gy) => gx + "," + gy;
+    const e_piena = (gx, gy) => griglia.has(chiave(gx, gy));
+    const e_visitata = (gx, gy) => visitata.has(chiave(gx, gy));
+
+    for (let gy = min_gy; gy <= max_gy; gy++) {
+        for (let gx = min_gx; gx <= max_gx; gx++) {
+            if (!e_piena(gx, gy) || e_visitata(gx, gy)) continue;
+
+            // espandi in larghezza finché la riga resta piena e libera
+            let larghezza = 1;
+            while (e_piena(gx + larghezza, gy) && !e_visitata(gx + larghezza, gy)) {
+                larghezza++;
+            }
+
+            // espandi in altezza finché l'intera riga sotto resta piena e libera
+            let altezza = 1;
+            let puo_espandere = true;
+            while (puo_espandere) {
+                for (let dx = 0; dx < larghezza; dx++) {
+                    if (!e_piena(gx + dx, gy + altezza) || e_visitata(gx + dx, gy + altezza)) {
+                        puo_espandere = false;
+                        break;
+                    }
+                }
+                if (puo_espandere) altezza++;
+            }
+
+            // marca tutte le celle del rettangolo come visitate
+            for (let dy = 0; dy < altezza; dy++) {
+                for (let dx = 0; dx < larghezza; dx++) {
+                    visitata.add(chiave(gx + dx, gy + dy));
+                }
+            }
+
+            rettangoli.push({ gx, gy, larghezza, altezza });
+        }
+    }
+
+    return rettangoli;
+}
+
+const TILE_SIZE = 48; // tilewidth/tileheight della mappa Tiled
+
+async function carica_collisioni_mappa(url = "./json/selva.json") {
+    const res = await fetch(url);
+    const mappa = await res.json();
+
+    const layer = mappa.layers.find(l => l.name === "collesioni");
+    if (!layer) {
+        console.error("layer 'collesioni' non trovato nella mappa");
+        return;
+    }
+
+    const griglia = new Set();
+    let min_gx = Infinity, min_gy = Infinity, max_gx = -Infinity, max_gy = -Infinity;
+
+    for (let gy = 0; gy < layer.height; gy++) {
+        for (let gx = 0; gx < layer.width; gx++) {
+            const idx = gy * layer.width + gx;
+            if (layer.data[idx] !== 0) {
+                griglia.add(gx + "," + gy);
+                if (gx < min_gx) min_gx = gx;
+                if (gx > max_gx) max_gx = gx;
+                if (gy < min_gy) min_gy = gy;
+                if (gy > max_gy) max_gy = gy;
+            }
+        }
+    }
+
+    if (griglia.size === 0) {
+        console.warn("nessuna tile solida nel layer 'collesioni'");
+        return;
+    }
+
+    const rettangoli = genera_rettangoli_da_griglia(griglia, min_gx, min_gy, max_gx, max_gy);
+
+    rettangoli.forEach((r) => {
+        const px = r.gx * TILE_SIZE;
+        const py = r.gy * TILE_SIZE;
+        const larghezza_px = r.larghezza * TILE_SIZE;
+        const altezza_px = r.altezza * TILE_SIZE;
+
+        blocci_con_collisioni.push(
+            new blocco("traspa", px, py, larghezza_px, altezza_px)
+        );
+    });
+
+    console.log(`collisioni mappa: ${griglia.size} tile -> ${rettangoli.length} rettangoli (blocchi "traspa")`);
+
+    // ricostruisce la griglia a celle usata da blocchi_vicini() con i nuovi blocchi
+    griglia_collisioni.clear();
+    costruisci_griglia();
+}
+
+//fine caricameto collisioni
+
+
+
 const grandezza_blocci = 24;
 
-//sentiero
-const distanze_punti_sentiero = 10;
-const largezza_sentiero = 4;
-const sentiero = [];
-const sentiero_rettangoli = [];
-{
-sentiero.push({
-    x: 0, //Math.floor(random()*100),
-    y: 0, //Math.floor(random()*100),
-    direzione: 0
-});
-
-for (let i = 0; i < 20; i++) {
-    const nuova_direzine = sentiero[i].direzione + (random() + random() + random() + random()-2)*60;//max 120 gradi
-    const rad = nuova_direzine * Math.PI / 180;
-    sentiero.push({
-        x: sentiero[i].x + Math.floor(Math.cos(rad) * distanze_punti_sentiero),
-        y: sentiero[i].y + Math.floor(Math.sin(rad) * distanze_punti_sentiero),
-        direzione: nuova_direzine
-    });
-}
-
-
-// Genera i blocchi del sentiero con larghezza
-debugger;
-for (let i = 0; i < sentiero.length-1; i++) {
-    const mom = [];
-    const rad_p = (sentiero[i+1].direzione + 90) * Math.PI / 180;
-    const rad_m = (sentiero[i+1].direzione - 90) * Math.PI / 180;
-
-    mom.push(
-        {
-            x: sentiero[i].x + Math.floor(Math.cos(rad_m) * largezza_sentiero),
-            y: sentiero[i].y + Math.floor(Math.sin(rad_m) * largezza_sentiero),
-        }
-    );
-    mom.push(
-        {
-            x: sentiero[i].x + Math.floor(Math.cos(rad_p) * largezza_sentiero),
-            y: sentiero[i].y + Math.floor(Math.sin(rad_p) * largezza_sentiero),
-        }
-    );
-    mom.push(
-        {
-            x: sentiero[i+1].x + Math.floor(Math.cos(rad_p) * largezza_sentiero),
-            y: sentiero[i+1].y + Math.floor(Math.sin(rad_p) * largezza_sentiero),
-        }
-    );
-    mom.push(
-        {
-            x: sentiero[i+1].x + Math.floor(Math.cos(rad_m) * largezza_sentiero),
-            y: sentiero[i+1].y + Math.floor(Math.sin(rad_m) * largezza_sentiero),
-        }
-    );
-    sentiero_rettangoli.push(mom);
-    
-}
-
-
-
-}
-console.log(sentiero);
-console.log(sentiero_rettangoli);
 
 const blocci_bac_grand = [
+    new blocco("mappa1", 0, 0, 7680, 7680),
+
+
+    
+    
 ];
+
 const blocci_con_collisioni = [
+    new blocco("porta_C", 3*TILE_SIZE+12, 8*TILE_SIZE, 3*40, 162),
+    new blocco("muro_separatore", 20*TILE_SIZE, 19*TILE_SIZE, TILE_SIZE/2, 3*TILE_SIZE),
+    new blocco("porta_C", 31*TILE_SIZE+12, 26*TILE_SIZE, 3*40, 162),
+    new blocco("porta_C", 35*TILE_SIZE+12, 6*TILE_SIZE, 3*40, 162),
+    new blocco("muro_separatore", 39*TILE_SIZE, 16*TILE_SIZE, TILE_SIZE/2, 3*TILE_SIZE),
+    /*
     new blocco("fuoco", 300, 300, 60, 60, 20, 30, 20, 10),
 
     new blocco("albero", 300, 100, 60, 80, 20, 50, 20, 10),
@@ -118,11 +175,16 @@ const blocci_con_collisioni = [
     new blocco("fuoco", 150, 200, 50, 50),
     new blocco("fuoco", 150, 250, 50, 50),
 
-    new blocco("albero_secco2", 0, 200, 80, 96, 15, 60, 35, 20),
+    new blocco("albero_secco2", 0, 200, 80, 96, 15, 60, 35, 20),*/
+
+    //new blocco("porta_C", 3*52, 8*TILE_SIZE, 3*40, 162),
+
+    
 ];
 
 const blocci_sovraimpressione = [
     new blocco("fuoco", 400, 300, 60, 60),
+
 ];
 
 var magie = [
@@ -143,46 +205,183 @@ var magie = [
 debugger
 magie[1].magia.radianti = Math.PI;
 
-var magie_nemiche = [
-
-];
+var magie_nemiche = [];
 
 
 var nemici = [
     {
         HP: 300,
         max_HP: 300,
-        nemico: new blocco("drago", 23, 446, 100, 70),
+        nemico: new blocco("drago", 23, 246, 100, 70),
         camminata: 1,
         corsa: 2,
         vista: 200,
         danno: 1,
+        delay: 0,
+        XP: 100,
     },
 ]
 
-for (let i = 0; i < 2; i++) 
-    nemici.push({
-        HP: 300,
-        max_HP: 300,
-        nemico: new blocco("drago", 373, 446, 100, 70),
-        camminata: 1,
-        corsa: 2,
-        vista: 300,
-        danno: 1,
-
-        magie: [0, 1, 2, 3, 4],
-        i: 0,
-        max_delay: 100,
-        delay: 0,
-        moltiplicatore_magico: 2,
-        moltiplicatore_delay_magie: 1,
-        MP: 0,
-        max_MP: 100,
-        regen_MP: 0.2,
-    });
     
 
+var fase = 0;
+function controlla_fase(){
+    if (nemici.length > 0)
+        return 0;
+    debugger;
 
+    for (let i = 0; i < blocci_con_collisioni.length; i++) {
+
+        if (blocci_con_collisioni[i].nome == "porta_C"){
+
+            fase++;
+            blocci_bac_grand.push(new blocco("porta_A", blocci_con_collisioni[i].x, blocci_con_collisioni[i].y, blocci_con_collisioni[i].lx, blocci_con_collisioni[i].ly));
+
+            blocci_con_collisioni.splice(i,1);
+            
+            griglia_collisioni.clear();
+            costruisci_griglia();
+
+            break;
+        }
+        if (blocci_con_collisioni[i].nome == "muro_separatore"){
+
+            fase++;
+            blocci_con_collisioni.splice(i,1);
+            
+            griglia_collisioni.clear();
+            costruisci_griglia();
+
+            break;
+        }
+
+        if (i >= blocci_con_collisioni.length-1){
+            return 1;
+        }
+        
+    }
+    
+
+    switch (fase) {
+        case 1:
+            for (let i = 0; i < 2; i++) 
+            nemici.push({
+                HP: 300,
+                max_HP: 300,
+                nemico: new blocco("drago", 273+(i*10), 900, 100, 70),
+                camminata: 1,
+                corsa: 2,
+                vista: 300,
+                danno: 1,
+
+                magie: [0, 1, 2, 3, 4],
+                i: 0,
+                max_delay: 100,
+                delay: 0,
+                moltiplicatore_magico: 2,
+                moltiplicatore_delay_magie: 1,
+                MP: 0,
+                max_MP: 100,
+                regen_MP: 0.2,
+                XP: 150,
+            });
+            
+            break;
+        case 2:
+            for (let i = 0; i < 3; i++) 
+            nemici.push({
+                HP: 300,
+                max_HP: 300,
+                nemico: new blocco("drago", 1500+(i*10), 900, 100, 70),
+                camminata: 1,
+                corsa: 2,
+                vista: 300,
+                danno: 1,
+
+                magie: [0, 1, 2, 3, 4],
+                i: 0,
+                max_delay: 100,
+                delay: 0,
+                moltiplicatore_magico: 2,
+                moltiplicatore_delay_magie: 1,
+                MP: 0,
+                max_MP: 100,
+                regen_MP: 0.2,
+                XP: 150,
+            });
+            
+            break;
+        case 3:
+                for (let i = 0; i < 3; i++) 
+                    nemici.push(    {
+                HP: 300,
+                max_HP: 300,
+                nemico: new blocco("drago", 1560+(i*10), 1560, 100, 70),
+                camminata: 1,
+                corsa: 2,
+                vista: 200,
+                danno: 1,
+                delay: 0,
+                XP: 100,
+            });
+            
+            break;
+        case 4:
+            for (let i = 0; i < 5; i++) 
+            nemici.push({
+                HP: 300,
+                max_HP: 300,
+                nemico: new blocco("drago", 1700+(i*10), 100, 100, 70),
+                camminata: 1,
+                corsa: 2,
+                vista: 300,
+                danno: 1,
+    
+                magie: [0, 1, 2, 3, 4],
+                i: 0,
+                max_delay: 100,
+                delay: 0,
+                moltiplicatore_magico: 2,
+                moltiplicatore_delay_magie: 1,
+                MP: 0,
+                max_MP: 100,
+                regen_MP: 0.2,
+                XP: 150,
+            });
+            
+            break;
+        case 5:
+            nemici.push({
+                HP: 400,
+                max_HP: 400,
+                nemico: new blocco("mago", 2500, 800, 120, 120, 20, 20, 20, 20),
+                camminata: 2,
+                corsa: 4,
+                vista: 300,
+                danno: 1.5,
+    
+                magie: [0, 1, 2, 3, 4],
+                i: 0,
+                max_delay: 40,
+                delay: 0,
+                moltiplicatore_magico: 3,
+                moltiplicatore_delay_magie: 0.8,
+                MP: 0,
+                max_MP: 300,
+                regen_MP: 0.5,
+                XP: 150,
+            });
+            
+            break;
+    
+        default:
+            break;
+    }
+
+
+
+
+}
 
 
 // UTILITY GEOMETRIA
@@ -204,138 +403,28 @@ function distanza_punto_punto(ax, ay, bx, by) {
 }
 
 
-//  generazione sentiero
-debugger;
-{
-let min_gx = Infinity, min_gy = Infinity;
-let max_gx = -Infinity, max_gy = -Infinity;
-
-sentiero.forEach(p => {
-    if (p.x < min_gx) min_gx = p.x;
-    if (p.y < min_gy) min_gy = p.y;
-    if (p.x > max_gx) max_gx = p.x;
-    if (p.y > max_gy) max_gy = p.y;
-});
-
-min_gx -= largezza_sentiero + 1;
-min_gy -= largezza_sentiero + 1;
-max_gx += largezza_sentiero + 1;
-max_gy += largezza_sentiero + 1;
-
-// --- Fase 1: griglia booleana ---
-const griglia = new Set();
-const chiave = (gx, gy) => `${gx},${gy}`;
-
-for (let gy = min_gy; gy <= max_gy; gy++) {
-    for (let gx = min_gx; gx <= max_gx; gx++) {
-        const cx = gx + 0.5;
-        const cy = gy + 0.5;
-
-        const in_rettangolo = sentiero_rettangoli.some(poli =>
-            punto_in_poligono(cx, cy, poli)
-        );
-        const vicino_punto = sentiero.some(p =>
-            distanza_punto_punto(cx, cy, p.x, p.y) <= largezza_sentiero
-        );
-
-        if (in_rettangolo || vicino_punto) {
-            griglia.add(chiave(gx, gy));
-        }
-    }
-}
-debugger;
-// --- Fase 2: scegli il blocco o scarta ---
-const pieno = (gx, gy) => griglia.has(chiave(gx, gy));
-
-ctx.fillStyle = "rgba(0, 0, 255, 0.5)";
-for (const cella of griglia) {
-    const [gx, gy] = cella.split(",").map(Number);
-    if ((gx == 7 || gx == 6 || gx == 5) && (gy == 10 || gy == 9))
-        console.log("ciao");
-    
-    const T  = pieno(gx,   gy - 1);// alto
-    const B  = pieno(gx,   gy + 1);// basso
-    const L  = pieno(gx - 1, gy  );// sinistra
-    const R  = pieno(gx + 1, gy  );// destra
-    const TL = pieno(gx - 1, gy - 1);// alto-sinistra
-    const TR = pieno(gx + 1, gy - 1);// alto-destra
-    const BL = pieno(gx - 1, gy + 1);// basso-sinista
-    const BR = pieno(gx + 1, gy + 1);// basso-destra
-    
-    ctx.fillRect(gx * grandezza_blocci, gy * grandezza_blocci, grandezza_blocci, grandezza_blocci);
-    
-    
-    const n = (T?1:0) + (B?1:0) + (L?1:0) + (R?1:0);
-    
-    // scarta: 1 solo adiacente pieno
-    if (n <= 1) continue;
-    
-    // scarta: 2 adiacenti pieni ma alternati (a scacchiera: angoli opposti)
-    if (n === 2) {
-        const opposti_diag = (T && R && !B && !L)
-        || (T && L && !B && !R)
-        || (B && R && !T && !L)
-        || (B && L && !T && !R);
-        if (opposti_diag) continue;
-    }
-    
-    // --- scelta tipo ---
-    let tipo;
-    
-    if (n === 4) {
-        // tutti e 4 adiacenti pieni: guarda le diagonali
-        if      (!TR && TL && BL && BR) tipo = "sentiero1011"; // manca alto-destra
-        else if (!TL && TR && BL && BR) tipo = "sentiero0111"; // manca alto-sinistra
-        else if (!BR && TL && TR && BL) tipo = "sentiero1101"; // manca basso-destra
-        else if (!BL && TL && TR && BR) tipo = "sentiero1110"; // manca basso-sinistra
-        else if (!TL && !TR && BR && BL) tipo = "sentiero0011";
-        else if (TL && !TR && !BR && BL) tipo = "sentiero1001";
-        else if (TL && TR && !BR && !BL) tipo = "sentiero1100";
-        else if (!TL && TR && BR && !BL) tipo = "sentiero0110";
-        else if (TL && TR && BR && BL)  tipo = "sentiero" + ((Math.ceil(random()*3)-Math.floor(random()*2)) || 1);    // tutti 8 pieni (o più mancanti → centro pieno)
-        else {tipo = "fuoco"; console.error("tipo sbagliato")}
-    } else if (n === 3) {
-        if      (!T) tipo = "sentiero0011"; // manca sopra
-        else if (!B) tipo = "sentiero1100"; // manca sotto
-        else if (!R) tipo = "sentiero1001"; // manca destra
-        else if (!L) tipo = "sentiero0110"; // manca sinistra
-        else {tipo = "fuoco"; console.error("tipo sbagliato")}
-        
-    } else if (n === 2) {
-        // solo coppie adiacenti (le diagonali a scacchiera già scartate sopra)
-        if      (B && R) tipo = "sentiero0010"; // pieni basso e destra
-        else if (B && L) tipo = "sentiero0001"; // pieni basso e sinistra
-        else if (T && R) tipo = "sentiero0100"; // pieni alto e destra
-        else if (T && L) tipo = "sentiero1000"; // pieni alto e sinistra
-        else             continue;              // T+B o L+R: bordo dritto, scarta
-    }
-    
-    blocci_bac_grand.push(
-        new blocco(
-            tipo,
-            gx * grandezza_blocci,
-            gy * grandezza_blocci,
-            grandezza_blocci,
-            grandezza_blocci
-        )
-    );
-    blocci_bac_grand[blocci_bac_grand.length-1].disegna();
-}
-}
 
 
 
 
-
-const player = new blocco("carino", 100, 100, 50, 50, 10, 20, 10, 10);
+const player = new blocco("carino", 200, 200, 50, 50, 10, 30, 10, 10);
 player.nome_animazione = "indietro";
 
 var player_speed = 4;
 
 var player_HP = 1;
 var player_max_HP = 100;
+var player_regen_HP = 0.2
+
 var player_MP = 1;
 var player_max_MP = 100;
+var player_regen_MP = 0.5;
+
+var player_molt_t_magie = 1;
+var player_molt_danno = 1;
+
+var player_livello = 1;
+var player_XP = 0;
 
 // =====================
 // funzione blocci vicini
@@ -350,9 +439,18 @@ function chiave_cella(x, y) {
 // costruisci la griglia UNA VOLTA (i blocchi sono statici)
 function costruisci_griglia() {
     blocci_con_collisioni.forEach(b => {
-        const c = chiave_cella(b.x, b.y);
-        if (!griglia_collisioni.has(c)) griglia_collisioni.set(c, []);
-        griglia_collisioni.get(c).push(b);
+        const gx1 = Math.floor(b.x / cella_size);
+        const gy1 = Math.floor(b.y / cella_size);
+        const gx2 = Math.floor((b.x + b.lx) / cella_size);
+        const gy2 = Math.floor((b.y + b.ly) / cella_size);
+
+        for (let gx = gx1; gx <= gx2; gx++) {
+            for (let gy = gy1; gy <= gy2; gy++) {
+                const c = `${gx},${gy}`;
+                if (!griglia_collisioni.has(c)) griglia_collisioni.set(c, []);
+                griglia_collisioni.get(c).push(b);
+            }
+        }
     });
 }
 costruisci_griglia();
@@ -371,10 +469,37 @@ function blocchi_vicini(b) {
 
 
 
+//armi
+var arma_selezionata = 0;
+const armi = [
+    {
+        nome: "spada1",
+        attacchi: [0, 1],
+    },
+    {
+        nome: "spada2",
+        attacchi: [2, 3],
+    },
+    {
+        nome: "bacchetta",
+        attacchi: [5, 6],
+    },
+    {
+        nome: "bacchetta_eletrica",
+        attacchi: [8, 9],
+    },
+    {
+        nome: "bacchetta_strana",
+        attacchi: [7, 10],
+    },
+]
+
+
 
 // ======================
 // INPUT WASD 
 // ======================
+
 const keys = {};
 
 window.addEventListener("keydown", (e) => {
@@ -385,9 +510,82 @@ window.addEventListener("keyup", (e) => {
     keys[e.key.toLowerCase()] = false;
 });
 
+window.addEventListener("keydown", (e) => {
+
+
+    
+    if (e.key > "0" && e.key <= "9" && e.key <= armi.length)
+        arma_selezionata = Number(e.key)-1;
+
+});
 
 var n_tipo_magia = 0;
 const staz_magie = [
+    {
+        delay: 0,
+        nome: "spada1",
+        grandezza: 50,
+        vuoto: 0,
+        tipo: "rotazione",
+        raggio: 50,                 // distanza dal player (centro di rotazione)
+        velocita_rotazione: 16,      // gradi per frame (positivo = senso orario)
+        gradi_in_piu: (30/360)*(Math.PI*2),
+        consumo: 0,
+        danno: 16,
+        tempo: 8,
+        gradi_in_meno: (50/360)*(Math.PI*2),
+    },
+    {
+        delay: 0,
+        nome: "spada1",
+        grandezza: 50,
+        vuoto: 0,
+        tipo: "rotazione",
+        raggio: 50,                 // distanza dal player (centro di rotazione)
+        velocita_rotazione: 32,      // gradi per frame (positivo = senso orario)
+        gradi_in_piu: (30/360)*(Math.PI*2),
+        consumo: 40,
+        danno: 8,
+        tempo: 100,
+        gradi_in_meno: (0/360)*(Math.PI*2),
+    },
+    {
+        delay: 200,
+        nome: "effetto_di_spada1",
+        grandezza: 128,
+        vuoto: 16,
+        tipo: "stand_raggio",
+        tempo: 28,
+        raggio: 64,
+        consumo: 20,
+        danno: 15,
+    },
+    {
+        delay: 0,
+        nome: "spada2",
+        grandezza: 50,
+        vuoto: 0,
+        tipo: "rotazione",
+        raggio: 50,                 // distanza dal player (centro di rotazione)
+        velocita_rotazione: 32,      // gradi per frame (positivo = senso orario)
+        gradi_in_piu: (30/360)*(Math.PI*2),
+        consumo: 40,
+        danno: 8,
+        tempo: 100,
+        gradi_in_meno: (0/360)*(Math.PI*2),
+    },
+    {
+        delay: 0,
+        nome: "spada1",
+        grandezza: 32,
+        vuoto: 0,
+        tipo: "muv_base",
+        tempo: 4,
+        velocita: 16,
+        consumo: 0,
+        danno: 10,
+        rad_in_piu: Math.PI*3/4, 
+    },
     {
         delay: 100,
         nome: "taglia_vento",
@@ -520,8 +718,10 @@ const staz_magie_nemici = [
 ]
 
 var in_magia = false;
-canvas.addEventListener("click", (e) => {
-    
+
+function lancia(e, scelta=n_tipo_magia) {
+
+
     const rect = canvas.getBoundingClientRect();
 
     const x_mouse = (e.clientX - rect.left) * canvas.width  / rect.width;
@@ -538,7 +738,11 @@ canvas.addEventListener("click", (e) => {
 
     let mom2;
 
-    const staz_magia_mom = staz_magie[n_tipo_magia];
+    const staz_magia_mom = staz_magie[scelta];//staz_magie[n_tipo_magia];
+    const danno_magia_mom = staz_magia_mom.danno * player_molt_danno;
+    //staz_magia_mom.danno *= player_molt_danno;
+
+
 
     if (staz_magia_mom.tipo == "teleport"){
         mom2 = {   
@@ -548,7 +752,7 @@ canvas.addEventListener("click", (e) => {
         }
         mom2.magia.radianti = Math.PI;
         let portale_collide = false;
-        blocci_con_collisioni.forEach((e) => {
+        blocchi_vicini(mom2.magia).forEach((e) => {
         if (e.if_collide(mom2.magia))
             portale_collide = true;
         });
@@ -579,13 +783,41 @@ canvas.addEventListener("click", (e) => {
     setTimeout(() => {
 
         switch (staz_magia_mom.tipo) {
+            case "rotazione":
+                if (magie.filter(e => e.rotante).length > 0) break;
+
+                dif_x = world_x - (player.x+player.lx/2);
+                dif_y = world_y - (player.y+player.ly/2);
+
+                mom = {
+                    magia: new blocco(
+                        staz_magia_mom.nome,
+                        player.x + player.lx/2 - staz_magia_mom.grandezza/2,
+                        player.y + player.ly/2 - staz_magia_mom.grandezza/2,
+                        staz_magia_mom.grandezza, staz_magia_mom.grandezza,
+                        staz_magia_mom.vuoto, staz_magia_mom.vuoto, staz_magia_mom.vuoto, staz_magia_mom.vuoto
+                    ),
+                    tempo: staz_magia_mom.tempo,           // non conta, la fa sparire gradi_rimanenti
+                    collider: false,         // gestiamo noi il danno, niente rimozione automatica al primo colpo
+                    danno: danno_magia_mom,
+                    rotante: true,
+                    angolo: Math.atan2(dif_y, dif_x)-staz_magia_mom.gradi_in_meno,         // angolo iniziale
+                    raggio: staz_magia_mom.raggio,
+                    velocita_rotazione: staz_magia_mom.velocita_rotazione * (Math.PI/180), // in radianti/frame
+                    gradi_in_piu: staz_magia_mom.gradi_in_piu,
+                    nemici_colpiti: [],
+                };
+            
+                magie.push(mom);
+            
+                break;
             case "muv_base":
             
                 mom = {   
                     magia: new blocco(staz_magia_mom.nome, player.x+(player.lx/2)-staz_magia_mom.grandezza/2, player.y+(player.ly/2)-staz_magia_mom.grandezza/2, staz_magia_mom.grandezza, staz_magia_mom.grandezza, staz_magia_mom.vuoto, staz_magia_mom.vuoto, staz_magia_mom.vuoto, staz_magia_mom.vuoto, ),
                     tempo: staz_magia_mom.tempo,
                     collider: true,//si distrugge quando collide
-                    danno: staz_magia_mom.danno,
+                    danno: danno_magia_mom,
                 }
             
                 dif_x = world_x - (player.x+player.lx/2);
@@ -596,7 +828,7 @@ canvas.addEventListener("click", (e) => {
                 mom.magia.vx = (dif_x/distanza) * staz_magia_mom.velocita;
                 mom.magia.vy = (dif_y/distanza) * staz_magia_mom.velocita;
             
-                mom.magia.radianti = Math.atan2(dif_y, dif_x);
+                mom.magia.radianti = Math.atan2(dif_y, dif_x) +(staz_magia_mom.rad_in_piu || 0);
                 magie.push(mom);
                 
                 break;
@@ -607,7 +839,7 @@ canvas.addEventListener("click", (e) => {
                     magia: new blocco(staz_magia_mom.nome, player.x+(player.lx/2)-staz_magia_mom.grandezza/2, player.y+(player.ly/2)-staz_magia_mom.grandezza/2, staz_magia_mom.grandezza, staz_magia_mom.grandezza, staz_magia_mom.vuoto, staz_magia_mom.vuoto, staz_magia_mom.vuoto, staz_magia_mom.vuoto, ),
                     tempo: staz_magia_mom.tempo,
                     collider: true,//si distrugge quando collide
-                    danno: staz_magia_mom.danno,
+                    danno: danno_magia_mom,
                     impact: true,//con animazione
                 }
             
@@ -619,9 +851,33 @@ canvas.addEventListener("click", (e) => {
                 mom.magia.vx = (dif_x/distanza) * staz_magia_mom.velocita;
                 mom.magia.vy = (dif_y/distanza) * staz_magia_mom.velocita;
             
-                mom.magia.radianti = Math.atan2(dif_y, dif_x);
+                mom.magia.radianti = Math.atan2(dif_y, dif_x) +(staz_magia_mom.rad_in_piu || 0);
                 magie.push(mom);
 
+                break;
+            case "stand_raggio":
+
+                dif_x = world_x - (player.x+player.lx/2);
+                dif_y = world_y - (player.y+player.ly/2);
+            
+                distanza = Math.sqrt((dif_x*dif_x) + (dif_y*dif_y));
+
+
+                let punto_x = (player.x+player.lx/2)+(staz_magia_mom.raggio* dif_x/distanza);
+                let punto_y = (player.y+player.ly/2)+(staz_magia_mom.raggio* dif_y/distanza);
+                    
+                mom = {   
+                    magia: new blocco(staz_magia_mom.nome, punto_x-staz_magia_mom.grandezza/2, punto_y-staz_magia_mom.grandezza/2, staz_magia_mom.grandezza, staz_magia_mom.grandezza, staz_magia_mom.vuoto, staz_magia_mom.vuoto, staz_magia_mom.vuoto, staz_magia_mom.vuoto, ),
+                    tempo: staz_magia_mom.tempo,
+                    collider: false,
+                }
+                nemici.forEach((n, i) => {
+                    if (mom.magia.if_collide(n.nemico))
+                        n.HP -= danno_magia_mom;
+                })
+                mom.magia.radianti = Math.atan2(dif_y, dif_x);
+                
+                magie.push(mom);
                 break;
             case "stand":
                     
@@ -632,7 +888,7 @@ canvas.addEventListener("click", (e) => {
                 }
                 nemici.forEach((n, i) => {
                     if (mom.magia.if_collide(n.nemico))
-                        n.HP -= staz_magia_mom.danno;
+                        n.HP -= danno_magia_mom;
                 })
                 
                 magie.push(mom);
@@ -646,7 +902,7 @@ canvas.addEventListener("click", (e) => {
                 }
                 nemici.forEach((n, i) => {
                     if (mom.magia.if_collide(n.nemico))
-                        n.HP -= staz_magia_mom.danno;
+                        n.HP -= danno_magia_mom;
                 })
                 
                 magie.push(mom);
@@ -675,7 +931,20 @@ canvas.addEventListener("click", (e) => {
     
 
         in_magia = false;
-    }, staz_magia_mom.delay)
+    }, staz_magia_mom.delay *player_molt_t_magie);
+}
+
+var e_di_mouse;
+
+canvas.addEventListener("click", (e) => {
+    lancia(e, armi[arma_selezionata].attacchi[0]);
+});
+
+document.addEventListener("keydown", (tasto) => {
+    if (tasto.key == "q"){
+        console.log("q premuto");
+        lancia(e_di_mouse, armi[arma_selezionata].attacchi[1]);
+    }
 });
 
 
@@ -692,13 +961,15 @@ window.addEventListener("wheel", (event) => {
         if (n_tipo_magia >= staz_magie.length)
             n_tipo_magia = staz_magie.length-1;
     }
-    document.getElementById("selezionato").textContent = `magia numero: ${n_tipo_magia}\nnome: ${staz_magie[n_tipo_magia].nome}\ndanno: ${staz_magie[n_tipo_magia].danno}\nconsumo MP: ${staz_magie[n_tipo_magia].consumo}\ntempo di attivazione: ${staz_magie[n_tipo_magia].delay/1000}s` ;
+    document.getElementById("selezionato").textContent = `magia numero: ${n_tipo_magia}\nnome: ${staz_magie[n_tipo_magia].nome}\ndanno: ${staz_magie[n_tipo_magia].danno}\nconsumo MP: ${staz_magie[n_tipo_magia].consumo}\ntempo di attivazione: ${staz_magie[n_tipo_magia].delay/1000}s`;
     ``
 });
 
 var mouse_x;
 var mouse_y;
 window.addEventListener("mousemove", (e) => {
+    e_di_mouse = e;
+
 
     const rect = canvas.getBoundingClientRect();
 
@@ -732,7 +1003,7 @@ function line(x1, y1, x2, y2, spessore = 1) {
 var ID_rosso = 0;
 const disegno_magie = [];
 function nemico_lancia_magia(n) {
-    debugger
+
     
 
     if (staz_magie_nemici[n.magie[n.i]].consumo > n.MP)
@@ -910,7 +1181,19 @@ function muovi_telecamera() {
 
 
 
-
+const nemici_uccisi = {};
+function aggiungi_nemico(n) {
+    debugger
+    player_XP += n.XP;
+    if (player_XP >= player_livello*100) {
+        player_XP -= player_livello*100;
+        player_livello++;
+    }
+    if (n.nemico.nome in nemici_uccisi)
+        nemici_uccisi[n.nemico.nome]++;
+    else
+        nemici_uccisi[n.nemico.nome] = 1;
+}
 
 // ======================
 // GAME LOOP
@@ -920,6 +1203,7 @@ var scatto_caricato = true;
 const posizione_scatto = {x:0, y:0};
 
 function update() {
+    controlla_fase();
 
     //=======================================================================
     //  player
@@ -957,19 +1241,26 @@ function update() {
 
     blocchi_vicini(player).forEach((e) => {
         player.fisica_qubo(e);
-    })
+    });
     
     player.add_gradi((keys["p"]||0)-(keys["o"]||0));
     
     //regen
-    if (player_MP < player_max_MP)
-        player_MP += 0.5;
-    if (player_HP < player_max_HP)
-        player_HP += 0.2;
+    if (player_MP < player_max_MP) {
+        player_MP += player_regen_MP;
+        if (player_HP > player_max_HP)
+            player_HP = player_max_HP
+    }
+    if (player_HP < player_max_HP) {
+        player_HP += player_regen_HP;
+        if (player_MP > player_max_MP)
+            player_MP = player_max_MP
+    }
     
     nemici.forEach((n) => {
-        if (player.if_collide(n.nemico))
+        if (player.if_collide(n.nemico)){
             player_HP -= n.danno;
+        }
     });
     
     if (player_HP <= 0) {}
@@ -982,9 +1273,42 @@ function update() {
     //  aggiorna
     //=======================================================================  
 
+
+    //rotazione magie rotazione
+    // gestione magie rotanti (spada attorno al player)
+    magie.forEach((m) => {
+        if (!m.rotante) return;
+
+        m.angolo += m.velocita_rotazione;
+        //m.gradi_rimanenti -= Math.abs(m.velocita_rotazione);
+
+        // posizione sul cerchio attorno al player
+        m.magia.x = player.x + player.lx/2 + Math.cos(m.angolo) * m.raggio - m.magia.lx/2;
+        m.magia.y = player.y + player.ly/2 + Math.sin(m.angolo) * m.raggio - m.magia.ly/2;
+
+        // orienta la spada come un raggio che punta verso fuori (cambia +Math.PI/2 a piacere)
+        m.magia.radianti = m.angolo + Math.PI/2 + m.gradi_in_piu;
+
+        // danno: un solo colpo per nemico per "passata" della spada
+        nemici.forEach((n) => {
+            if (m.magia.if_collide(n.nemico) && !m.nemici_colpiti.includes(n)) {
+                n.HP -= m.danno;
+                m.nemici_colpiti.push(n);
+            } else if (!m.magia.if_collide(n.nemico) && m.nemici_colpiti.includes(n)) {
+                // permette di colpire di nuovo lo stesso nemico al giro successivo
+                m.nemici_colpiti.splice(m.nemici_colpiti.indexOf(n), 1);
+            }
+        });
+
+        //if (m.gradi_rimanenti <= 0)
+        //    m.da_rimuovere = true;
+    });
+
+
+
     //distruzione magie blocci
     magie.forEach((m, i) => {
-        blocchi_vicini(m).forEach((e) => {
+        blocchi_vicini(m.magia).forEach((e) => {
 
             if (m.collider) {
                 if (m.magia.if_collide(e) && m.magia.nome_animazione !== "impact"){
@@ -1000,10 +1324,11 @@ function update() {
         })
     });
     magie_nemiche.forEach((mn, i) => {
-        blocchi_vicini(mn).forEach((e) => {
+        blocchi_vicini(mn.magia).forEach((e) => {
 
             if (mn.collider) {
                 if (mn.magia.if_collide(e) && mn.magia.nome_animazione !== "impact"){
+                    debugger
                     if (mn.impact){
                         mn.magia.set_nome_animazione("impact");
                         mn.magia.vx = 0;
@@ -1036,9 +1361,6 @@ function update() {
                     }
                     else
                         m.da_rimuovere = true;
-                    if (e.HP <= 0)
-                        e.da_rimuovere = true;
-
                 }
             }
         });
@@ -1051,7 +1373,7 @@ function update() {
 
                 e.nemico.vx = e.corsa* difx/dist;
                 e.nemico.vy = e.corsa* dify/dist;
-                
+                e.delay = 0;
             }
             else {
 
@@ -1069,8 +1391,6 @@ function update() {
                 }
 
                 
-
-                debugger
                 if (e.delay < 0){
                     e.delay = e.max_delay;
                     nemico_lancia_magia(e);
@@ -1130,6 +1450,12 @@ function update() {
             if (e.MP > e.max_MP)
                 e.MP = e.max_MP;
         }
+        if (e.HP <= 0) {
+            e.da_rimuovere = true;
+            aggiungi_nemico(e);
+        }
+        if (e.delay < -5000)
+            e.da_rimuovere = true;
 
         e.nemico.aggiorna();
     })
@@ -1170,7 +1496,6 @@ function update() {
     muovi_telecamera();
 }
 
-
 function draw() {
 
     //if player fermo
@@ -1185,11 +1510,16 @@ function draw() {
 
     // pulizia schermo
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+
+    
 
     blocci_bac_grand.forEach((e) => {
         e.disegna();
-    })
+    });
+
 
 
     blocci_con_collisioni.forEach((e) => {
@@ -1230,11 +1560,19 @@ function draw() {
         mn.magia.disegna();
     })
 
-
-    ctx.fillStyle = "rgba(255, 0, 0, 1)";
-    ctx.fillRect(10, 20, 200*(player_HP/player_max_HP), 20);
-    ctx.fillStyle = "rgba(0, 0, 255, 1)";
-    ctx.fillRect(10, 45, 200*(player_MP/player_max_MP), 20);
+    {
+        ctx.fillStyle = "rgba(255, 0, 0, 1)";
+        ctx.fillRect(10, 20, 200*(player_HP/player_max_HP), 20);
+        ctx.fillStyle = "rgba(0, 0, 255, 1)";
+        ctx.fillRect(10, 45, 200*(player_MP/player_max_MP), 20);
+        
+        let XP = player_XP;
+        while (XP >= 100)
+            XP -= 100;
+        
+        ctx.fillStyle = "rgb(41, 198, 255)";
+        ctx.fillRect(10, 70, 2*XP, 20);
+    }
 
 
 
@@ -1316,7 +1654,9 @@ let lastTime = performance.now();
 
 function gameLoop() {
 
+    //if (!in_inventario)
     update();
+
     draw();
 
 
@@ -1345,4 +1685,6 @@ function gameLoop() {
 // AVVIO
 // ======================
 
-gameLoop();
+carica_collisioni_mappa().then(() => {
+    gameLoop();
+});

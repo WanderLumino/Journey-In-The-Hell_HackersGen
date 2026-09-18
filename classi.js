@@ -27,6 +27,41 @@ const numero_sentiero = 2*3;
 
 
 const src_blocci = {
+    muro_separatore: {
+        stand: [
+            "./img/muro dritto.png"
+        ],
+        stand_fps: 1000,
+        stand_ripeti: true,
+    },
+    porta_C: {
+        stand: [
+            ["./img/contiene porta.png", 29, 103, 37, 50],
+        ],
+        stand_fps: 1000,
+        stand_ripeti: true,
+    },
+    porta_A: {
+        stand: [
+            ["./img/contiene porta.png", 29, 166, 37, 50],
+        ],
+        stand_fps: 1000,
+        stand_ripeti: true,
+    },
+    traspa: {
+        stand: [
+            "./img/traspa.png",
+        ],
+        stand_fps: 1000,
+        stand_ripeti: true,
+    },
+    mappa1: {
+        stand: [
+            "./img/mappe/mappa1.png",
+        ],
+        stand_fps: 6,
+        stand_ripeti: true,
+    },
     fuoco: {
         stand: crea_array("./img/fuoco_blu/frame_", 0, 19, ".png", 1),
         stand_fps: 4,
@@ -46,6 +81,25 @@ const src_blocci = {
         ],
         stand_fps: 4,
         stand_ripeti: true,
+    },
+    spada1: {
+        stand: [
+            ["./img/spade/spade1.png", 5*g32, 3*g32, g32, g32],
+        ],
+        stand_fps: 4,
+        stand_ripeti: true,
+    },
+    spada2: {
+        stand: [
+            ["./img/spade/spade2.png", 1*g32, 3*g32, g32, g32],
+        ],
+        stand_fps: 4,
+        stand_ripeti: true,
+    },
+    effetto_di_spada1: {
+        stand: crea_array("./img/spade/effetti_di_spade/Sword Slashes/Blue Group Slashes/File", 1, 20, ".png", 1),
+        stand_fps: 4,
+        stand_ripeti: true,        
     },
     mini_esplosione : {
         stand: [
@@ -142,6 +196,93 @@ const src_blocci = {
         stand_fps: 6,
         stand_ripeti: true,
 
+    },
+    re_senza_volto: {
+        stand: [
+            ["./img/re-senza-volto_sprite.png", 0*128, 0*128, 128, 128],
+
+        ],
+        stand_fps: 12,
+        stand_ripeti: true,
+
+        sin: [
+            ["./img/drago.png", 0,   70, 100, 70],
+            ["./img/drago.png", 100, 70, 100, 70],
+            ["./img/drago.png", 200, 70, 100, 70],
+            ["./img/drago.png", 100, 70, 100, 70],
+
+        ],
+        sin_fps: 12,
+        sin_ripeti: true,
+
+        des: [
+            ["./img/drago.png", 0,   140, 100, 70],
+            ["./img/drago.png", 100, 140, 100, 70],
+            ["./img/drago.png", 200, 140, 100, 70],
+            ["./img/drago.png", 100, 140, 100, 70],
+
+        ],
+        des_fps: 12,
+        des_ripeti: true,
+
+        alto: [
+            ["./img/drago.png", 0,   210, 100, 70],
+            ["./img/drago.png", 100, 210, 100, 70],
+            ["./img/drago.png", 200, 210, 100, 70],
+            ["./img/drago.png", 100, 210, 100, 70],
+
+        ],
+        alto_fps: 12,
+        alto_ripeti: true,
+    },
+    mago: {
+        stand: [
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 0*g64, 7*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 1*g64, 7*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 2*g64, 7*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 3*g64, 7*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 4*g64, 7*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 5*g64, 7*g64, g64, g64],
+
+        ],
+        stand_fps: 12,
+        stand_ripeti: true,
+
+        sin: [
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 0*g64, 8*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 1*g64, 8*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 2*g64, 8*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 3*g64, 8*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 4*g64, 8*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 5*g64, 8*g64, g64, g64],
+
+        ],
+        sin_fps: 12,
+        sin_ripeti: true,
+
+        des: [
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 0*g64, 8*g64, -g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 1*g64, 8*g64, -g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 2*g64, 8*g64, -g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 3*g64, 8*g64, -g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 4*g64, 8*g64, -g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 5*g64, 8*g64, -g64, g64],
+
+        ],
+        des_fps: 12,
+        des_ripeti: true,
+
+        alto: [
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 0*g64, 9*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 1*g64, 9*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 2*g64, 9*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 3*g64, 9*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 4*g64, 9*g64, g64, g64],
+            ["./img/tanti_personaggi_magia/017-1787673701973-frames64.png", 5*g64, 9*g64, g64, g64],
+
+        ],
+        alto_fps: 12,
+        alto_ripeti: true,
     },
     drago: {
         stand: [
@@ -332,24 +473,47 @@ for (const nome_blocco in src_blocci) {
 
         src_blocci_img[nome_blocco][chiave] = array_src.map(src => {
 
-            // se src è un array → è una sezione: [percorso, sx, sy, sw, sh]
+            // se src è un array → è una sezione:
+            // [percorso, sx, sy, sw, sh]
             if (Array.isArray(src)) {
+
                 const [percorso, sx, sy, sw, sh] = src;
 
                 const sorgente = new Image();
                 sorgente.src = percorso;
 
-                // canvas temporaneo per ritagliare la sezione
+                // La larghezza negativa indica specchiatura orizzontale
+                const flipX = sw < 0;
+                const larghezza = Math.abs(sw);
+
                 const offscreen = document.createElement("canvas");
-                offscreen.width  = sw;
+                offscreen.width = larghezza;
                 offscreen.height = sh;
+
                 const offCtx = offscreen.getContext("2d");
 
                 sorgente.onload = () => {
-                    offCtx.drawImage(sorgente, sx, sy, sw, sh, 0, 0, sw, sh);
+
+                    if (flipX) {
+                        // Specchia orizzontalmente
+                        offCtx.translate(larghezza, 0);
+                        offCtx.scale(-1, 1);
+                    }
+
+                    offCtx.drawImage(
+                        sorgente,
+                        sx,
+                        sy,
+                        larghezza,
+                        sh,
+                        0,
+                        0,
+                        larghezza,
+                        sh
+                    );
                 };
 
-                return offscreen;   // restituisce il canvas ritagliato
+                return offscreen;
             }
 
             // altrimenti è una stringa normale
@@ -359,6 +523,7 @@ for (const nome_blocco in src_blocci) {
         });
     }
 }
+
 
 console.log(src_blocci_img);
 
@@ -552,6 +717,10 @@ class blocco {
                 this.vy = 0;
             }
         }
+    }
+
+    get_src() {
+        return src_blocci[this.nome][this.nome_animazione][this.indice_animazione];
     }
 
     aggiorna(){
