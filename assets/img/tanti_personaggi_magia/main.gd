@@ -39,7 +39,7 @@ func _find_character_sheets() -> void:
 
 func _apply_character(index: int) -> void:
     if character_paths.is_empty():
-        character_name.text = "未找到角色 PNG"
+        character_name.text = "Nessun PNG del personaggio trovato"
         return
 
     character_index = posmod(index, character_paths.size())

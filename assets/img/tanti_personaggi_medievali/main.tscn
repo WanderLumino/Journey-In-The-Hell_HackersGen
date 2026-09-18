@@ -21,7 +21,7 @@ offset_left = 24.0
 offset_top = 20.0
 offset_right = 620.0
 offset_bottom = 52.0
-text = "WASD / 方向键：移动    Q / E：切换角色"
+text = "WASD / Frecce: movimento    Q / E: cambia personaggio"
 label_settings = SubResource("LabelSettings_help")
 
 [node name="CharacterName" type="Label" parent="UI"]
@@ -29,5 +29,5 @@ offset_left = 24.0
 offset_top = 488.0
 offset_right = 900.0
 offset_bottom = 520.0
-text = "正在载入角色…"
+text = "Caricamento del personaggio…"
 label_settings = SubResource("LabelSettings_help")

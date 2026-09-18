@@ -24,7 +24,7 @@
 <div class="page">
 <div class="settings-wrap">
 
-  <!-- Sidebar -->
+  <!-- Barra laterale -->
   <aside>
     <div class="s-page-head">
       <span class="s-page-label">Configurazione</span>
@@ -40,7 +40,7 @@
     </nav>
   </aside>
 
-  <!-- Panels -->
+  <!-- Pannelli -->
   <div class="s-panels">
 
     <!-- AUDIO -->
@@ -92,7 +92,7 @@
       </div>
     </section>
 
-    <!-- GAMEPLAY -->
+    <!-- MECCANICHE -->
     <section class="s-panel" id="tab-gameplay">
       <div class="s-panel-title">Gameplay</div>
 
@@ -120,7 +120,7 @@
       </div>
     </section>
 
-    <!-- ACCOUNT -->
+    <!-- PROFILO -->
     <section class="s-panel" id="tab-account">
       <div class="s-panel-title">Account</div>
 
@@ -184,7 +184,7 @@
       </div>
     </section>
 
-    <!-- Save bar -->
+    <!-- Barra di salvataggio -->
     <div class="s-save-bar">
       <span class="s-save-msg" id="smsg"></span>
       <button class="s-btn s-btn-primary" id="saveBtn">Salva Impostazioni</button>
@@ -194,7 +194,7 @@
 </div><!-- /settings-wrap -->
 </div><!-- /page -->
 
-<!-- Modal -->
+<!-- Finestra di dialogo -->
 <div class="s-modal" id="modal">
   <div class="s-modal-box">
     <h3>Reimposta Impostazioni?</h3>
@@ -207,66 +207,6 @@
 </div>
 
 <script src="../js/shared.js"></script>
-<script>
-  /* Tabs */
-  document.querySelectorAll('.s-tab:not(.s-tab-reset)').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.s-tab:not(.s-tab-reset)').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.s-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      const p = document.getElementById('tab-' + btn.dataset.tab);
-      if (p) p.classList.add('active');
-    });
-  });
-
-  /* Sliders */
-  document.querySelectorAll('.s-sl').forEach(sl => {
-    const vEl = document.getElementById(sl.id + 'v');
-    function upd() {
-      if (vEl) vEl.textContent = sl.value;
-      sl.style.setProperty('--p', ((sl.value - sl.min) / (sl.max - sl.min) * 100) + '%');
-    }
-    upd(); sl.addEventListener('input', upd);
-  });
-
-  /* Seg buttons */
-  document.querySelectorAll('.s-seg').forEach(seg => {
-    seg.querySelectorAll('.s-seg-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        seg.querySelectorAll('.s-seg-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-    });
-  });
-
-  /* Diff buttons */
-  document.querySelectorAll('.s-diff-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.s-diff-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-
-  /* Save */
-  function showMsg(t) {
-    const m = document.getElementById('smsg');
-    m.textContent = t; m.classList.add('show');
-    setTimeout(() => m.classList.remove('show'), 3000);
-  }
-  document.getElementById('saveBtn').addEventListener('click', () => showMsg('Impostazioni salvate'));
-  document.getElementById('saveAccBtn') && document.getElementById('saveAccBtn').addEventListener('click', () => showMsg('Account aggiornato'));
-
-  /* Modal */
-  const modal = document.getElementById('modal');
-  document.getElementById('resetBtn').addEventListener('click', () => modal.classList.add('open'));
-  document.getElementById('cancelReset').addEventListener('click', () => modal.classList.remove('open'));
-  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
-  document.getElementById('confirmReset').addEventListener('click', () => {
-    document.querySelectorAll('.s-sl').forEach(sl => { sl.value = sl.defaultValue; sl.dispatchEvent(new Event('input')); });
-    document.querySelectorAll('.s-toggle input').forEach(t => { t.checked = t.defaultChecked; });
-    modal.classList.remove('open');
-    showMsg('Impostazioni ripristinate');
-  });
-</script>
+<script src="../js/pages/settings.js"></script>
 </body>
 </html>

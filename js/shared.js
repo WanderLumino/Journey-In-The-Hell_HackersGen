@@ -1,6 +1,6 @@
-/* ── shared.js — particles, cursor, nav scroll ── */
+/* ── shared.js — particelle, cursore, scorrimento ── */
 (function () {
-  /* Custom cursor */
+  /* Cursoree personalizzato */
   const cur = document.getElementById('cursor');
   if (cur) {
     document.addEventListener('mousemove', e => {
@@ -13,7 +13,7 @@
     });
   }
 
-  /* Ember particles */
+  /* Particelle di brace */
   const cvs = document.getElementById('cvs');
   if (!cvs) return;
   const ctx = cvs.getContext('2d');
@@ -54,7 +54,7 @@
   }
   loop();
 
-  /* Scroll reveal */
+  /* Comparsa durante lo scorrimento */
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
