@@ -55,7 +55,7 @@ dialog h2 { margin: 0; color: var(--oro); font-size: 25px; }
 
 .minimap-wrap { top: 64px; }
 .pause-dialog { width: min(410px, 92vw); max-height: 94vh; padding: 22px; border-radius: 4px; border: 2px solid #987343; background: radial-gradient(ellipse at top,#3a281b,#14110f 70%); }
-.pause-dialog::before { content: 'INFERNO QUEST'; display: block; color: #977b53; font-size: 11px; letter-spacing: .32em; text-align: center; margin-bottom: 22px; }
+.pause-dialog::before { content: 'Journey In The Hell'; display: block; color: #977b53; font-size: 11px; letter-spacing: .32em; text-align: center; margin-bottom: 22px; }
 .pause-dialog header { justify-content: center; position: relative; }
 .pause-dialog #close-dialog { position: absolute; right: 0; }
 .pause-dialog h2 { font-size: 32px; letter-spacing: .08em; }
@@ -73,6 +73,8 @@ dialog h2 { margin: 0; color: var(--oro); font-size: 25px; }
 #spunta { top: auto; bottom: 165px; }
 #gameCanvas:focus { outline: none; }
 .controls-dialog { width: min(820px,94vw); }
+.map-dialog { width: min(820px,94vw); max-height: 94vh; }
+#full-map { width: min(100%,calc(156.667vh - 333.334px)); height: auto; margin: 16px auto 0; border: 1px solid var(--bordo); background: #080909; }
 .controls-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
 .control-card { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border: 1px solid #54442e; border-radius: 5px; background: #171510; font: 12px/1.4 system-ui,sans-serif; }
 .control-keys { display: flex; flex-wrap: wrap; flex-shrink: 0; justify-content: center; align-items: center; gap: 2px; width: 84px; }

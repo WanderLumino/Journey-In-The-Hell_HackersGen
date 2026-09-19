@@ -33,7 +33,10 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
             await sleep(150);
             if (await evaluate("!!document.getElementById('loading')?.hidden")) {
                 assert.equal(await evaluate('finestraAttiva'), 'comandi');
-                assert.equal(await evaluate("document.querySelectorAll('.control-card').length"), 11);
+                assert.equal(await evaluate("document.querySelectorAll('.control-card').length"), 12);
+                assert.equal(await evaluate("[...document.querySelectorAll('.control-keys kbd')].some(k=>k.textContent==='Tab')"),true);
+                await key('Tab');
+                assert.equal(await evaluate('finestraAttiva'),'comandi');
                 const tempo = await evaluate('tempoGioco');
                 await sleep(100);
                 assert.equal(await evaluate('tempoGioco'),tempo);
@@ -61,6 +64,19 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         assert.equal(await evaluate("localStorage.getItem('lingua')"), 'it');
         await send('Page.navigate', {url:'http://127.0.0.1:8000/html/home.html'}); await sleep(250);
         assert.match(await evaluate("document.getElementById('startBtn').textContent"), /Inizia il viaggio/);
+        await send('Page.navigate', {url:'http://127.0.0.1:8000/html/manuale.html'}); await sleep(700);
+        assert.equal(await evaluate('document.documentElement.lang'),'it');
+        assert.equal(await evaluate("document.querySelector('.manual-title').textContent"),'Guida e comandi');
+        assert.equal(await evaluate("document.querySelectorAll('.chapter').length"),7);
+        assert.equal(await evaluate("/Codex|Capturing the Damned|Infernal Seal/i.test(document.body.innerText)"),false);
+        assert.equal(await evaluate("[...document.querySelectorAll('[data-it][data-en]')].every(e=>e.textContent===e.dataset.it)"),true);
+        const comandiManuale = await evaluate("[...document.querySelectorAll('.cmd-table tbody tr')].map(r=>r.firstElementChild.textContent)");
+        assert.deepEqual(comandiManuale,['W A S D','Mouse','Clic sinistro','Q','Shift + W A S D','E','B','Tab','ESC','1','2','3','4']);
+        await evaluate("document.querySelector('[data-language-toggle]').click()");
+        assert.equal(await evaluate("[...document.querySelectorAll('[data-it][data-en]')].every(e=>e.textContent===e.dataset.en)"),true);
+        assert.match(await evaluate("document.querySelector('.chapter').textContent"),/Dante Alighieri/);
+        await evaluate("impostaLingua('it')");
+        await send('Page.navigate', {url:'http://127.0.0.1:8000/html/home.html'}); await sleep(300);
         await evaluate("document.getElementById('startBtn').click()"); await sleep(1300);
         assert.match(await evaluate("document.querySelector('[data-class=warrior] .card-title').textContent"), /Guerriero/);
         await evaluate("document.querySelector('[data-class=warrior] .card-select-btn').click(); document.getElementById('modalConfirm').click()");
@@ -90,9 +106,26 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         await send('Input.dispatchKeyEvent', {type:'keyUp',key:'d'});
         await send('Input.dispatchKeyEvent', {type:'keyUp',key:'Shift'}); await sleep(80);
         assert.equal(await evaluate('audioGioco.tracce.corsa[0].paused'), true);
+        // Tab ingrandisce la mappa, congela la simulazione e torna al gioco.
+        await key('Tab');
+        assert.equal(await evaluate('finestraAttiva'),'mappa');
+        assert.equal(await evaluate("document.getElementById('full-map').width"),720);
+        const tempoMappa = await evaluate('tempoGioco');
+        await sleep(150); assert.equal(await evaluate('tempoGioco'),tempoMappa);
+        if (process.env.SMOKE_MAP_SCREENSHOT) {
+            const foto = await send('Page.captureScreenshot');
+            fs.writeFileSync(process.env.SMOKE_MAP_SCREENSHOT,Buffer.from(foto.data,'base64'));
+        }
+        await key('Tab');
+        assert.equal(await evaluate('finestraAttiva'),null);
+        assert.equal(await evaluate('document.activeElement.id'),'gameCanvas');
+        await key('Tab'); await key('Escape');
+        assert.equal(await evaluate('finestraAttiva'),null);
         // La pausa arresta movimento, orologio e azioni programmate.
         await key('Escape');
         assert.equal(await evaluate('finestraAttiva'), 'pausa');
+        await key('Tab');
+        assert.equal(await evaluate('finestraAttiva'),'pausa');
         const congelato = await evaluate('tempoGioco');
         await evaluate('window.provaAzione = false; programmaAzione(() => window.provaAzione = true, 100)');
         await sleep(220);

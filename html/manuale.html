@@ -1,339 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Manual — Inferno Quest</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../css/style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title data-it="Guida e comandi — Journey In The Hell" data-en="Guide and controls — Journey In The Hell">Guida e comandi — Journey In The Hell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/common-ui.css">
 </head>
 <body>
+<div id="cursor"></div><canvas id="cvs"></canvas><div class="vignette"></div>
+<button type="button" class="language-toggle" data-language-toggle></button>
+<a class="back-link" href="home.html"><span data-it="← Menu principale" data-en="← Main menu">← Menu principale</span></a>
+<main class="page"><div class="manual-wrap">
+<header class="manual-header"><h1 class="manual-title"><span data-it="Guida e comandi" data-en="Guide and controls">Guida e comandi</span></h1><p class="manual-subtitle"><span data-it="La storia, i nove cerchi e i comandi per iniziare il viaggio." data-en="The story, the Nine Circles and the controls to begin your journey.">La storia, i nove cerchi e i comandi per iniziare il viaggio.</span></p></header>
+<section class="chapter"><div class="chapter-head"><span class="chapter-num"><span data-it="Capitolo I" data-en="Chapter I">Capitolo I</span></span><span class="chapter-title"><span data-it="La storia" data-en="The story">La storia</span></span></div>
+<p><span data-it="Nell’anno 1300, il poeta Dante Alighieri si ritrova smarrito in una selva oscura. Guidato dall’anima di Virgilio, intraprende un viaggio attraverso i nove cerchi dell’Inferno: un regno di tormento eterno, popolato da demoni, mostri e anime dannate." data-en="In the year 1300, the poet Dante Alighieri finds himself lost in a dark forest. Guided by the soul of Virgil, he embarks on a journey through the Nine Circles of Hell: an eternal realm of torment populated by demons, monsters and damned souls.">Nell’anno 1300, il poeta Dante Alighieri si ritrova smarrito in una selva oscura. Guidato dall’anima di Virgilio, intraprende un viaggio attraverso i nove cerchi dell’Inferno: un regno di tormento eterno, popolato da demoni, mostri e anime dannate.</span></p><p><span data-it="In Journey In The Hell sei Dante. Il mondo del gioco di ruolo è ispirato alla Divina Commedia: ogni cerchio ha un ambiente distinto, nemici, missioni, segreti e storie da scoprire. Esplora passaggi nascosti e traccia il tuo cammino nell’oscurità." data-en="In Journey In The Hell, you are Dante. The role-playing world is inspired by the Divine Comedy: every circle has a distinct environment, enemies, quests, secrets and lore to uncover. Explore hidden passages and forge your own path through the darkness.">In Journey In The Hell sei Dante. Il mondo del gioco di ruolo è ispirato alla Divina Commedia: ogni cerchio ha un ambiente distinto, nemici, missioni, segreti e storie da scoprire. Esplora passaggi nascosti e traccia il tuo cammino nell’oscurità.</span></p><p><span data-it="L’obiettivo del viaggio: raggiungere il cuore ghiacciato dell’Inferno, sconfiggere Lucifero e ritrovare la via verso la luce." data-en="Your goal: reach the frozen core of Hell, defeat Lucifer and find your way back to the light.">L’obiettivo del viaggio: raggiungere il cuore ghiacciato dell’Inferno, sconfiggere Lucifero e ritrovare la via verso la luce.</span></p>
+</section>
 
-<div id="cursor"></div>
-<canvas id="cvs"></canvas>
-<div class="vignette"></div>
+<section class="chapter"><div class="chapter-head"><span class="chapter-num"><span data-it="Capitolo II" data-en="Chapter II">Capitolo II</span></span><span class="chapter-title"><span data-it="Il mondo da esplorare" data-en="The world to explore">Il mondo da esplorare</span></span></div>
+<p><span data-it="L’Inferno non è una strada diritta. Il mondo immaginato per Journey In The Hell invita a esplorare ogni cerchio, allontanandosi dal percorso principale per scoprire santuari nascosti, sotterranei segreti, creature rare e reliquie dimenticate." data-en="Hell is not a straight road. The world envisioned for Journey In The Hell invites you to explore each circle, venturing off the main path to discover hidden shrines, secret dungeons, rare creatures and forgotten relics.">L’Inferno non è una strada diritta. Il mondo immaginato per Journey In The Hell invita a esplorare ogni cerchio, allontanandosi dal percorso principale per scoprire santuari nascosti, sotterranei segreti, creature rare e reliquie dimenticate.</span></p><div class="stat-grid">
+<div class="stat-card" data-i="0"><div class="stat-name"><span data-it="Esplorazione" data-en="Exploration">Esplorazione</span></div><div class="stat-desc"><span data-it="Ogni cerchio custodisce luoghi da scoprire e percorsi da attraversare." data-en="Every circle holds places to discover and paths to explore.">Ogni cerchio custodisce luoghi da scoprire e percorsi da attraversare.</span></div></div>
+<div class="stat-card" data-i="1"><div class="stat-name"><span data-it="Missioni secondarie" data-en="Side quests">Missioni secondarie</span></div><div class="stat-desc"><span data-it="Le anime incontrate lungo il viaggio hanno storie e richieste da raccontare." data-en="The souls encountered on your journey have stories and requests to share.">Le anime incontrate lungo il viaggio hanno storie e richieste da raccontare.</span></div></div>
+<div class="stat-card" data-i="2"><div class="stat-name"><span data-it="Aree nascoste" data-en="Hidden areas">Aree nascoste</span></div><div class="stat-desc"><span data-it="Passaggi segreti e antiche rovine custodiscono i tesori dell’Inferno." data-en="Secret passages and ancient ruins hold the treasures of Hell.">Passaggi segreti e antiche rovine custodiscono i tesori dell’Inferno.</span></div></div>
+<div class="stat-card" data-i="3"><div class="stat-name"><span data-it="Un mondo ostile" data-en="A hostile world">Un mondo ostile</span></div><div class="stat-desc"><span data-it="Scendendo incontrerai avversari sempre più pericolosi." data-en="You will encounter increasingly dangerous foes as you descend.">Scendendo incontrerai avversari sempre più pericolosi.</span></div></div>
+</div><p><span data-it="La demo comincia in un rifugio sicuro e procede di stanza in stanza. Premi Tab per ingrandire la minimappa: mostra la tua posizione, mercanti, forzieri, nemici e portale. Premi di nuovo Tab oppure ESC per chiuderla; durante la consultazione la partita è in pausa." data-en="The demo begins in a safe refuge and progresses room by room. Press Tab to enlarge the minimap: it shows your position, merchants, chests, enemies and the portal. Press Tab again or ESC to close it; the game pauses while you view the map.">La demo comincia in un rifugio sicuro e procede di stanza in stanza. Premi Tab per ingrandire la minimappa: mostra la tua posizione, mercanti, forzieri, nemici e portale. Premi di nuovo Tab oppure ESC per chiuderla; durante la consultazione la partita è in pausa.</span></p>
+</section>
 
-<a class="back-link" href="home.html">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-    <polyline points="15 18 9 12 15 6"/>
-  </svg>
-  Main Menu
-</a>
+<section class="chapter"><div class="chapter-head"><span class="chapter-num"><span data-it="Capitolo III" data-en="Chapter III">Capitolo III</span></span><span class="chapter-title"><span data-it="Comandi" data-en="Controls">Comandi</span></span></div>
+<p><span data-it="La demo si gioca con tastiera e mouse. Questi sono gli stessi comandi mostrati nella finestra iniziale, riapribile dal menu di pausa." data-en="The demo uses keyboard and mouse. These are the same controls shown in the opening tutorial, which you can reopen from the pause menu.">La demo si gioca con tastiera e mouse. Questi sono gli stessi comandi mostrati nella finestra iniziale, riapribile dal menu di pausa.</span></p><table class="cmd-table"><thead><tr><th><span data-it="Tasto" data-en="Key">Tasto</span></th><th><span data-it="Azione" data-en="Action">Azione</span></th></tr></thead><tbody>
+<tr><td>W A S D</td><td><span data-it="Muovi il personaggio" data-en="Move your character">Muovi il personaggio</span></td></tr>
+<tr><td>Mouse</td><td><span data-it="Sposta il mouse per mirare" data-en="Move the mouse to aim">Sposta il mouse per mirare</span></td></tr>
+<tr><td><span data-it="Clic sinistro" data-en="Left click">Clic sinistro</span></td><td><span data-it="Attacco base" data-en="Basic attack">Attacco base</span></td></tr>
+<tr><td>Q</td><td><span data-it="Abilità speciale della classe" data-en="Class special ability">Abilità speciale della classe</span></td></tr>
+<tr><td>Shift + W A S D</td><td><span data-it="Tieni premuto Shift per correre" data-en="Hold Shift to run">Tieni premuto Shift per correre</span></td></tr>
+<tr><td>E</td><td><span data-it="Parla al mercante o apri un forziere vicino" data-en="Talk to a merchant or open a nearby chest">Parla al mercante o apri un forziere vicino</span></td></tr>
+<tr><td>B</td><td><span data-it="Apri o chiudi l’inventario" data-en="Open or close inventory">Apri o chiudi l’inventario</span></td></tr>
+<tr><td>Tab</td><td><span data-it="Apri o chiudi la mappa ingrandita" data-en="Open or close the enlarged map">Apri o chiudi la mappa ingrandita</span></td></tr>
+<tr><td>ESC</td><td><span data-it="Apri la pausa o chiudi la finestra attiva" data-en="Pause or close the active window">Apri la pausa o chiudi la finestra attiva</span></td></tr>
+<tr><td>1</td><td><span data-it="Usa un libro: mana massimo +25%" data-en="Use a book: maximum mana +25%">Usa un libro: mana massimo +25%</span></td></tr>
+<tr><td>2</td><td><span data-it="Usa un caffè: velocità +25%" data-en="Use coffee: speed +25%">Usa un caffè: velocità +25%</span></td></tr>
+<tr><td>3</td><td><span data-it="Usa una pozione: danno +25%" data-en="Use a potion: damage +25%">Usa una pozione: danno +25%</span></td></tr>
+<tr><td>4</td><td><span data-it="Usa del cibo: salute massima +35%" data-en="Use food: maximum health +35%">Usa del cibo: salute massima +35%</span></td></tr>
+</tbody></table><p><span data-it="I bonus degli oggetti durano 30 secondi; ogni categoria ha un recupero di 60 secondi. Nei menu i timer si fermano. Negli altri menu Tab permette di spostare il focus fra i controlli." data-en="Item buffs last 30 seconds; each category has a 60-second cooldown. Timers stop in menus. In other menus, Tab moves focus between controls.">I bonus degli oggetti durano 30 secondi; ogni categoria ha un recupero di 60 secondi. Nei menu i timer si fermano. Negli altri menu Tab permette di spostare il focus fra i controlli.</span></p>
+</section>
 
-<div class="page">
-<div class="manual-wrap">
+<section class="chapter"><div class="chapter-head"><span class="chapter-num"><span data-it="Capitolo IV" data-en="Chapter IV">Capitolo IV</span></span><span class="chapter-title"><span data-it="Sistema di combattimento" data-en="Combat system">Sistema di combattimento</span></span></div>
+<p><span data-it="I combattimenti avvengono in tempo reale. Muoviti per evitare i colpi, mira con il mouse e alterna attacco base e abilità Q. I cerchi luminosi annunciano i nemici, che compaiono 1,5 secondi dopo l’ingresso nella stanza." data-en="Combat takes place in real time. Move to avoid attacks, aim with the mouse and alternate your basic attack and Q ability. Glowing circles announce enemies, which appear 1.5 seconds after entering the room.">I combattimenti avvengono in tempo reale. Muoviti per evitare i colpi, mira con il mouse e alterna attacco base e abilità Q. I cerchi luminosi annunciano i nemici, che compaiono 1,5 secondi dopo l’ingresso nella stanza.</span></p><p><span data-it="Osserva gli attacchi dei nemici e cerca il momento giusto per colpire. Il mana è limitato: fuori combattimento recupera il 50% più rapidamente rispetto al recupero in combattimento." data-en="Watch enemy attacks and look for an opening. Mana is limited: it regenerates 50% faster out of combat than during combat.">Osserva gli attacchi dei nemici e cerca il momento giusto per colpire. Il mana è limitato: fuori combattimento recupera il 50% più rapidamente rispetto al recupero in combattimento.</span></p><div class="stat-grid">
+<div class="stat-card" data-i="0"><div class="stat-name"><span data-it="Attacco base" data-en="Basic attack">Attacco base</span></div><div class="stat-desc"><span data-it="Clic sinistro: ogni classe usa la propria arma. Mago e guaritore consumano 15 MP per colpo." data-en="Left click: each class uses its own weapon. Mage and healer spend 15 MP per hit.">Clic sinistro: ogni classe usa la propria arma. Mago e guaritore consumano 15 MP per colpo.</span></div></div>
+<div class="stat-card" data-i="1"><div class="stat-name"><span data-it="Abilità speciale" data-en="Special ability">Abilità speciale</span></div><div class="stat-desc"><span data-it="Q: guerriero 35 MP, mago 40 MP, assassino 30 MP, guaritore 35 MP." data-en="Q: warrior 35 MP, mage 40 MP, assassin 30 MP, healer 35 MP.">Q: guerriero 35 MP, mago 40 MP, assassino 30 MP, guaritore 35 MP.</span></div></div>
+<div class="stat-card" data-i="2"><div class="stat-name"><span data-it="Portata" data-en="Range">Portata</span></div><div class="stat-desc"><span data-it="Mago: 210 px. Lama dell’assassino: 70 px. Guaritore: bersagli entro un raggio di 300 px." data-en="Mage: 210 px. Assassin’s blade: 70 px. Healer: targets within a 300 px radius.">Mago: 210 px. Lama dell’assassino: 70 px. Guaritore: bersagli entro un raggio di 300 px.</span></div></div>
+<div class="stat-card" data-i="3"><div class="stat-name"><span data-it="Ricompense" data-en="Rewards">Ricompense</span></div><div class="stat-desc"><span data-it="I nemici lasciano 4 monete, il boss 10. Una stanza completata fa comparire un forziere con 1–2 oggetti." data-en="Enemies drop 4 coins and the boss drops 10. Clearing a room reveals a chest containing 1–2 items.">I nemici lasciano 4 monete, il boss 10. Una stanza completata fa comparire un forziere con 1–2 oggetti.</span></div></div>
+</div>
+</section>
 
-  <!-- Intestazione -->
-  <header class="manual-header">
-    <div class="orn" style="justify-content:center">CODEX INFERNALIS</div>
-    <h1 class="manual-title">Game Manual</h1>
-    <p class="manual-subtitle">
-      Everything you need to know to survive<br/>
-      the Nine Circles of the Eternal Abyss.
-    </p>
-  </header>
+<section class="chapter"><div class="chapter-head"><span class="chapter-num"><span data-it="Capitolo V" data-en="Chapter V">Capitolo V</span></span><span class="chapter-title"><span data-it="Statistiche del personaggio" data-en="Character statistics">Statistiche del personaggio</span></span></div>
+<p><span data-it="La classe scelta determina salute, mana, velocità, arma e rigenerazione. Gli oggetti trovati nei forzieri o acquistati dal mercante offrono bonus temporanei." data-en="Your chosen class determines health, mana, speed, weapon and regeneration. Items found in chests or bought from merchants provide temporary buffs.">La classe scelta determina salute, mana, velocità, arma e rigenerazione. Gli oggetti trovati nei forzieri o acquistati dal mercante offrono bonus temporanei.</span></p><div class="stat-grid">
+<div class="stat-card" data-i="0"><div class="stat-name"><span data-it="Salute (HP)" data-en="Health (HP)">Salute (HP)</span></div><div class="stat-desc"><span data-it="A zero HP la partita termina: puoi ricominciare o tornare al menu principale." data-en="At zero HP the run ends: you can restart or return to the main menu.">A zero HP la partita termina: puoi ricominciare o tornare al menu principale.</span></div></div>
+<div class="stat-card" data-i="1"><div class="stat-name"><span data-it="Mana (MP)" data-en="Mana (MP)">Mana (MP)</span></div><div class="stat-desc"><span data-it="Alimenta gli attacchi magici e le abilità speciali. Recupera automaticamente, più rapidamente fuori combattimento." data-en="Powers magical attacks and special abilities. Regenerates automatically, faster out of combat.">Alimenta gli attacchi magici e le abilità speciali. Recupera automaticamente, più rapidamente fuori combattimento.</span></div></div>
+<div class="stat-card" data-i="2"><div class="stat-name"><span data-it="Danno" data-en="Damage">Danno</span></div><div class="stat-desc"><span data-it="Dipende dalla classe e dall’attacco. Una pozione lo aumenta del 25% per 30 secondi." data-en="Depends on your class and attack. A potion increases it by 25% for 30 seconds.">Dipende dalla classe e dall’attacco. Una pozione lo aumenta del 25% per 30 secondi.</span></div></div>
+<div class="stat-card" data-i="3"><div class="stat-name"><span data-it="Mana massimo" data-en="Maximum mana">Mana massimo</span></div><div class="stat-desc"><span data-it="Un libro aumenta la riserva massima del 25% per 30 secondi." data-en="A book increases your maximum reserve by 25% for 30 seconds.">Un libro aumenta la riserva massima del 25% per 30 secondi.</span></div></div>
+<div class="stat-card" data-i="4"><div class="stat-name"><span data-it="Velocità" data-en="Speed">Velocità</span></div><div class="stat-desc"><span data-it="Determina quanto rapidamente ti muovi. Il caffè aggiunge il 25% per 30 secondi." data-en="Determines how fast you move. Coffee adds 25% for 30 seconds.">Determina quanto rapidamente ti muovi. Il caffè aggiunge il 25% per 30 secondi.</span></div></div>
+<div class="stat-card" data-i="5"><div class="stat-name"><span data-it="Salute massima" data-en="Maximum health">Salute massima</span></div><div class="stat-desc"><span data-it="Il cibo aumenta la salute massima del 35% per 30 secondi." data-en="Food increases maximum health by 35% for 30 seconds.">Il cibo aumenta la salute massima del 35% per 30 secondi.</span></div></div>
+</div>
+</section>
 
-  <!-- CHAPTER I — Story -->
-  <div class="chapter">
-    <div class="chapter-head">
-      <span class="chapter-num">Chapter I</span>
-      <span class="chapter-title">The Story</span>
-    </div>
-    <p>
-      In the year 1300, the poet <strong>Dante Alighieri</strong> finds himself lost in a dark forest.
-      Guided by the soul of <strong>Virgil</strong>, he embarks on a journey through the Nine Circles
-      of Hell — an eternal realm of torment populated by demons, monsters, and damned souls.
-    </p>
-    <p>
-      In <strong>Inferno Quest</strong>, you are Dante. You explore a vast <strong>open-world RPG</strong>
-      inspired by the <em>Divine Comedy</em>. Every circle is a unique biome with its own enemies,
-      quests, secrets, and lore to uncover. The world breathes — roam freely, discover hidden
-      passages, and forge your own path through the darkness.
-    </p>
-    <p>
-      Your goal: reach the frozen core of Hell, defeat <strong>Lucifer</strong>,
-      and find your way back to the light.
-    </p>
-  </div>
+<section class="chapter"><div class="chapter-head"><span class="chapter-num"><span data-it="Capitolo VI" data-en="Chapter VI">Capitolo VI</span></span><span class="chapter-title"><span data-it="I nove cerchi" data-en="The Nine Circles">I nove cerchi</span></span></div>
+<p><span data-it="L’ambientazione comprende nove cerchi concentrici, ciascuno dedicato a una categoria di peccato. Più scendi, più il mondo diventa pericoloso: le creature sono più potenti e le ricompense più rare." data-en="The setting encompasses nine concentric circles, each dedicated to a category of sin. The deeper you go, the more dangerous the world becomes: creatures grow stronger and rewards become rarer.">L’ambientazione comprende nove cerchi concentrici, ciascuno dedicato a una categoria di peccato. Più scendi, più il mondo diventa pericoloso: le creature sono più potenti e le ricompense più rare.</span></p><div class="circle-list">
+<div class="circle-row" data-i="0"><span class="circle-n">I</span><span class="circle-name"><span data-it="Limbo" data-en="Limbo">Limbo</span></span><span class="circle-diff"><span data-it="Facile" data-en="Easy">Facile</span></span></div>
+<div class="circle-row" data-i="1"><span class="circle-n">II</span><span class="circle-name"><span data-it="I lussuriosi" data-en="The Lustful">I lussuriosi</span></span><span class="circle-diff"><span data-it="Facile" data-en="Easy">Facile</span></span></div>
+<div class="circle-row" data-i="2"><span class="circle-n">III</span><span class="circle-name"><span data-it="I golosi — Cerbero" data-en="The Gluttonous — Cerberus">I golosi — Cerbero</span></span><span class="circle-diff"><span data-it="Media" data-en="Medium">Media</span></span></div>
+<div class="circle-row" data-i="3"><span class="circle-n">IV</span><span class="circle-name"><span data-it="Gli avari e i prodighi" data-en="The Greedy &amp; Wasteful">Gli avari e i prodighi</span></span><span class="circle-diff"><span data-it="Media" data-en="Medium">Media</span></span></div>
+<div class="circle-row" data-i="4"><span class="circle-n">V</span><span class="circle-name"><span data-it="Gli iracondi — Fiume Stige" data-en="The Wrathful — River Styx">Gli iracondi — Fiume Stige</span></span><span class="circle-diff"><span data-it="Media" data-en="Medium">Media</span></span></div>
+<div class="circle-row" data-i="5"><span class="circle-n">VI</span><span class="circle-name"><span data-it="Gli eretici — Città di Dite" data-en="The Heretics — City of Dis">Gli eretici — Città di Dite</span></span><span class="circle-diff"><span data-it="Difficile" data-en="Hard">Difficile</span></span></div>
+<div class="circle-row" data-i="6"><span class="circle-n">VII</span><span class="circle-name"><span data-it="I violenti — Minotauro" data-en="The Violent — Minotaur">I violenti — Minotauro</span></span><span class="circle-diff"><span data-it="Difficile" data-en="Hard">Difficile</span></span></div>
+<div class="circle-row" data-i="7"><span class="circle-n">VIII</span><span class="circle-name"><span data-it="Malebolge — Gerione" data-en="Malebolge — Geryon">Malebolge — Gerione</span></span><span class="circle-diff"><span data-it="Estrema" data-en="Extreme">Estrema</span></span></div>
+<div class="circle-row" data-i="8"><span class="circle-n">IX</span><span class="circle-name"><span data-it="Cocito — Lucifero" data-en="Cocytus — Lucifer">Cocito — Lucifero</span></span><span class="circle-diff"><span data-it="Avversario finale" data-en="Final boss">Avversario finale</span></span></div>
+</div>
+</section>
 
-  <!-- CHAPTER II — Open World -->
-  <div class="chapter">
-    <div class="chapter-head">
-      <span class="chapter-num">Chapter II</span>
-      <span class="chapter-title">The Open World</span>
-    </div>
-    <p>
-      Hell is not a straight road. Inferno Quest gives you <strong>complete freedom</strong> to explore
-      each circle at your own pace. Venture off the main path to discover hidden shrines,
-      secret dungeons, rare creatures, and forgotten relics.
-    </p>
-
-    <div class="stat-grid">
-      <div class="stat-card" data-i="0">
-        <div class="stat-name">Free Exploration</div>
-        <div class="stat-desc">Roam every circle without restrictions. No invisible walls, no forced paths.</div>
-      </div>
-      <div class="stat-card" data-i="1">
-        <div class="stat-name">Side Quests</div>
-        <div class="stat-desc">Help — or betray — the damned souls you meet. Every choice has consequences.</div>
-      </div>
-      <div class="stat-card" data-i="2">
-        <div class="stat-name">Hidden Areas</div>
-        <div class="stat-desc">Crack the walls of Hell. Secret passages hide the rarest loot and creatures.</div>
-      </div>
-      <div class="stat-card" data-i="3">
-        <div class="stat-name">Dynamic World</div>
-        <div class="stat-desc">Enemies patrol, respond to your actions, and grow stronger as you descend.</div>
-      </div>
-    </div>
-
-    <p>
-      Use the <strong>Hell Map</strong> (Tab) to track discovered areas, mark points of interest,
-      and plan your descent. Fog of war hides unexplored regions — nothing is revealed until
-      you walk through it yourself.
-    </p>
-  </div>
-
-  <!-- CHAPTER III — Controls -->
-  <div class="chapter">
-    <div class="chapter-head">
-      <span class="chapter-num">Chapter III</span>
-      <span class="chapter-title">Controls</span>
-    </div>
-    <p>Inferno Quest is played with keyboard and mouse, or a gamepad.</p>
-
-    <table class="cmd-table">
-      <thead>
-        <tr><th>Key</th><th>Action</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>W A S D / ↑↓←→</td><td>Move character</td></tr>
-        <tr><td>Left Click</td><td>Attack / Confirm</td></tr>
-        <tr><td>Right Click</td><td>Block / Observe</td></tr>
-        <tr><td>Space</td><td>Dodge roll</td></tr>
-        <tr><td>E</td><td>Interact with object or NPC</td></tr>
-        <tr><td>I</td><td>Open inventory</td></tr>
-        <tr><td>Tab</td><td>Hell Map</td></tr>
-        <tr><td>Esc</td><td>Pause menu</td></tr>
-        <tr><td>F</td><td>Attempt to capture a damned soul</td></tr>
-        <tr><td>1 2 3 4</td><td>Use equipped special abilities</td></tr>
-        <tr><td>Shift</td><td>Sprint</td></tr>
-        <tr><td>C</td><td>Character & stats screen</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- CHAPTER IV — Combat -->
-  <div class="chapter">
-    <div class="chapter-head">
-      <span class="chapter-num">Chapter IV</span>
-      <span class="chapter-title">Combat System</span>
-    </div>
-    <p>
-      Combat in Inferno Quest is <strong>real-time with tactical depth</strong>. You fight directly
-      — dodge, block, and strike in fluid motion. When you encounter a damned soul or a creature
-      of Hell, battle begins immediately in the open world. No loading screens, no separate arenas.
-    </p>
-    <p>
-      Every enemy has an <strong>attack pattern</strong> you can learn. Watch for telegraphed moves,
-      find the opening, and punish. Timing your dodge at the last moment triggers a
-      <strong>Perfect Evade</strong> — slowing time briefly and opening a window for a powerful counter.
-    </p>
-
-    <div class="stat-grid">
-      <div class="stat-card" data-i="0">
-        <div class="stat-name">Light Attack</div>
-        <div class="stat-desc">Fast strikes with low stamina cost. Good for building combos.</div>
-      </div>
-      <div class="stat-card" data-i="1">
-        <div class="stat-name">Heavy Attack</div>
-        <div class="stat-desc">Slow but devastating. Breaks enemy guards and staggers larger foes.</div>
-      </div>
-      <div class="stat-card" data-i="2">
-        <div class="stat-name">Special Ability</div>
-        <div class="stat-desc">Dante's class powers — arcane spells, shadow strikes, sacred light, or war cries.</div>
-      </div>
-      <div class="stat-card" data-i="3">
-        <div class="stat-name">Capture</div>
-        <div class="stat-desc">Weaken a soul below 25% HP, then press F to attempt capture with an Infernal Seal.</div>
-      </div>
-    </div>
-
-    <p>
-      Every creature has <strong>elemental resistances</strong> tied to its circle of origin.
-      Fire creatures resist flames. Ice dwellers shrug off cold. Study your enemy's weaknesses
-      before diving in — in Hell, arrogance is a death sentence.
-    </p>
-  </div>
-
-  <!-- CHAPTER V — Stats -->
-  <div class="chapter">
-    <div class="chapter-head">
-      <span class="chapter-num">Chapter V</span>
-      <span class="chapter-title">Character Statistics</span>
-    </div>
-    <p>
-      Dante has six core statistics. They grow through experience, relics found in the world,
-      and choices made during quests. Invest wisely — the deep circles demand specialization.
-    </p>
-
-    <div class="stat-grid">
-      <div class="stat-card" data-i="0">
-        <div class="stat-name">Soul (HP)</div>
-        <div class="stat-desc">Your life force. Reach zero and Dante is cast back to the last Waypoint.</div>
-      </div>
-      <div class="stat-card" data-i="1">
-        <div class="stat-name">Faith</div>
-        <div class="stat-desc">Fuels divine abilities and prayers. Depleted by spells, restored at shrines.</div>
-      </div>
-      <div class="stat-card" data-i="2">
-        <div class="stat-name">Strength</div>
-        <div class="stat-desc">Physical damage and the ability to break enemy defenses.</div>
-      </div>
-      <div class="stat-card" data-i="3">
-        <div class="stat-name">Mind</div>
-        <div class="stat-desc">Power of poetic incantations and Commedia-based spells.</div>
-      </div>
-      <div class="stat-card" data-i="4">
-        <div class="stat-name">Agility</div>
-        <div class="stat-desc">Movement speed, dodge distance, and attack speed. Critical for Assassins.</div>
-      </div>
-      <div class="stat-card" data-i="5">
-        <div class="stat-name">Fortune</div>
-        <div class="stat-desc">Capture rate, rare item drops, and critical hit probability.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CHAPTER VI — The Nine Circles -->
-  <div class="chapter">
-    <div class="chapter-head">
-      <span class="chapter-num">Chapter VI</span>
-      <span class="chapter-title">The Nine Circles</span>
-    </div>
-    <p>
-      Hell is divided into <strong>nine concentric circles</strong>, each dedicated to a category
-      of sin. The deeper you go, the more dangerous the world becomes — and the more powerful
-      the creatures, the rarer the rewards.
-    </p>
-
-    <div class="circle-list">
-      <div class="circle-row" data-i="0">
-        <span class="circle-n">I</span>
-        <span class="circle-name">Limbo</span>
-        <span class="circle-diff">Easy</span>
-      </div>
-      <div class="circle-row" data-i="1">
-        <span class="circle-n">II</span>
-        <span class="circle-name">The Lustful</span>
-        <span class="circle-diff">Easy</span>
-      </div>
-      <div class="circle-row" data-i="2">
-        <span class="circle-n">III</span>
-        <span class="circle-name">The Gluttonous — Cerberus</span>
-        <span class="circle-diff">Medium</span>
-      </div>
-      <div class="circle-row" data-i="3">
-        <span class="circle-n">IV</span>
-        <span class="circle-name">The Greedy & Wasteful</span>
-        <span class="circle-diff">Medium</span>
-      </div>
-      <div class="circle-row" data-i="4">
-        <span class="circle-n">V</span>
-        <span class="circle-name">The Wrathful — River Styx</span>
-        <span class="circle-diff">Medium</span>
-      </div>
-      <div class="circle-row" data-i="5">
-        <span class="circle-n">VI</span>
-        <span class="circle-name">The Heretics — City of Dis</span>
-        <span class="circle-diff">Hard</span>
-      </div>
-      <div class="circle-row" data-i="6">
-        <span class="circle-n">VII</span>
-        <span class="circle-name">The Violent — Minotaur</span>
-        <span class="circle-diff">Hard</span>
-      </div>
-      <div class="circle-row" data-i="7">
-        <span class="circle-n">VIII</span>
-        <span class="circle-name">Malebolge — Geryon</span>
-        <span class="circle-diff high">Extreme</span>
-      </div>
-      <div class="circle-row" data-i="8">
-        <span class="circle-n">IX</span>
-        <span class="circle-name">Cocytus — Lucifer</span>
-        <span class="circle-diff high">Final Boss</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- CHAPTER VII — Capture -->
-  <div class="chapter">
-    <div class="chapter-head">
-      <span class="chapter-num">Chapter VII</span>
-      <span class="chapter-title">Capturing the Damned</span>
-    </div>
-    <p>
-      Captured souls become your allies in combat. To catch one, weaken it
-      <strong>below 25% HP</strong> in the open world, then press <strong>F</strong>
-      to use an <em>Infernal Seal</em>.
-    </p>
-    <p>
-      Capture rate depends on your <strong>Fortune</strong> stat and the creature's rarity.
-      Bosses cannot be captured, but defeating them unlocks powerful <strong>Pact Relics</strong>
-      that grant you a fraction of their power.
-    </p>
-    <p>
-      You can carry up to <strong>6 damned allies</strong> in your active party.
-      The rest are stored in your <em>Personal Limbo</em>, accessible from any Waypoint.
-    </p>
-  </div>
-
-  <!-- CHAPTER VIII — Waypoints -->
-  <div class="chapter">
-    <div class="chapter-head">
-      <span class="chapter-num">Chapter VIII</span>
-      <span class="chapter-title">Waypoints & Saving</span>
-    </div>
-    <p>
-      Scattered across Hell are <strong>Waypoints</strong> — ancient stone pillars marked with
-      Dante's crest. Interact with one to:
-    </p>
-
-    <div class="stat-grid">
-      <div class="stat-card" data-i="0">
-        <div class="stat-name">Save Progress</div>
-        <div class="stat-desc">Your game is saved. If you die, you return here with half your carried gold.</div>
-      </div>
-      <div class="stat-card" data-i="1">
-        <div class="stat-name">Fast Travel</div>
-        <div class="stat-desc">Teleport to any previously discovered Waypoint across all Nine Circles.</div>
-      </div>
-      <div class="stat-card" data-i="2">
-        <div class="stat-name">Manage Party</div>
-        <div class="stat-desc">Swap allies from your Personal Limbo, heal, and equip relics.</div>
-      </div>
-      <div class="stat-card" data-i="3">
-        <div class="stat-name">Restore Faith</div>
-        <div class="stat-desc">Your Faith meter is fully restored every time you activate a Waypoint.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Navigazione inferiore -->
-  <div style="text-align:center;margin-top:4rem;">
-    <div class="orn" style="justify-content:center;margin-bottom:2rem;">End of Codex</div>
-    <a href="home.html"
-       style="font-family:var(--f-ui);font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;transition:color .2s;"
-       onmouseenter="this.style.color='var(--gold)'"
-       onmouseleave="this.style.color='var(--gold-dim)'">
-      ← Return to Main Menu
-    </a>
-  </div>
-
-</div><!-- /manual-wrap -->
-</div><!-- /page -->
-
+<section class="chapter"><div class="chapter-head"><span class="chapter-num"><span data-it="Capitolo VII" data-en="Chapter VII">Capitolo VII</span></span><span class="chapter-title"><span data-it="Tappe del viaggio" data-en="Stages of the journey">Tappe del viaggio</span></span></div>
+<p><span data-it="Nel mondo narrativo, antichi pilastri segnati dall’emblema di Dante indicano le tappe del viaggio: luoghi di riposo e orientamento fra le profondità dell’Inferno. Nella demo puoi fermarti al rifugio iniziale e commerciare con i mercanti." data-en="In the narrative world, ancient pillars bearing Dante’s crest mark the stages of the journey: places to rest and find your way through the depths of Hell. In the demo, you can stop at the starting refuge and trade with merchants.">Nel mondo narrativo, antichi pilastri segnati dall’emblema di Dante indicano le tappe del viaggio: luoghi di riposo e orientamento fra le profondità dell’Inferno. Nella demo puoi fermarti al rifugio iniziale e commerciare con i mercanti.</span></p><div class="stat-grid">
+<div class="stat-card" data-i="0"><div class="stat-name"><span data-it="Rifugio" data-en="Refuge">Rifugio</span></div><div class="stat-desc"><span data-it="La stanza iniziale è sicura e ospita un mercante. Cominci con 10 monete." data-en="The starting room is safe and houses a merchant. You begin with 10 coins.">La stanza iniziale è sicura e ospita un mercante. Cominci con 10 monete.</span></div></div>
+<div class="stat-card" data-i="1"><div class="stat-name"><span data-it="Mercanti" data-en="Merchants">Mercanti</span></div><div class="stat-desc"><span data-it="Premi E vicino al mercante. Libro: 10 monete; caffè: 8; pozione: 12; cibo: 5." data-en="Press E near a merchant. Book: 10 coins; coffee: 8; potion: 12; food: 5.">Premi E vicino al mercante. Libro: 10 monete; caffè: 8; pozione: 12; cibo: 5.</span></div></div>
+<div class="stat-card" data-i="2"><div class="stat-name"><span data-it="Portale" data-en="Portal">Portale</span></div><div class="stat-desc"><span data-it="Dopo il boss compare un portale. Puoi scendere oppure restare per commerciare." data-en="A portal appears after the boss. You can descend or stay to trade.">Dopo il boss compare un portale. Puoi scendere oppure restare per commerciare.</span></div></div>
+<div class="stat-card" data-i="3"><div class="stat-name"><span data-it="Piano successivo" data-en="Next floor">Piano successivo</span></div><div class="stat-desc"><span data-it="La mappa viene riutilizzata con nemici più forti; conservi monete, inventario e risorse. Tornare al menu termina la partita corrente." data-en="The map is reused with stronger enemies; you keep your coins, inventory and resources. Returning to the menu ends the current run.">La mappa viene riutilizzata con nemici più forti; conservi monete, inventario e risorse. Tornare al menu termina la partita corrente.</span></div></div>
+</div>
+</section>
+<div style="text-align:center;margin-top:4rem;"><a class="hub-link" href="home.html"><span data-it="← Torna al menu principale" data-en="← Return to main menu">← Torna al menu principale</span></a></div>
+</div></main>
+<script src="../js/i18n.js"></script>
 <script src="../js/shared.js"></script>
 </body>
 </html>

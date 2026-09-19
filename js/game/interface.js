@@ -35,6 +35,13 @@ window.addEventListener('blur', () => { if (pronto && !finestraAttiva) apriFines
 document.addEventListener('visibilitychange', () => { if (document.hidden && pronto && !finestraAttiva) apriFinestra('pausa'); });
 document.addEventListener('keydown', evento => {
     const tasto = evento.key.toLowerCase();
+    if (tasto === 'tab' && !evento.shiftKey && pronto && (!finestraAttiva || finestraAttiva === 'mappa')) {
+        evento.preventDefault();
+        if (!evento.repeat) {
+            if (finestraAttiva === 'mappa') chiudiFinestra(); else apriFinestra('mappa');
+        }
+        return;
+    }
     if (/^[1-4]$/.test(tasto) && !evento.repeat && !giocoInPausa()) {
         evento.preventDefault();
         const tipo = Object.keys(tipiOggetto)[Number(tasto) - 1];
@@ -94,11 +101,12 @@ function schedaOggetto(oggetto, negozio, indice) {
 }
 function renderizzaFinestra() {
     if (!finestraAttiva) return;
-    const titoli = { comandi: 'Prima della discesa', zaino: 'Inventario', negozio: 'Bottega del mercante', pausa: 'Pausa', portale: 'Il prossimo piano', morte: 'Game over' };
+    const titoli = { mappa: 'Mappa del piano', comandi: 'Prima della discesa', zaino: 'Inventario', negozio: 'Bottega del mercante', pausa: 'Pausa', portale: 'Il prossimo piano', morte: 'Game over' };
     document.getElementById('dialog-title').textContent = testoGioco(titoli[finestraAttiva]);
     contenutoDialogo.replaceChildren();
     dialogo.classList.toggle('pause-dialog', finestraAttiva === 'pausa');
     dialogo.classList.toggle('controls-dialog', finestraAttiva === 'comandi');
+    dialogo.classList.toggle('map-dialog', finestraAttiva === 'mappa');
     document.getElementById('close-dialog').hidden = finestraAttiva === 'morte';
     if (finestraAttiva === 'zaino' || finestraAttiva === 'negozio') {
         contenutoDialogo.append(paragrafo(`${testoGioco('Monete')}: ${monete} · ${testoGioco('Oggetti')}: ${inventario.length}`));
@@ -113,6 +121,11 @@ function renderizzaFinestra() {
             griglia.append(arma);
         } else if (!oggetti.length) contenutoDialogo.append(paragrafo('L’inventario è vuoto. Apri un forziere o visita il mercante.'));
         contenutoDialogo.append(griglia, paragrafo('Bonus: 30 s. Recupero per categoria: 60 s. I timer sono fermi nei menu.'));
+    } else if (finestraAttiva === 'mappa') {
+        const mappa = document.createElement('canvas'); mappa.id = 'full-map'; mappa.width = 720; mappa.height = 432;
+        mappa.setAttribute('role', 'img'); mappa.setAttribute('aria-label', testoGioco('Mappa del piano'));
+        contenutoDialogo.append(mappa, paragrafo('Bianco: tu · Verde: mercanti · Oro: forzieri · Rosso: nemici · Blu: portale'), paragrafo('Tab o ESC: chiudi la mappa. La partita è in pausa.'));
+        disegnaMinimappa(mappa);
     } else if (finestraAttiva === 'comandi') {
         renderizzaComandi();
     } else if (finestraAttiva === 'portale') {
@@ -127,7 +140,7 @@ function renderizzaFinestra() {
             pulsante(audioGioco.muto ? 'Attiva audio' : 'Disattiva audio', () => { audioGioco.alterna(); renderizzaFinestra(); }));
     }
     const collegamento = document.createElement('a'); collegamento.href = 'home.html'; collegamento.textContent = testoGioco('Torna al menu');
-    if (!['negozio', 'comandi'].includes(finestraAttiva)) contenutoDialogo.append(collegamento);
+    if (!['negozio', 'comandi', 'mappa'].includes(finestraAttiva)) contenutoDialogo.append(collegamento);
     if (finestraAttiva === 'morte' && dialogo.open) contenutoDialogo.querySelector('button').focus();
 }
 function aggiornaInterfaccia() {
@@ -159,14 +172,16 @@ function aggiornaInterfaccia() {
     const firma = `${linguaGioco}:${monete}:${inventario.length}:${finestraAttiva}`;
     if (firma !== ultimaInterfaccia) { ultimaInterfaccia = firma; renderizzaFinestra(); }
     disegnaMinimappa();
+    const mappaGrande = document.getElementById('full-map');
+    if (mappaGrande) disegnaMinimappa(mappaGrande);
 }
-function disegnaMinimappa() {
-    const mini = document.getElementById('minimap'); const contesto = mini.getContext('2d');
+function disegnaMinimappa(mini = document.getElementById('minimap')) {
+    const contesto = mini.getContext('2d');
     contesto.clearRect(0, 0, mini.width, mini.height);
     contesto.drawImage(src_blocci_img.mappa1.stand[0], 0, 0, 3000, 1800, 0, 0, mini.width, mini.height);
     const punto = (x, y, colore, raggio) => {
         contesto.fillStyle = colore; contesto.beginPath();
-        contesto.arc(x / 3000 * mini.width, y / 1800 * mini.height, raggio, 0, Math.PI * 2); contesto.fill();
+        contesto.arc(x / 3000 * mini.width, y / 1800 * mini.height, raggio * Math.sqrt(mini.width / 180), 0, Math.PI * 2); contesto.fill();
     };
     for (const mercante of mercanti) punto(mercante.x, mercante.y, '#73e3ac', 2.5);
     for (const forziere of forzieri.filter(f => !f.aperto)) punto(forziere.x, forziere.y, '#ffd077', 2);
@@ -214,6 +229,7 @@ function renderizzaComandi() {
         [['Q'], 'Abilità speciale della classe', 'Class special ability'],
         [['E'], 'Parla al mercante o apri un forziere vicino', 'Talk to a merchant or open a nearby chest'],
         [['B'], 'Apri o chiudi l’inventario', 'Open or close inventory'],
+        [['Tab'], 'Apri o chiudi la mappa del piano', 'Open or close the floor map'],
         [['1'], 'Libro: mana massimo +25%', 'Book: maximum mana +25%'],
         [['2'], 'Caffè: velocità +25%', 'Coffee: speed +25%'],
         [['3'], 'Pozione: danno +25%', 'Potion: damage +25%'],

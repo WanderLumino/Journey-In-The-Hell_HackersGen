@@ -46,12 +46,15 @@ function aggiornaLinguaGioco() {
 window.addEventListener('lingua-cambiata', () => { linguaGioco = linguaApp; aggiornaLinguaGioco(); });
 
 Object.assign(traduzioniGioco, {
+    'Mappa del piano': 'Floor map',
+    'Bianco: tu · Verde: mercanti · Oro: forzieri · Rosso: nemici · Blu: portale': 'White: you · Green: merchants · Gold: chests · Red: enemies · Blue: portal',
+    'Tab o ESC: chiudi la mappa. La partita è in pausa.': 'Tab or ESC: close the map. The game is paused.',
     'Prima della discesa': 'Before the descent', 'Comandi': 'Controls',
     'Prenditi un momento: la partita resta ferma finché chiudi questa finestra.': 'Take your time: the game stays paused until you close this window.',
     'Ho capito, giochiamo': 'Got it, let’s play',
     'Inventario': 'Inventory',
     'L’inventario è vuoto. Apri un forziere o visita il mercante.': 'Your inventory is empty. Open a chest or visit the merchant.',
-    'WASD · Shift: corsa · Click: attacco · Q: abilità · E: interagisci · B: inventario · 1–4: oggetti · ESC: pausa': 'WASD · Shift: run · Click: attack · Q: ability · E: interact · B: inventory · 1–4: items · ESC: pause',
+    'WASD · Shift: corsa · Click: attacco · Q: abilità · E: interagisci · B: inventario · Tab: mappa · 1–4: oggetti · ESC: pausa': 'WASD · Shift: run · Click: attack · Q: ability · E: interact · B: inventory · Tab: map · 1–4: items · ESC: pause',
     'Nessun oggetto: visita il mercante o apri un forziere.': 'No item: visit the merchant or open a chest.',
     'Nemici in arrivo! Allontanati dai cerchi luminosi.': 'Enemies incoming! Move away from the glowing circles.',
     'Il portale apre il prossimo piano. Puoi prima commerciare con E.': 'The portal leads to the next floor. You can trade first with E.',

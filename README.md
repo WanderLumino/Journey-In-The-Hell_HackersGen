@@ -1,4 +1,4 @@
-﻿# Inferno Quest — Journey in the Hell
+﻿# Journey In The Hell — Journey in the Hell
 
 Gioco di esplorazione e combattimento ispirato alla Divina Commedia, realizzato con HTML, CSS, JavaScript e Canvas.
 
@@ -31,9 +31,9 @@ A ogni avvio o riavvio della partita compare una finestra con i comandi illustra
 - WASD: movimento; Shift: corsa.
 - Mouse: mira; clic sinistro: attacco; Q: abilità dell'arma.
 - E: interagisce con il mercante o apre il forziere più vicino.
-- B: apre o chiude l’inventario. ESC: pausa oppure chiusura della finestra aperta.
+- B: apre o chiude l’inventario. Tab: apre o chiude la mappa ingrandita, mettendo in pausa la partita. ESC: pausa oppure chiusura della finestra aperta. Negli altri menu Tab mantiene la navigazione da tastiera.
 - 1: libro; 2: caffè; 3: pozione; 4: cibo. Usano il primo oggetto disponibile della categoria, rispettando il recupero. La rotella non cambia arma.
-- Monete, salute e mana numerici, inventario e pausa sono in alto a sinistra. Il pulsante con bandiera IT/EN è in alto a destra, sopra la minimappa. La preferenza è condivisa con homepage, classi e selettore nelle Impostazioni. Il manuale conserva la versione originale con storia e ambientazione.
+- Monete, salute e mana numerici, inventario e pausa sono in alto a sinistra. Il pulsante con bandiera IT/EN è in alto a destra, sopra la minimappa. La preferenza è condivisa con homepage, classi, Guida e comandi e selettore nelle Impostazioni. Il manuale bilingue conserva storia e ambientazione, con comandi allineati alla demo e senza il capitolo sulla cattura.
 
 ## Classi
 
