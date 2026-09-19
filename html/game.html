@@ -5,37 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Inferno Quest — Demo</title>
   <link rel="stylesheet" href="../css/game.css">
+<link rel="stylesheet" href="../css/common-ui.css">
 </head>
 <body>
-  <canvas id="gameCanvas" width="800" height="500" aria-label="Area di gioco"></canvas>
+<button type="button" class="language-toggle" data-language-toggle></button>
+  <canvas id="gameCanvas" tabindex="0" width="800" height="500" aria-label="Area di gioco"></canvas>
   <aside class="hud" aria-label="Stato del personaggio">
     <div class="hud-heading"><span id="chosen-class"></span><span id="floor-value"></span></div>
     <div class="resource" id="hp-bar" role="progressbar" aria-label="HP" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><div id="hp-fill"></div><span>HP</span><strong id="hp-value">100 / 100</strong></div>
     <div class="resource mana" id="mp-bar" role="progressbar" aria-label="MP" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><div id="mp-fill"></div><span>MP</span><strong id="mp-value">100 / 100</strong></div>
     <nav class="game-nav" aria-label="Menu di gioco">
       <span class="wallet"><canvas id="coin-icon" width="24" height="24" aria-hidden="true"></canvas><strong id="coin-value">10</strong></span>
-      <button type="button" id="bag-button" data-testo="Zaino">Zaino</button>
+      <button type="button" id="bag-button" data-testo="Inventario">Inventario</button>
       <button type="button" id="pause-button">ESC</button>
-      <select id="language" aria-label="Lingua / Language"><option value="it">IT</option><option value="en">EN</option></select>
+
       <a href="home.html" aria-label="Menu">⌂</a>
       <button type="button" id="restart" data-testo="Ricomincia" hidden>Ricomincia</button>
     </nav>
     <p id="active-buffs" aria-live="polite"></p>
+    <div id="hud-damage" aria-hidden="true"></div>
   </aside>
   <aside class="minimap-wrap"><canvas id="minimap" width="180" height="108" aria-label="Mappa: posizione del giocatore"></canvas><small data-testo="Tu · Mercanti · Tesori">Tu · Mercanti · Tesori</small></aside>
+  <nav id="quick-items" aria-label="Oggetti rapidi"></nav><p id="tutorial-hint"></p>
   <p id="selezionato"></p>
   <p id="spunta"></p>
   <p id="interaction-hint" hidden></p>
-  <p class="controls" data-testo="WASD: movimento · Click: attacco · Q: abilità · E: interagisci · B: zaino · ESC: pausa">WASD: movimento · Click: attacco · Q: abilità · E: interagisci · B: zaino · ESC: pausa</p>
+  <p class="controls" data-testo="WASD · Shift: corsa · Click: attacco · Q: abilità · E: interagisci · B: inventario · 1–4: oggetti · ESC: pausa">WASD · Shift: corsa · Click: attacco · Q: abilità · E: interagisci · B: inventario · 1–4: oggetti · ESC: pausa</p>
   <dialog id="game-dialog" aria-labelledby="dialog-title"><header><h2 id="dialog-title"></h2><button type="button" id="close-dialog" aria-label="Chiudi / Close">✕</button></header><div id="dialog-content"></div></dialog>
   <div id="loading" role="status" aria-live="polite">
     <div><h1>Inferno Quest</h1><p id="loading-message" data-testo="Caricamento della selva oscura…">Caricamento della selva oscura…</p><a href="home.html" data-testo="Torna al menu">Torna al menu</a></div>
   </div>
-  <script src="../js/game/language.js"></script>
+  <script src="../js/i18n.js"></script>
+<script src="../js/game/language.js"></script>
   <script src="../js/game/session.js"></script>
   <script src="../js/game/state.js"></script>
+  <script src="../js/game/balance.js"></script>
+  <script src="../js/game/audio.js"></script>
   <script src="../js/game/entities.js"></script>
+  <script src="../js/game/weapon-catalog.js"></script>
   <script src="../js/game/rewards.js"></script>
+  <script src="../js/game/navigation.js"></script>
   <script src="../js/game/main.js"></script>
   <script src="../js/game/interface.js"></script>
 </body>

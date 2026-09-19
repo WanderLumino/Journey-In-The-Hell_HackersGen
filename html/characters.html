@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Choose Your Class — Inferno Quest</title>
+  <title data-it="Scegli la tua classe — Inferno Quest" data-en="Choose Your Class — Inferno Quest">Scegli la tua classe — Inferno Quest</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/characters.css"/>
+<link rel="stylesheet" href="../css/common-ui.css">
 </head>
 <body>
+<button type="button" class="language-toggle" data-language-toggle></button>
 
 <div id="cursor"></div>
 <canvas id="cvs"></canvas>
@@ -21,19 +23,16 @@
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
     <polyline points="15 18 9 12 15 6"/>
   </svg>
-  Main Menu
+  <span data-it="Menu principale" data-en="Main Menu">Menu principale</span>
 </a>
 
 <div class="page">
 
   <!-- Intestazione -->
   <header class="page-header">
-    <div class="header-label">— The Journey Begins —</div>
-    <h1 class="page-title">Choose Your Class</h1>
-    <p class="page-sub">
-      Each soul that descends into Hell carries a different gift.<br/>
-      Choose wisely — your path through the Nine Circles depends on it.
-    </p>
+    <div class="header-label"><span data-it="— Il viaggio ha inizio —" data-en="— The Journey Begins —">— Il viaggio ha inizio —</span></div>
+    <h1 class="page-title"><span data-it="Scegli la tua classe" data-en="Choose Your Class">Scegli la tua classe</span></h1>
+    <p class="page-sub"><span data-it="Quattro classi, quattro modi di affrontare la selva. La scelta determina arma, risorse e abilità." data-en="Four classes, four ways to face the forest. Your choice determines weapon, resources and ability.">Quattro classi, quattro modi di affrontare la selva. La scelta determina arma, risorse e abilità.</span></p>
   </header>
 
   <!-- Griglia delle classi -->
@@ -58,25 +57,22 @@
       </div>
       <div class="card-number">I</div>
       <div class="card-body">
-        <h2 class="card-title">Warrior</h2>
-        <p class="card-role">Vanguard of Steel</p>
-        <p class="card-desc">
-          A fearless soul who carves through the damned with iron and fury.
-          Unmatched in close combat, the Warrior endures where others fall.
-        </p>
+        <h2 class="card-title"><span data-it="Guerriero" data-en="Warrior">Guerriero</span></h2>
+        <p class="card-role"><span data-it="Avanguardia d’acciaio" data-en="Vanguard of Steel">Avanguardia d’acciaio</span></p>
+        <p class="card-desc"><span data-it="Spada e Blue Group Slashes. 140 HP · 80 MP. Resistente nel combattimento ravvicinato." data-en="Sword and Blue Group Slashes. 140 HP · 80 MP. Durable in close combat.">Spada e Blue Group Slashes. 140 HP · 80 MP. Resistente nel combattimento ravvicinato.</span></p>
         <div class="card-stats">
-          <div class="stat"><span class="stat-name">Strength</span><div class="stat-bar"><div class="stat-fill" style="--w:90%"></div></div></div>
-          <div class="stat"><span class="stat-name">Defense</span><div class="stat-bar"><div class="stat-fill" style="--w:80%"></div></div></div>
-          <div class="stat"><span class="stat-name">Speed</span><div class="stat-bar"><div class="stat-fill" style="--w:45%"></div></div></div>
-          <div class="stat"><span class="stat-name">Magic</span><div class="stat-bar"><div class="stat-fill" style="--w:20%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Forza" data-en="Strength">Forza</span></span><div class="stat-bar"><div class="stat-fill" style="--w:90%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Difesa" data-en="Defense">Difesa</span></span><div class="stat-bar"><div class="stat-fill" style="--w:80%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Velocità" data-en="Speed">Velocità</span></span><div class="stat-bar"><div class="stat-fill" style="--w:45%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Magia" data-en="Magic">Magia</span></span><div class="stat-bar"><div class="stat-fill" style="--w:20%"></div></div></div>
         </div>
         <div class="card-tags">
-          <span class="tag">Melee</span>
-          <span class="tag">Tank</span>
-          <span class="tag">High HP</span>
+          <span class="tag"><span data-it="Mischia" data-en="Melee">Mischia</span></span>
+          <span class="tag"><span data-it="Resistente" data-en="Tank">Resistente</span></span>
+          <span class="tag"><span data-it="Salute elevata" data-en="High HP">Salute elevata</span></span>
         </div>
       </div>
-      <button class="card-select-btn">Select Class</button>
+      <button class="card-select-btn"><span data-it="Scegli classe" data-en="Select Class">Scegli classe</span></button>
       <div class="card-border-anim"></div>
     </div>
 
@@ -104,25 +100,22 @@
       </div>
       <div class="card-number">II</div>
       <div class="card-body">
-        <h2 class="card-title">Mage</h2>
-        <p class="card-role">Arcane Scholar</p>
-        <p class="card-desc">
-          A master of forbidden arts who bends fire, frost, and lightning to
-          his will. Fragile in body, devastating in power.
-        </p>
+        <h2 class="card-title"><span data-it="Mago" data-en="Mage">Mago</span></h2>
+        <p class="card-role"><span data-it="Studioso arcano" data-en="Arcane Scholar">Studioso arcano</span></p>
+        <p class="card-desc"><span data-it="Bastone arcano. 90 HP · 140 MP. Attacca a distanza e gestisci il mana." data-en="Arcane staff. 90 HP · 140 MP. Attack from range and manage your mana.">Bastone arcano. 90 HP · 140 MP. Attacca a distanza e gestisci il mana.</span></p>
         <div class="card-stats">
-          <div class="stat"><span class="stat-name">Strength</span><div class="stat-bar"><div class="stat-fill" style="--w:20%"></div></div></div>
-          <div class="stat"><span class="stat-name">Defense</span><div class="stat-bar"><div class="stat-fill" style="--w:25%"></div></div></div>
-          <div class="stat"><span class="stat-name">Speed</span><div class="stat-bar"><div class="stat-fill" style="--w:60%"></div></div></div>
-          <div class="stat"><span class="stat-name">Magic</span><div class="stat-bar"><div class="stat-fill" style="--w:95%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Forza" data-en="Strength">Forza</span></span><div class="stat-bar"><div class="stat-fill" style="--w:20%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Difesa" data-en="Defense">Difesa</span></span><div class="stat-bar"><div class="stat-fill" style="--w:25%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Velocità" data-en="Speed">Velocità</span></span><div class="stat-bar"><div class="stat-fill" style="--w:60%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Magia" data-en="Magic">Magia</span></span><div class="stat-bar"><div class="stat-fill" style="--w:95%"></div></div></div>
         </div>
         <div class="card-tags">
-          <span class="tag">Ranged</span>
-          <span class="tag">High DMG</span>
-          <span class="tag">Fragile</span>
+          <span class="tag"><span data-it="A distanza" data-en="Ranged">A distanza</span></span>
+          <span class="tag"><span data-it="Danno elevato" data-en="High DMG">Danno elevato</span></span>
+          <span class="tag"><span data-it="Fragile" data-en="Fragile">Fragile</span></span>
         </div>
       </div>
-      <button class="card-select-btn">Select Class</button>
+      <button class="card-select-btn"><span data-it="Scegli classe" data-en="Select Class">Scegli classe</span></button>
       <div class="card-border-anim"></div>
     </div>
 
@@ -147,25 +140,22 @@
       </div>
       <div class="card-number">III</div>
       <div class="card-body">
-        <h2 class="card-title">Assassin</h2>
-        <p class="card-role">Shadow of the Abyss</p>
-        <p class="card-desc">
-          Silent as death itself. The Assassin strikes before the enemy
-          sees the blade, vanishing back into darkness unscathed.
-        </p>
+        <h2 class="card-title"><span data-it="Assassino" data-en="Assassin">Assassino</span></h2>
+        <p class="card-role"><span data-it="Ombra dell’abisso" data-en="Shadow of the Abyss">Ombra dell’abisso</span></p>
+        <p class="card-desc"><span data-it="Lama da lancio. 100 HP · 100 MP. Attacchi rapidi e grande mobilità." data-en="Throwing blade. 100 HP · 100 MP. Fast attacks and high mobility.">Lama da lancio. 100 HP · 100 MP. Attacchi rapidi e grande mobilità.</span></p>
         <div class="card-stats">
-          <div class="stat"><span class="stat-name">Strength</span><div class="stat-bar"><div class="stat-fill" style="--w:65%"></div></div></div>
-          <div class="stat"><span class="stat-name">Defense</span><div class="stat-bar"><div class="stat-fill" style="--w:35%"></div></div></div>
-          <div class="stat"><span class="stat-name">Speed</span><div class="stat-bar"><div class="stat-fill" style="--w:95%"></div></div></div>
-          <div class="stat"><span class="stat-name">Magic</span><div class="stat-bar"><div class="stat-fill" style="--w:40%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Forza" data-en="Strength">Forza</span></span><div class="stat-bar"><div class="stat-fill" style="--w:65%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Difesa" data-en="Defense">Difesa</span></span><div class="stat-bar"><div class="stat-fill" style="--w:35%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Velocità" data-en="Speed">Velocità</span></span><div class="stat-bar"><div class="stat-fill" style="--w:95%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Magia" data-en="Magic">Magia</span></span><div class="stat-bar"><div class="stat-fill" style="--w:40%"></div></div></div>
         </div>
         <div class="card-tags">
-          <span class="tag">Stealth</span>
-          <span class="tag">Critical</span>
-          <span class="tag">Swift</span>
+          <span class="tag"><span data-it="Agile" data-en="Stealth">Agile</span></span>
+          <span class="tag"><span data-it="Lame rapide" data-en="Critical">Lame rapide</span></span>
+          <span class="tag"><span data-it="Veloce" data-en="Swift">Veloce</span></span>
         </div>
       </div>
-      <button class="card-select-btn">Select Class</button>
+      <button class="card-select-btn"><span data-it="Scegli classe" data-en="Select Class">Scegli classe</span></button>
       <div class="card-border-anim"></div>
     </div>
 
@@ -188,25 +178,22 @@
       </div>
       <div class="card-number">IV</div>
       <div class="card-body">
-        <h2 class="card-title">Healer</h2>
-        <p class="card-role">Divine Shepherd</p>
-        <p class="card-desc">
-          Wielder of sacred light in a realm of eternal darkness. The Healer
-          keeps companions alive and turns divine wrath against the damned.
-        </p>
+        <h2 class="card-title"><span data-it="Guaritore" data-en="Healer">Guaritore</span></h2>
+        <p class="card-role"><span data-it="Custode della luce" data-en="Divine Shepherd">Custode della luce</span></p>
+        <p class="card-desc"><span data-it="Bastone della luce. 120 HP · 120 MP. Rigenerazione superiore e magia sacra." data-en="Staff of light. 120 HP · 120 MP. Stronger regeneration and holy magic.">Bastone della luce. 120 HP · 120 MP. Rigenerazione superiore e magia sacra.</span></p>
         <div class="card-stats">
-          <div class="stat"><span class="stat-name">Strength</span><div class="stat-bar"><div class="stat-fill" style="--w:30%"></div></div></div>
-          <div class="stat"><span class="stat-name">Defense</span><div class="stat-bar"><div class="stat-fill" style="--w:70%"></div></div></div>
-          <div class="stat"><span class="stat-name">Speed</span><div class="stat-bar"><div class="stat-fill" style="--w:50%"></div></div></div>
-          <div class="stat"><span class="stat-name">Magic</span><div class="stat-bar"><div class="stat-fill" style="--w:85%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Forza" data-en="Strength">Forza</span></span><div class="stat-bar"><div class="stat-fill" style="--w:30%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Difesa" data-en="Defense">Difesa</span></span><div class="stat-bar"><div class="stat-fill" style="--w:70%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Velocità" data-en="Speed">Velocità</span></span><div class="stat-bar"><div class="stat-fill" style="--w:50%"></div></div></div>
+          <div class="stat"><span class="stat-name"><span data-it="Magia" data-en="Magic">Magia</span></span><div class="stat-bar"><div class="stat-fill" style="--w:85%"></div></div></div>
         </div>
         <div class="card-tags">
-          <span class="tag">Support</span>
-          <span class="tag">Heals</span>
-          <span class="tag">Holy DMG</span>
+          <span class="tag"><span data-it="Sostegno" data-en="Support">Sostegno</span></span>
+          <span class="tag"><span data-it="Rigenerazione" data-en="Heals">Rigenerazione</span></span>
+          <span class="tag"><span data-it="Danno sacro" data-en="Holy DMG">Danno sacro</span></span>
         </div>
       </div>
-      <button class="card-select-btn">Select Class</button>
+      <button class="card-select-btn"><span data-it="Scegli classe" data-en="Select Class">Scegli classe</span></button>
       <div class="card-border-anim"></div>
     </div>
 
@@ -215,11 +202,11 @@
   <!-- Barra di conferma, nascosta fino alla selezione -->
   <div class="confirm-bar" id="confirmBar">
     <div class="confirm-info">
-      <span class="confirm-label">Selected Class</span>
+      <span class="confirm-label"><span data-it="Classe selezionata" data-en="Selected Class">Classe selezionata</span></span>
       <span class="confirm-name" id="confirmName">—</span>
     </div>
     <button class="confirm-btn" id="confirmBtn">
-      Begin Your Descent
+      <span data-it="Inizia la discesa" data-en="Begin Your Descent">Inizia la discesa</span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <polyline points="9 18 15 12 9 6"/>
       </svg>
@@ -232,16 +219,17 @@
 <div class="modal" id="modal">
   <div class="modal-box">
     <div class="modal-emblem" id="modalEmblem"></div>
-    <div class="modal-label">Your soul shall walk as</div>
+    <div class="modal-label"><span data-it="La tua anima sarà" data-en="Your soul shall walk as">La tua anima sarà</span></div>
     <div class="modal-class-name" id="modalClassName">—</div>
     <p class="modal-desc" id="modalDesc">—</p>
     <div class="modal-btns">
-      <button class="modal-btn ghost" id="modalCancel">Choose Again</button>
-      <button class="modal-btn primary" id="modalConfirm">Enter Hell</button>
+      <button class="modal-btn ghost" id="modalCancel"><span data-it="Scegli di nuovo" data-en="Choose Again">Scegli di nuovo</span></button>
+      <button class="modal-btn primary" id="modalConfirm"><span data-it="Entra nell’Inferno" data-en="Enter Hell">Entra nell’Inferno</span></button>
     </div>
   </div>
 </div>
 
+<script src="../js/i18n.js"></script>
 <script src="../js/pages/characters.js"></script>
 </body>
 </html>

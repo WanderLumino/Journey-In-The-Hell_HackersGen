@@ -7,8 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/common-ui.css">
 </head>
 <body>
+<button type="button" class="language-toggle" data-language-toggle></button>
 
 <div id="cursor"></div>
 <canvas id="cvs"></canvas>
@@ -37,41 +39,37 @@
       </svg>
     </div>
 
-    <div class="orn" style="width:200px;margin:0 auto .8rem;">DEMONIC YEAR MCCC</div> 
+    <div class="orn" style="width:200px;margin:0 auto .8rem;"><span data-it="ANNO INFERNALE MCCC" data-en="DEMONIC YEAR MCCC">ANNO INFERNALE MCCC</span></div>
 
     <h1 class="home-title">
       INFERNO
       <span class="accent">QUEST</span>
     </h1>
 
-    <p class="home-tagline">
-      Nel mezzo del cammin di nostra vita<br/>
-      mi ritrovai in una selva oscura.
-    </p>
+    <p class="home-tagline"><span data-it="Nel mezzo del cammin di nostra vita mi ritrovai in una selva oscura." data-en="Midway upon the journey of our life I found myself within a forest dark.">Nel mezzo del cammin di nostra vita mi ritrovai in una selva oscura.</span></p>
 
     <nav class="menu" role="navigation" aria-label="Menu principale">
       <a href="./characters.html" class="menu-btn primary" id="startBtn">
         <span class="btn-icon">⚔</span>
-        Start the journey
+        <span data-it="Inizia il viaggio" data-en="Start the journey">Inizia il viaggio</span>
       </a>
       <div class="menu-sep"></div>
       <a href="./settings.html" class="menu-btn">
         <span class="btn-icon">⚙</span>
-        Settings
+        <span data-it="Impostazioni" data-en="Settings">Impostazioni</span>
       </a>
       <div class="menu-sep"></div>
       <a href="./manuale.html" class="menu-btn">
         <span class="btn-icon">📜</span>
-        Manuale
+        <span data-it="Guida e comandi" data-en="Guide and controls">Guida e comandi</span>
       </a>
     </nav>
 
-    <p class="home-quote">
-      «Lasciate ogni speranza, o voi ch'entrate»
-    </p>
+    <p class="home-quote"><span data-it="«Lasciate ogni speranza, o voi ch’entrate»" data-en="“Abandon all hope, ye who enter here”">«Lasciate ogni speranza, o voi ch’entrate»</span></p><p class="home-demo-note"><span data-it="Scegli una classe, esplora la selva e affronta il boss. WASD · Shift · Click · Q · E · B · 1–4 · ESC" data-en="Choose a class, explore the forest and face the boss. WASD · Shift · Click · Q · E · B · 1–4 · ESC">Scegli una classe, esplora la selva e affronta il boss. WASD · Shift · Click · Q · E · B · 1–4 · ESC</span></p>
   </div>
 </div>
 
+<script src="../js/i18n.js"></script>
 <script src="../js/shared.js"></script>
 <script src="../js/pages/home.js"></script>
 </body>

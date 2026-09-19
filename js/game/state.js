@@ -23,16 +23,19 @@ function aggiornaTempo(delta) {
     tempoGioco += delta;
     const scadute = azioniProgrammate.filter(a => a.scadenza <= tempoGioco);
     azioniProgrammate = azioniProgrammate.filter(a => a.scadenza > tempoGioco);
-    for (const evento of scadute) evento.azione();
+    for (const evento of scadute) {
+        if (player_HP <= 0) break;
+        evento.azione();
+    }
     for (const [tipo, scadenza] of Object.entries(effetti)) {
         if (scadenza <= tempoGioco) delete effetti[tipo];
     }
     applicaStatistiche();
 }
 function applicaStatistiche() {
-    player_max_HP = effetti.food ? 135 : 100;
-    player_max_MP = effetti.books ? 125 : 100;
-    player_speed = effetti.consumables ? 5 : 4;
+    player_max_HP = Math.round(statisticheClasse.hp * (effetti.food ? 1.35 : 1));
+    player_max_MP = Math.round(statisticheClasse.mp * (effetti.books ? 1.25 : 1));
+    player_speed = statisticheClasse.velocita * (effetti.consumables ? 1.25 : 1);
     player_molt_danno = effetti.potions ? 1.25 : 1;
     player_HP = Math.min(player_HP, player_max_HP);
     player_MP = Math.min(player_MP, player_max_MP);
@@ -42,12 +45,13 @@ function creaOggetto(tipo) {
 }
 function usaOggetto(id) {
     const indice = inventario.findIndex(oggetto => oggetto.id === id);
-    if (indice < 0 || finestraAttiva !== 'zaino') return false;
+    if (indice < 0 || !pronto || (finestraAttiva !== null && finestraAttiva !== 'zaino')) return false;
     const oggetto = inventario[indice];
     if ((recuperi[oggetto.tipo] || 0) > tempoGioco) return false;
     effetti[oggetto.tipo] = tempoGioco + 30000;
     recuperi[oggetto.tipo] = tempoGioco + 60000;
     inventario.splice(indice, 1);
+    audioGioco.effetto(oggetto.tipo);
     const salutePrima = player_max_HP, manaPrima = player_max_MP;
     applicaStatistiche();
     // Il nuovo spazio della risorsa è utilizzabile subito, senza superare il massimo.
@@ -63,6 +67,7 @@ function acquistaOggetto(indice) {
     const prezzo = tipiOggetto[offerta.tipo].prezzo;
     if (monete < prezzo) return false;
     monete -= prezzo;
+    audioGioco.effetto('monete');
     inventario.push({ ...offerta, id: prossimoOggetto++ });
     renderizzaFinestra();
     return true;

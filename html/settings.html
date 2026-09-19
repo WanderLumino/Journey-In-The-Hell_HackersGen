@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/common-ui.css"/>
 </head>
 <body>
 
@@ -29,6 +30,10 @@
     <div class="s-page-head">
       <span class="s-page-label">Configurazione</span>
       <h1 class="s-page-title">Impostazioni</h1>
+      <div style="margin-top:1.2rem;display:flex;align-items:center;gap:12px;">
+        <span data-it="Lingua" data-en="Language">Lingua</span>
+        <button type="button" class="language-toggle" data-language-toggle style="position:static;"></button>
+      </div>
     </div>
     <nav class="s-sidebar">
       <button class="s-tab active" data-tab="audio"><span class="s-tab-icon">♪</span> Audio</button>
@@ -207,6 +212,7 @@
 </div>
 
 <script src="../js/shared.js"></script>
+<script src="../js/i18n.js"></script>
 <script src="../js/pages/settings.js"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 // L'italiano è la lingua predefinita; la scelta resta salvata nel browser.
 const traduzioniGioco = {
+    'Attiva audio': 'Enable audio', 'Disattiva audio': 'Mute audio',
     'Zaino': 'Backpack', 'Piano': 'Floor', 'Pausa': 'Paused', 'Riprendi': 'Resume',
     'Tu · Mercanti · Tesori': 'You · Merchants · Treasure',
     'WASD: movimento · Click: attacco · Q: abilità · E: interagisci · B: zaino · ESC: pausa': 'WASD: move · Click: attack · Q: ability · E: interact · B: backpack · ESC: pause',
@@ -42,9 +43,20 @@ function aggiornaLinguaGioco() {
     document.getElementById('spunta').textContent = '';
     if (typeof renderizzaFinestra === 'function' && typeof pronto !== 'undefined' && pronto) renderizzaFinestra();
 }
-document.getElementById('language').value = linguaGioco;
-document.getElementById('language').addEventListener('change', evento => {
-    linguaGioco = evento.target.value;
-    try { localStorage.setItem('lingua', linguaGioco); } catch {}
-    aggiornaLinguaGioco();
+window.addEventListener('lingua-cambiata', () => { linguaGioco = linguaApp; aggiornaLinguaGioco(); });
+
+Object.assign(traduzioniGioco, {
+    'Prima della discesa': 'Before the descent', 'Comandi': 'Controls',
+    'Prenditi un momento: la partita resta ferma finché chiudi questa finestra.': 'Take your time: the game stays paused until you close this window.',
+    'Ho capito, giochiamo': 'Got it, let’s play',
+    'Inventario': 'Inventory',
+    'L’inventario è vuoto. Apri un forziere o visita il mercante.': 'Your inventory is empty. Open a chest or visit the merchant.',
+    'WASD · Shift: corsa · Click: attacco · Q: abilità · E: interagisci · B: inventario · 1–4: oggetti · ESC: pausa': 'WASD · Shift: run · Click: attack · Q: ability · E: interact · B: inventory · 1–4: items · ESC: pause',
+    'Nessun oggetto: visita il mercante o apri un forziere.': 'No item: visit the merchant or open a chest.',
+    'Nemici in arrivo! Allontanati dai cerchi luminosi.': 'Enemies incoming! Move away from the glowing circles.',
+    'Il portale apre il prossimo piano. Puoi prima commerciare con E.': 'The portal leads to the next floor. You can trade first with E.',
+    'Muoviti mentre attacchi. Q: abilità · Shift: corri · 1–4: bonus.': 'Keep moving while attacking. Q: ability · Shift: run · 1–4: buffs.',
+    '1 libro · 2 caffè · 3 pozione · 4 cibo. B: dettagli e recuperi.': '1 book · 2 coffee · 3 potion · 4 food. B: details and cooldowns.',
+    'WASD: muoviti · Shift: corri. Avvicinati al mercante e premi E.': 'WASD: move · Shift: run. Approach the merchant and press E.',
+    'Segui la freccia dorata. E apre i forzieri; il bottino entra nell’inventario.': 'Follow the golden arrow. E opens chests; loot goes into your inventory.'
 });

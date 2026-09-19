@@ -32,12 +32,14 @@ function spawn() {
 })();
 
 /* ── Selezione della classe ── */
-const classData = {
-  warrior:  { name: 'Warrior',  desc: 'Iron blade and unbreakable will. You meet every demon face to face.' },
-  mage:     { name: 'Mage',     desc: 'Words of power reshape Hell itself. Knowledge is your sharpest weapon.' },
-  assassin: { name: 'Assassin', desc: 'You were never here. The damned fall before they know you existed.' },
-  healer:   { name: 'Healer',   desc: 'Light endures in the darkest pit. Your faith is a shield for all.' }
-};
+function datiClasse() {
+  const scheda = document.querySelector(`[data-class="${selected}"]`);
+  return { name: scheda.querySelector('.card-title').textContent, desc: scheda.querySelector('.card-desc').textContent };
+}
+window.addEventListener('lingua-cambiata', () => {
+  if (!selected) return;
+  const dati = datiClasse(); confirmName.textContent = modalClass.textContent = dati.name; modalDesc.textContent = dati.desc;
+});
 
 let selected = null;
 
@@ -52,7 +54,7 @@ document.querySelectorAll('.class-card').forEach(card => {
     document.querySelectorAll('.class-card').forEach(c => c.classList.remove('active'));
     card.classList.add('active');
     selected = card.dataset.class;
-    const d = classData[selected];
+    const d = datiClasse();
     confirmName.textContent = d.name;
     confirmBar.classList.add('visible');
   };
@@ -73,7 +75,7 @@ document.getElementById('confirmBtn').addEventListener('click', openModal);
 
 function openModal() {
   if (!selected) return;
-  const d = classData[selected];
+  const d = datiClasse();
   modalClass.textContent = d.name;
   modalDesc.textContent  = d.desc;
   modal.classList.add('open');

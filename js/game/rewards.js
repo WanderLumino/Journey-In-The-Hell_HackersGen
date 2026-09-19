@@ -1,10 +1,12 @@
 // Tutti i ritagli degli oggetti usano celle da 16 pixel; il mercante usa celle da 64.
 const percorsiAmbientali = {
+    tastiera: '../assets/img/items/Keyboard_Letters_Symbols.png',
+    mouseSinistro: '../assets/img/items/left_mouse.png',
     mercante: '../assets/img/Basic_Character/NPC/NPC_mercante_000/mercante_sprite.png',
     chests: '../assets/img/items/chests.png', books: '../assets/img/items/books.png',
     consumables: '../assets/img/items/consumables.png', potions: '../assets/img/items/potions.png',
     food: '../assets/img/items/food.png', rpg_icons: '../assets/img/items/rpg_icons.png',
-    spada1: '../assets/img/spade/spade1.png', spada2: '../assets/img/spade/spade2.png'
+    effetti: '../assets/img/effects_icons/effects._icons.png'
 };
 const immaginiAmbientali = {};
 const ambientazioneReady = Promise.all(Object.entries(percorsiAmbientali).map(async ([nome, percorso]) => {
@@ -17,6 +19,7 @@ const raritaForzieri = [
 const mercanti = [];
 const forzieri = [];
 const moneteATerra = [];
+const bottiniATerra = [];
 const stanzePremiate = new Set();
 let mercanteAttivo = null;
 let portaleFinale = null;
@@ -44,8 +47,9 @@ function cercaPosizione(x, y, area, esclusioni = [], dimensione = 44) {
     return null;
 }
 function creaMercante(x, y) {
-    const mercante = { x, y, offerte: Object.keys(tipiOggetto).map(creaOggetto), arma: Math.random() < 0.5 ? 'spada1' : 'spada2' };
+    const mercante = { x, y, offerte: Object.keys(tipiOggetto).map(creaOggetto), arma: armiRpg[Math.floor(Math.random() * armiRpg.length)] };
     mercanti.push(mercante);
+    loadImage('../assets/img/RPG_weapons/' + mercante.arma).then(immagine => { immaginiAmbientali[mercante.arma] = immagine; if (mercanteAttivo === mercante && finestraAttiva === 'negozio') renderizzaFinestra(); }).catch(() => {});
     return mercante;
 }
 function creaForziere(x, y, stanza = null) {
@@ -56,7 +60,7 @@ function creaForziere(x, y, stanza = null) {
 }
 function preparaAmbiente() {
     creaMercante(290, 210);
-    for (const [x, y] of [[1490, 1490], [1610, 1490], [1490, 1620], [1610, 1620]]) {
+    for (const [x, y] of [[1560, 1560]]) {
         const punto = cercaPosizione(x, y, areaTesoro, forzieri);
         if (punto) creaForziere(punto.x, punto.y, 'tesoro');
     }
@@ -74,19 +78,22 @@ function premiaStanza(numero) {
 function apriForziere(forziere = forzieri.find(f => !f.aperto && distanzaInterazione(f) < 88)) {
     if (giocoInPausa() || !forziere || forziere.aperto || distanzaInterazione(forziere) >= 88) return false;
     forziere.aperto = true;
+    audioGioco.effetto('porta');
     const categorie = Object.keys(tipiOggetto);
     for (let i = categorie.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [categorie[i], categorie[j]] = [categorie[j], categorie[i]];
     }
-    const bottino = categorie.slice(0, Math.random() < 0.5 ? 3 : 4).map(creaOggetto);
+    const bottino = categorie.slice(0, Math.random() < 0.5 ? 1 : 2).map(creaOggetto);
     inventario.push(...bottino);
-    avvisa(`${testoGioco('Bottino raccolto')}: ${bottino.length} · B ${testoGioco('Zaino')}`);
+    bottino.forEach((oggetto, i) => bottiniATerra.push({ ...oggetto, x: forziere.x + (i ? 42 : -26), y: forziere.y + 28, inizio: tempoGioco, durata: 1500 + Math.random() * 1000 }));
+    avvisa(`${testoGioco('Bottino raccolto')}: ${bottino.length} · B ${testoGioco('Inventario')}`);
     return bottino;
 }
 function ricompensaNemico(nemico) {
     if (nemico.premiato) return;
     nemico.premiato = true;
+    audioGioco.effetto('morteNemico');
     moneteATerra.push({ x: nemico.nemico.x + nemico.nemico.lx / 2, y: nemico.nemico.y + nemico.nemico.ly / 2, valore: nemico.boss ? 10 : 4 });
 }
 function completaPiano() {
@@ -119,9 +126,11 @@ function interagisci() {
     } else apriForziere(vicino.oggetto);
 }
 function aggiornaAmbiente() {
+    for (let i = bottiniATerra.length - 1; i >= 0; i--) if (tempoGioco - bottiniATerra[i].inizio >= bottiniATerra[i].durata) bottiniATerra.splice(i, 1);
     for (let i = moneteATerra.length - 1; i >= 0; i--) {
         if (Math.hypot(moneteATerra[i].x - (player.x + 25), moneteATerra[i].y - (player.y + 25)) < 65) {
             monete += moneteATerra[i].valore;
+            audioGioco.effetto('monete');
             moneteATerra.splice(i, 1);
         }
     }
@@ -162,12 +171,25 @@ function disegnaAmbientazione() {
     for (const moneta of moneteATerra) {
         disegnaCella(ctx, 'rpg_icons', 1, moneta.x - telecamera.x - 12, moneta.y - telecamera.y - 12, 24);
     }
+    for (const oggetto of bottiniATerra) {
+        const eta = tempoGioco - oggetto.inizio;
+        ctx.globalAlpha = Math.min(1, (oggetto.durata - eta) / 400);
+        const salto = Math.sin(Math.min(1, eta / 450) * Math.PI) * 22;
+        disegnaCella(ctx, oggetto.tipo, oggetto.variante, oggetto.x - telecamera.x, oggetto.y - telecamera.y - salto, 32);
+    }
+    ctx.globalAlpha = 1;
+    disegnaEvocazioni();
     if (portaleFinale) portaleFinale.disegna();
     ctx.restore();
 }
 function passaAlPianoSuccessivo() {
     if (finestraAttiva !== 'portale') return;
     piano++;
+    ultimoScambio = -Infinity;
+    prossimaRigenerazione = tempoGioco + 1000;
+    invulnerabileFino = 0;
+    numeriDanno.length = 0; danniHud.length = 0;
+    for (const attacco in recuperoAttacchi) delete recuperoAttacchi[attacco];
     azioniProgrammate = [];
     in_magia = false;
     magie = []; magie_nemiche = []; disegno_magie.length = 0; nemici = [];
@@ -179,7 +201,7 @@ function passaAlPianoSuccessivo() {
     }
     blocci_con_collisioni.unshift(...creaBarriere());
     griglia_collisioni.clear(); costruisci_griglia();
-    fase = 0; attesaUscita = true;
+    fase = 0; statoStanza = 'attesa'; puntiEvocazione = []; bottiniATerra.length = 0;
     player.x = 200; player.y = 200; player.vx = 0; player.vy = 0;
     player.set_nome_animazione('indietro_stand');
     telecamera.x = 0; telecamera.y = 0;

@@ -182,21 +182,28 @@ var magie_nemiche = [];
 
 
 var nemici = [];
-let attesaUscita = true;
+let statoStanza = 'attesa';
+let scadenzaEvocazione = 0;
+let puntiEvocazione = [];
 function nelRifugio(entita) {
     return entita.x < 960 && entita.y < 600;
 }
 
 var fase = 0;
 function controlla_fase(){
-    if (attesaUscita && fase === 1) {
-        if (player.y < 600) return;
-        attesaUscita = false;
-        generaNemiciFase();
-        return;
+    if (areeCombattimento[fase] && statoStanza !== 'attiva') {
+        if (!dentroArea(player, areeCombattimento[fase])) { statoStanza = 'attesa'; puntiEvocazione = []; return; }
+        if (statoStanza === 'attesa') {
+            puntiEvocazione = preparaEvocazioni();
+            scadenzaEvocazione = tempoGioco + 1500;
+            statoStanza = 'preavviso';
+            avvisa('Nemici in arrivo! Allontanati dai cerchi luminosi.');
+            return;
+        }
+        if (tempoGioco < scadenzaEvocazione) return;
+        generaNemiciFase(); statoStanza = 'attiva'; return;
     }
-    if (nemici.length > 0)
-        return 0;
+    if (nemici.length > 0) return;
 
     premiaStanza(fase);
     if (fase >= 5) return;
@@ -206,6 +213,7 @@ function controlla_fase(){
         if (blocci_con_collisioni[i].nome == "porta_C"){
 
             fase++;
+            audioGioco.effetto('porta');
             blocci_bac_grand.push(new blocco("porta_A", blocci_con_collisioni[i].x, blocci_con_collisioni[i].y, blocci_con_collisioni[i].lx, blocci_con_collisioni[i].ly));
 
             blocci_con_collisioni.splice(i,1);
@@ -218,6 +226,7 @@ function controlla_fase(){
         if (blocci_con_collisioni[i].nome == "muro_separatore"){
 
             fase++;
+            audioGioco.effetto('porta');
             blocci_con_collisioni.splice(i,1);
             
             griglia_collisioni.clear();
@@ -233,8 +242,8 @@ function controlla_fase(){
     }
     
 
-    if (attesaUscita) return;
-    generaNemiciFase();
+    statoStanza = 'attesa';
+    if (fase === 3) obiettivoGuida = { x: 1570, y: 1560 };
 }
 
 function generaNemiciFase() {
@@ -242,8 +251,8 @@ function generaNemiciFase() {
         case 1:
             for (let i = 0; i < 2; i++) 
             nemici.push({
-                HP: 300,
-                max_HP: 300,
+                HP: 90,
+                max_HP: 90,
                 nemico: new blocco("drago", 273+(i*10), 900, 100, 70),
                 camminata: 1,
                 corsa: 2,
@@ -252,7 +261,7 @@ function generaNemiciFase() {
 
                 magie: [0, 1, 2, 3, 4],
                 i: 0,
-                max_delay: 100,
+                max_delay: 210,
                 delay: 0,
                 moltiplicatore_magico: 2,
                 moltiplicatore_delay_magie: 1,
@@ -266,8 +275,8 @@ function generaNemiciFase() {
         case 2:
             for (let i = 0; i < 3; i++) 
             nemici.push({
-                HP: 300,
-                max_HP: 300,
+                HP: 90,
+                max_HP: 90,
                 nemico: new blocco("drago", 1500+(i*10), 900, 100, 70),
                 camminata: 1,
                 corsa: 2,
@@ -276,7 +285,7 @@ function generaNemiciFase() {
 
                 magie: [0, 1, 2, 3, 4],
                 i: 0,
-                max_delay: 100,
+                max_delay: 210,
                 delay: 0,
                 moltiplicatore_magico: 2,
                 moltiplicatore_delay_magie: 1,
@@ -294,8 +303,8 @@ function generaNemiciFase() {
         case 4:
             for (let i = 0; i < 5; i++) 
             nemici.push({
-                HP: 300,
-                max_HP: 300,
+                HP: 90,
+                max_HP: 90,
                 nemico: new blocco("drago", 1700+(i*10), 100, 100, 70),
                 camminata: 1,
                 corsa: 2,
@@ -304,7 +313,7 @@ function generaNemiciFase() {
     
                 magie: [0, 1, 2, 3, 4],
                 i: 0,
-                max_delay: 100,
+                max_delay: 210,
                 delay: 0,
                 moltiplicatore_magico: 2,
                 moltiplicatore_delay_magie: 1,
@@ -318,8 +327,8 @@ function generaNemiciFase() {
         case 5:
             nemici.push({
                 boss: true,
-                HP: 400,
-                max_HP: 400,
+                HP: 480,
+                max_HP: 480,
                 nemico: new blocco("mago", 2500, 800, 120, 120, 20, 20, 20, 20),
                 camminata: 2,
                 corsa: 4,
@@ -328,7 +337,7 @@ function generaNemiciFase() {
     
                 magie: [0, 1, 2, 3, 4],
                 i: 0,
-                max_delay: 40,
+                max_delay: 120,
                 delay: 0,
                 moltiplicatore_magico: 3,
                 moltiplicatore_delay_magie: 0.8,
@@ -346,8 +355,19 @@ function generaNemiciFase() {
     for (const nemico of nemici) {
         if (nemico.preparato) continue;
         nemico.preparato = true;
+        nemico.area = areeCombattimento[fase];
+        const corpo = nemico.nemico;
+        corpo.d_sin = corpo.d_des = (corpo.lx - 40) / 2;
+        corpo.d_sop = corpo.ly - 28; corpo.d_sot = 4;
+        const punto = puntiEvocazione[nemici.indexOf(nemico)];
+        if (punto) { corpo.x = punto.x - corpo.d_sin; corpo.y = punto.y - corpo.d_sop; }
         const fattore = 1 + (piano - 1) * 0.2;
-        nemico.HP = Math.round(nemico.HP * fattore);
+        const base = nemico.boss ? bilanciamentoNemici.boss : bilanciamentoNemici.normale;
+        nemico.HP = Math.round(base.hp * fattore);
+        nemico.max_delay = base.intervallo;
+        nemico.delay = base.intervallo;
+        nemico.danno = base.contatto;
+        nemico.moltiplicatore_magico = base.moltiplicatore;
         nemico.max_HP = nemico.HP;
         nemico.danno *= fattore;
         if (nemico.moltiplicatore_magico) nemico.moltiplicatore_magico *= fattore;
@@ -386,15 +406,13 @@ function distanza_punto_punto(ax, ay, bx, by) {
 const player = new blocco("dante", 200, 200, 50, 50, 10, 30, 10, 10);
 player.set_nome_animazione("indietro_stand");
 
-var player_speed = 4;
+var player_speed = statisticheClasse.velocita;
 
-var player_HP = 100;
-var player_max_HP = 100;
-var player_regen_HP = 0.2
+var player_HP = statisticheClasse.hp;
+var player_max_HP = statisticheClasse.hp;
 
-var player_MP = 100;
-var player_max_MP = 100;
-var player_regen_MP = 0.5;
+var player_MP = statisticheClasse.mp;
+var player_max_MP = statisticheClasse.mp;
 
 var player_molt_t_magie = 1;
 var player_molt_danno = 1;
@@ -457,7 +475,7 @@ window.addEventListener('blur', () => {
 });
 
 window.addEventListener("keydown", (e) => {
-    if (!giocoInPausa() && !["SELECT", "INPUT", "BUTTON"].includes(e.target.tagName)) keys[e.key.toLowerCase()] = true;
+    if (!giocoInPausa() && !["SELECT", "INPUT", "TEXTAREA"].includes(e.target.tagName)) keys[e.key.toLowerCase()] = true;
 });
 
 window.addEventListener("keyup", (e) => {
@@ -599,6 +617,11 @@ const staz_magie = [
     },
     
 ]
+armaClasse.attacchi.forEach((indice, posizione) => Object.assign(staz_magie[indice], statisticheClasse.attacchi[posizione]));
+staz_magie[4].tempo = 20;
+staz_magie[4].velocita = 14;
+staz_magie[3].tempo = 24;
+
 const staz_magie_nemici = [
     {
         delay: 300,
@@ -662,6 +685,13 @@ const staz_magie_nemici = [
     
 ]
 
+// Danni nemici moderati e preavviso visibile prima delle magie.
+const danniMagieNemiche = [10, 16, 12, 12, 16];
+danniMagieNemiche.forEach((danno, indice) => {
+    staz_magie_nemici[indice].danno = danno;
+    staz_magie_nemici[indice].delay = Math.max(700, staz_magie_nemici[indice].delay);
+});
+
 var in_magia = false;
 
 function lancia(e, scelta=n_tipo_magia) {
@@ -679,12 +709,13 @@ function lancia(e, scelta=n_tipo_magia) {
     mouse_x = world_x;
     mouse_y = world_y;
 
-    console.log(world_x, world_y);
+
 
 
     let mom2;
 
     const staz_magia_mom = staz_magie[scelta];//staz_magie[n_tipo_magia];
+    if (tempoGioco < (recuperoAttacchi[scelta] || 0)) return;
     const danno_magia_mom = staz_magia_mom.danno * player_molt_danno;
     //staz_magia_mom.danno *= player_molt_danno;
 
@@ -725,6 +756,10 @@ function lancia(e, scelta=n_tipo_magia) {
     let dif_y;
     let distanza;
 
+    recuperoAttacchi[scelta] = tempoGioco + (staz_magia_mom.recupero || 400);
+    if (nemici.some(n => n.HP > 0 && Math.hypot(n.nemico.x-player.x,n.nemico.y-player.y)<650)) ultimoScambio = tempoGioco;
+    const suono = sessione.classe === 'mage' ? (scelta === armaClasse.attacchi[1] ? 'energia' : 'magia') : sessione.classe === 'healer' ? 'elettrico' : 'lama';
+    audioGioco.effetto(suono);
     in_magia = true;
     programmaAzione(() => {
 
@@ -769,12 +804,13 @@ function lancia(e, scelta=n_tipo_magia) {
                 dif_x = world_x - (player.x+player.lx/2);
                 dif_y = world_y - (player.y+player.ly/2);
             
-                distanza = Math.sqrt((dif_x*dif_x) + (dif_y*dif_y));
+                distanza = Math.max(0.001, Math.hypot(dif_x, dif_y));
             
                 mom.magia.vx = (dif_x/distanza) * staz_magia_mom.velocita;
                 mom.magia.vy = (dif_y/distanza) * staz_magia_mom.velocita;
             
                 mom.magia.radianti = Math.atan2(dif_y, dif_x) +(staz_magia_mom.rad_in_piu || 0);
+                preparaPortata(mom, world_x, world_y, staz_magia_mom.velocita);
                 magie.push(mom);
                 
                 break;
@@ -792,12 +828,13 @@ function lancia(e, scelta=n_tipo_magia) {
                 dif_x = world_x - (player.x+player.lx/2);
                 dif_y = world_y - (player.y+player.ly/2);
             
-                distanza = Math.sqrt((dif_x*dif_x) + (dif_y*dif_y));
+                distanza = Math.max(0.001, Math.hypot(dif_x, dif_y));
             
                 mom.magia.vx = (dif_x/distanza) * staz_magia_mom.velocita;
                 mom.magia.vy = (dif_y/distanza) * staz_magia_mom.velocita;
             
                 mom.magia.radianti = Math.atan2(dif_y, dif_x) +(staz_magia_mom.rad_in_piu || 0);
+                preparaPortata(mom, world_x, world_y, staz_magia_mom.velocita);
                 magie.push(mom);
 
                 break;
@@ -806,7 +843,7 @@ function lancia(e, scelta=n_tipo_magia) {
                 dif_x = world_x - (player.x+player.lx/2);
                 dif_y = world_y - (player.y+player.ly/2);
             
-                distanza = Math.sqrt((dif_x*dif_x) + (dif_y*dif_y));
+                distanza = Math.max(0.001, Math.hypot(dif_x, dif_y));
 
 
                 let punto_x = (player.x+player.lx/2)+(staz_magia_mom.raggio* dif_x/distanza);
@@ -819,7 +856,7 @@ function lancia(e, scelta=n_tipo_magia) {
                 }
                 nemici.forEach((n, i) => {
                     if (mom.magia.if_collide(n.nemico))
-                        n.HP -= danno_magia_mom;
+                        danneggiaNemico(n, danno_magia_mom);
                 })
                 mom.magia.radianti = Math.atan2(dif_y, dif_x);
                 
@@ -834,25 +871,28 @@ function lancia(e, scelta=n_tipo_magia) {
                 }
                 nemici.forEach((n, i) => {
                     if (mom.magia.if_collide(n.nemico))
-                        n.HP -= danno_magia_mom;
+                        danneggiaNemico(n, danno_magia_mom);
                 })
                 
                 magie.push(mom);
                 break;
             case "stand_dif":
-                    
+                {
+                const bersaglio = sessione.classe === 'healer' ? miraGuaritore(world_x, world_y) : { x: world_x, y: world_y };
                 mom = {   
-                    magia: new blocco(staz_magia_mom.nome, world_x-staz_magia_mom.x/2, world_y-staz_magia_mom.y, staz_magia_mom.x, staz_magia_mom.y, 0, staz_magia_mom.vuoto, 0, 0),
+                    magia: new blocco(staz_magia_mom.nome, bersaglio.x-staz_magia_mom.x/2, bersaglio.y-staz_magia_mom.y, staz_magia_mom.x, staz_magia_mom.y, 0, staz_magia_mom.vuoto, 0, 0),
                     tempo: staz_magia_mom.tempo,
                     collider: false,
                 }
                 nemici.forEach((n, i) => {
-                    if (mom.magia.if_collide(n.nemico))
-                        n.HP -= danno_magia_mom;
+                    const entroRaggio = sessione.classe !== 'healer' || Math.hypot(n.nemico.x + n.nemico.lx/2 - player.x - player.lx/2, n.nemico.y + n.nemico.ly/2 - player.y - player.ly/2) <= raggioGuaritore;
+                    if (entroRaggio && mom.magia.if_collide(n.nemico))
+                        danneggiaNemico(n, danno_magia_mom);
                 })
                 
                 magie.push(mom);
                 break;
+                }
 
             case "teleport":
 
@@ -941,6 +981,7 @@ function nemico_lancia_magia(n) {
         return;
     
     n.MP -= staz_magie_nemici[n.magie[n.i]].consumo;
+    audioGioco.effetto('mostro');
 
     ID_rosso++;
     if (ID_rosso == Infinity)
@@ -1009,7 +1050,7 @@ function nemico_lancia_magia(n) {
                 dif_x = disegno_magie[indice].array[2] - disegno_magie[indice].array[0];
                 dif_y = disegno_magie[indice].array[3] - disegno_magie[indice].array[1];
             
-                distanza = Math.sqrt((dif_x*dif_x) + (dif_y*dif_y));
+                distanza = Math.max(0.001, Math.hypot(dif_x, dif_y));
             
                 mom.magia.vx = (dif_x/distanza) * staz_magie_nemici[numero_magia].velocita;
                 mom.magia.vy = (dif_y/distanza) * staz_magie_nemici[numero_magia].velocita;
@@ -1032,7 +1073,7 @@ function nemico_lancia_magia(n) {
                 dif_x = disegno_magie[indice].array[2] - disegno_magie[indice].array[0];
                 dif_y = disegno_magie[indice].array[3] - disegno_magie[indice].array[1];
             
-                distanza = Math.sqrt((dif_x*dif_x) + (dif_y*dif_y));
+                distanza = Math.max(0.001, Math.hypot(dif_x, dif_y));
             
                 mom.magia.vx = (dif_x/distanza) * staz_magie_nemici[numero_magia].velocita;
                 mom.magia.vy = (dif_y/distanza) * staz_magie_nemici[numero_magia].velocita;
@@ -1050,7 +1091,7 @@ function nemico_lancia_magia(n) {
                 }
                 
                 if (mom.magia.if_collide(player))
-                    player_HP -= staz_magie_nemici[numero_magia].danno *n.moltiplicatore_magico;
+                    danneggiaGiocatore(staz_magie_nemici[numero_magia].danno * n.moltiplicatore_magico);
                 
                 magie_nemiche.push(mom);
                 break;
@@ -1063,7 +1104,7 @@ function nemico_lancia_magia(n) {
                 }
 
                 if (mom.magia.if_collide(player))
-                    player_HP -= staz_magie_nemici[numero_magia].danno *n.moltiplicatore_magico;
+                    danneggiaGiocatore(staz_magie_nemici[numero_magia].danno * n.moltiplicatore_magico);
                     
                 magie_nemiche.push(mom);
                 break;
@@ -1182,21 +1223,12 @@ function update() {
     
     player.add_gradi((keys["p"]||0)-(keys["o"]||0));
     
-    //regen
-    if (player_MP < player_max_MP) {
-        player_MP += player_regen_MP;
-        if (player_MP > player_max_MP)
-            player_MP = player_max_MP
-    }
-    if (player_HP < player_max_HP) {
-        player_HP += player_regen_HP;
-        if (player_HP > player_max_HP)
-            player_HP = player_max_HP
-    }
-    
+    rigeneraRisorse();
+
     nemici.forEach((n) => {
-        if (player.if_collide(n.nemico)){
-            player_HP -= n.danno;
+        if (n.HP > 0 && player.if_collide(n.nemico) && tempoGioco >= (n.prossimoContatto || 0)){
+            n.prossimoContatto = tempoGioco + 1200;
+            danneggiaGiocatore(n.danno);
         }
     });
     
@@ -1226,14 +1258,12 @@ function update() {
         // orienta la spada come un raggio che punta verso fuori (cambia +Math.PI/2 a piacere)
         m.magia.radianti = m.angolo + Math.PI/2 + m.gradi_in_piu;
 
-        // danno: un solo colpo per nemico per "passata" della spada
+        // Ogni attacco rotante colpisce ciascun nemico una sola volta.
         nemici.forEach((n) => {
             if (m.magia.if_collide(n.nemico) && !m.nemici_colpiti.includes(n)) {
-                n.HP -= m.danno;
+                danneggiaNemico(n, m.danno);
                 m.nemici_colpiti.push(n);
-            } else if (!m.magia.if_collide(n.nemico) && m.nemici_colpiti.includes(n)) {
-                // permette di colpire di nuovo lo stesso nemico al giro successivo
-                m.nemici_colpiti.splice(m.nemici_colpiti.indexOf(n), 1);
+
             }
         });
 
@@ -1288,9 +1318,9 @@ function update() {
     //danno nemici
     nemici.forEach((e, i_n) => {
         magie.forEach((m, i) => {
-            if (m.collider) {
+            if (m.collider && !m.da_rimuovere) {
                 if (m.magia.if_collide(e.nemico) && m.magia.nome_animazione !== "impact"){
-                    e.HP -= m.danno;
+                    danneggiaNemico(e, m.danno);
                     if (m.impact){
                         m.magia.set_nome_animazione("impact");
                         m.magia.vx = 0;
@@ -1301,45 +1331,7 @@ function update() {
                 }
             }
         });
-        let difx = player.x-e.nemico.x;
-        let dify = player.y-e.nemico.y;
-
-        let dist = Math.sqrt((difx*difx)+(dify*dify));
-        if (dist < e.vista) {
-            if (e.magie === undefined){
-
-                e.nemico.vx = e.corsa* difx/dist;
-                e.nemico.vy = e.corsa* dify/dist;
-                e.delay = 0;
-            }
-            else {
-
-                if (dist > e.vista*0.8){
-                    e.nemico.vx = e.corsa* difx/dist;
-                    e.nemico.vy = e.corsa* dify/dist;
-                }
-                else {
-                    let dis = Math.sqrt((e.nemico.vx*e.nemico.vx)+(e.nemico.vy*e.nemico.vy));
-                    
-                    if (dis ==! 0){
-                        e.nemico.vx = (e.nemico.vx/dis)*e.corsa;
-                        e.nemico.vy = (e.nemico.vy/dis)*e.corsa;
-                    }
-                }
-
-                
-                if (e.delay < 0){
-                    e.delay = e.max_delay;
-                    nemico_lancia_magia(e);
-                }
-            }
-            
-            
-            if (Math.abs(e.nemico.vx) > Math.abs(e.nemico.vy))
-                e.nemico.nome_animazione = e.nemico.vx > 0? "des" : "sin";
-            else 
-                e.nemico.nome_animazione = e.nemico.vy > 0? "stand" : "alto";
-        }
+        aggiornaNavigazioneNemico(e);
 
     })
 
@@ -1347,7 +1339,7 @@ function update() {
     magie_nemiche.forEach((mn, i) => {
         if (mn.collider) {
             if (!nelRifugio(player) && !dentroArea(player, areaTesoro) && mn.magia.if_collide(player) && mn.magia.nome_animazione !== "impact"){
-                player_HP -= mn.danno;
+                danneggiaGiocatore(mn.danno);
                 if (mn.impact){
                     mn.magia.set_nome_animazione("impact");
                     mn.magia.vx = 0;
@@ -1358,19 +1350,6 @@ function update() {
             }
         }
     });
-
-    //camminata random
-    for (let i = Math.floor(Math.random()*100); i < nemici.length; i += 100) {
-        
-        let angolo = Math.random()*2*Math.PI;
-        nemici[i].nemico.vx = Math.cos(angolo)*nemici[i].camminata;
-        nemici[i].nemico.vy = Math.sin(angolo)*nemici[i].camminata; 
-        
-        if (Math.abs(nemici[i].nemico.vx) > Math.abs(nemici[i].nemico.vy))
-            nemici[i].nemico.nome_animazione = nemici[i].nemico.vx > 0? "des" : "sin";
-        else 
-            nemici[i].nemico.nome_animazione = nemici[i].nemico.vy > 0? "stand" : "alto";
-    }
 
     nemici.forEach((n) => {
         blocchi_vicini(n.nemico).forEach((e) => {
@@ -1395,11 +1374,11 @@ function update() {
 
         const posizionePrecedente = { x: e.nemico.x, y: e.nemico.y };
         e.nemico.aggiorna();
-        if (dentroArea(e.nemico, areaTesoro)) {
+        if (e.area && !dentroArea({x:e.nemico.x+e.nemico.d_sin,y:e.nemico.y+e.nemico.d_sop}, e.area)) {
             e.nemico.x = posizionePrecedente.x; e.nemico.y = posizionePrecedente.y;
         }
         // I nemici non possono entrare nel rifugio iniziale.
-        if (nelRifugio(e.nemico)) e.nemico.y = 600;
+
     })
     
     player.aggiorna();
@@ -1415,7 +1394,7 @@ function update() {
     //despouning magie
     magie.forEach((m) => {
         m.tempo--;
-        m.magia.aggiorna();
+        avanzaMagia(m);
         if (m.collider && m.impact && m.magia.nome_animazione === "impact")
             if (m.magia.if_fine_animazione()) m.da_rimuovere = true;
         if (m.tempo <= 0) m.da_rimuovere = true;
@@ -1475,6 +1454,10 @@ function draw() {
     ctx.fillStyle = "rgba(255, 0, 0, 1)";
     nemici.forEach((e) => {
         e.nemico.disegna();
+        if (e.colpitoFino > tempoGioco) {
+            ctx.save(); ctx.fillStyle = 'rgba(255,235,180,.28)';
+            ctx.fillRect(e.nemico.x-telecamera.x,e.nemico.y-telecamera.y,e.nemico.lx,e.nemico.ly); ctx.restore();
+        }
         
         ctx.fillRect(e.nemico.x -telecamera.x, e.nemico.get_basso()+10 -telecamera.y, e.nemico.lx*e.HP/e.max_HP, 10);
         if (e.magie !== undefined){
@@ -1498,6 +1481,7 @@ function draw() {
     })
 
     disegnaGuida();
+    disegnaNumeriDanno();
 
     //grigio la magia selezionata
     //scatto
@@ -1509,7 +1493,10 @@ function draw() {
 
             case "muv_base":      
             case "muv_impact":
-                line(player.x+player.lx/2, player.y+player.ly/2, mouse_x, mouse_y, staz_magie[n_tipo_magia].grandezza);
+                {
+                    const mira = fineMiraClasse(mouse_x, mouse_y);
+                    line(player.x+player.lx/2, player.y+player.ly/2, mira.x, mira.y, staz_magie[n_tipo_magia].grandezza);
+                }
 
                 break;
             case "stand":
@@ -1517,9 +1504,14 @@ function draw() {
 
                 break;
             case "stand_dif":
-                ctx.fillRect(mouse_x-telecamera.x -staz_magie[n_tipo_magia].x/2, mouse_y-telecamera.y -staz_magie[n_tipo_magia].y +staz_magie[n_tipo_magia].vuoto, staz_magie[n_tipo_magia].x, staz_magie[n_tipo_magia].y -staz_magie[n_tipo_magia].vuoto);
-                
+                {
+                const mira = sessione.classe === 'healer' ? miraGuaritore(mouse_x, mouse_y) : { x: mouse_x, y: mouse_y };
+                if (sessione.classe === 'healer') {
+                    ctx.beginPath(); ctx.arc(player.x + player.lx/2 - telecamera.x, player.y + player.ly/2 - telecamera.y, raggioGuaritore, 0, Math.PI * 2); ctx.stroke();
+                }
+                ctx.fillRect(mira.x-telecamera.x -staz_magie[n_tipo_magia].x/2, mira.y-telecamera.y -staz_magie[n_tipo_magia].y +staz_magie[n_tipo_magia].vuoto, staz_magie[n_tipo_magia].x, staz_magie[n_tipo_magia].y -staz_magie[n_tipo_magia].vuoto);
                 break;
+                }
             case "teleport":
                 ctx.fillRect(player.x -telecamera.x, player.y -telecamera.y, player.lx, player.ly);
                 ctx.fillRect(mouse_x-telecamera.x - 25, mouse_y-telecamera.y - 25, player.lx, player.ly);
@@ -1589,6 +1581,7 @@ function gameLoop(adesso = performance.now()) {
     } else accumulatore = 0;
     draw();
     aggiornaInterfaccia();
+    audioGioco.aggiorna();
     requestAnimationFrame(gameLoop);
 }
 
@@ -1601,6 +1594,7 @@ Promise.all([assetsReady, ambientazioneReady, carica_collisioni_mappa()]).then((
     pronto = true;
     disegnaCella(document.getElementById('coin-icon').getContext('2d'), 'rpg_icons', 0, 0, 0, 24);
     document.getElementById('loading').hidden = true;
+    apriFinestra('comandi');
     gameLoop();
 }).catch(error => {
     console.error(error);
