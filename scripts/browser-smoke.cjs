@@ -79,6 +79,13 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         await send('Page.navigate', {url:'http://127.0.0.1:8000/html/home.html'}); await sleep(300);
         await evaluate("document.getElementById('startBtn').click()"); await sleep(1300);
         assert.match(await evaluate("document.querySelector('[data-class=warrior] .card-title').textContent"), /Guerriero/);
+        assert.equal(await evaluate("document.querySelector('[data-class=healer] .card-title').textContent"),'Punisher');
+        assert.equal(await evaluate("parseFloat(getComputedStyle(document.querySelector('.back-link')).fontSize)>=16 && document.querySelector('.back-link').getBoundingClientRect().height>=44"),true);
+        await evaluate("impostaLingua('en');document.querySelector('[data-class=healer] .card-select-btn').click()");
+        assert.equal(await evaluate("document.getElementById('modalClassName').textContent"),'Judicator');
+        await evaluate("impostaLingua('it')");
+        assert.equal(await evaluate("document.getElementById('modalClassName').textContent"),'Punisher');
+        await evaluate("document.getElementById('modalCancel').click()");
         await evaluate("document.querySelector('[data-class=warrior] .card-select-btn').click(); document.getElementById('modalConfirm').click()");
         await loaded();
         assert.deepEqual(await evaluate('armaClasse.attacchi'), [0, 2]);
@@ -234,7 +241,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
             const statistiche = await evaluate('({hp:player_max_HP,mp:player_max_MP,base:statisticheClasse})');
             assert.equal(statistiche.hp, statistiche.base.hp);
             assert.equal(statistiche.mp, statistiche.base.mp);
-            assert.deepEqual(statistiche.base.attacchi.map(a=>a.consumo), {warrior:[0,35],mage:[15,40],assassin:[0,30],healer:[15,35]}[classe]);
+            assert.deepEqual(statistiche.base.attacchi.map(a=>a.consumo), {warrior:[0,35],mage:[15,40],assassin:[0,30],healer:[10,30]}[classe]);
             const mana = await evaluate(`(() => {
                 player_MP=20;ultimoScambio=tempoGioco;prossimaRigenerazione=tempoGioco;rigeneraRisorse();const durante=player_MP-20;
                 player_MP=20;ultimoScambio=-Infinity;prossimaRigenerazione=tempoGioco;rigeneraRisorse();const fuori=player_MP-20;
@@ -245,6 +252,10 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
             assert.equal(mana.fuori,mana.durante*1.5);
             assert.equal(mana.ripetuta,0);
             if (classe === 'healer') {
+                assert.match(await evaluate("document.getElementById('chosen-class').textContent"),/Judicator/);
+                await evaluate("impostaLingua('it')");
+                assert.match(await evaluate("document.getElementById('chosen-class').textContent"),/Punisher/);
+                await evaluate("impostaLingua('en')");
                 assert.equal(await evaluate(`(() => {
                     const cx=player.x+player.lx/2,cy=player.y+player.ly/2;
                     for (const [dx,dy] of [[0,0],[100,40],[1000,0],[-800,600]]) {
@@ -256,6 +267,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
                         nemici=[295,305].map(dx=>({HP:100,nemico:new blocco('drago',cx+dx-10,cy-20,20,20)}));
                         const rect=canvas.getBoundingClientRect();
                         lancia({clientX:rect.left+(cx+1000-telecamera.x)*rect.width/canvas.width,clientY:rect.top+(cy-telecamera.y)*rect.height/canvas.height},indice);
+                        if (player_MP !== player_max_MP - (indice===armaClasse.attacchi[0]?10:30)) return false;
                         aggiornaTempo(staz_magie[indice].delay+1);
                         const m=magie.at(-1).magia;
                         if (Math.abs(Math.hypot(m.x+m.lx/2-cx,m.y+m.ly-cy)-300)>0.001 || nemici[0].HP>=100 || nemici[1].HP!==100) return false;

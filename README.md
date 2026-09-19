@@ -42,13 +42,13 @@ A ogni avvio o riavvio della partita compare una finestra con i comandi illustra
 | Guerriero | Spada | Fendente e Blue Group Slashes |
 | Mago | Bastone arcano | Vento e sfera di energia |
 | Assassino | Lama da lancio | Lama a distanza e rotazione |
-| Guaritore | Bastone della luce | Due varianti di fulmine |
+| Punisher | Bastone della luce | Due varianti di fulmine |
 
-Le armi riutilizzano gli effetti disponibili. Il guaritore recupera salute più rapidamente; una cura attiva dedicata resta da realizzare. Tutte le classi usano temporaneamente Dante. La prima taratura numerica è descritta in [docs/bilanciamento.md](docs/bilanciamento.md).
+Le armi riutilizzano gli effetti disponibili. Il Punisher recupera salute più rapidamente; una cura attiva dedicata resta da realizzare. Tutte le classi usano temporaneamente Dante. La prima taratura numerica è descritta in [docs/bilanciamento.md](docs/bilanciamento.md).
 
 ## Audio e combattimento
 
-Costi MP di attacco base/abilità Q: guerriero 0/35, mago 15/40, assassino 0/30, guaritore 15/35. Il recupero del mana in combattimento è ridotto del 50%; fuori combattimento è il 50% più rapido rispetto a questo nuovo valore. La salute mantiene la rigenerazione precedente. I dettagli per classe sono in docs/bilanciamento.md.
+Costi MP di attacco base/abilità Q: guerriero 0/35, mago 15/40, assassino 0/30, Punisher 10/30. Il recupero del mana in combattimento è ridotto del 50%; fuori combattimento è il 50% più rapido rispetto a questo nuovo valore. La salute mantiene la rigenerazione precedente. I dettagli per classe sono in docs/bilanciamento.md.
 
 La musica parte dopo la prima interazione con la pagina, rispettando le regole audio del browser. Camminata e corsa hanno tracce distinte; armi, magie, colpi, ferite, morti dei mostri, porte/forzieri, monete, consumabili e interfaccia usano i file in assets/audio. In pausa è disponibile il comando per attivare o disattivare l'audio; la preferenza resta salvata. Camminata e corsa saltano il silenzio iniziale dei file.
 
@@ -56,7 +56,7 @@ I danni inflitti compaiono sopra i nemici; quelli ricevuti appaiono sulla barra 
 
 La salute si rigenera una volta al secondo: in combattimento il recupero è il 50% di quello fuori combattimento. Si rimane in combattimento con nemici vicini oppure per cinque secondi dopo uno scambio di colpi. Salute massima, mana, velocità e rigenerazione dipendono dalla classe; i bonus degli oggetti si applicano ai rispettivi valori di base.
 
-Gli attacchi del guaritore possono essere mirati entro 300 pixel dal centro del giocatore. Oltre il limite, anteprima e punto del fulmine si fermano sul bordo del raggio; i nemici con il centro oltre 300 pixel non ricevono danni. Il limite vale per attacco base e abilità Q.
+Gli attacchi del Punisher possono essere mirati entro 300 pixel dal centro del giocatore. Oltre il limite, anteprima e punto del fulmine si fermano sul bordo del raggio; i nemici con il centro oltre 300 pixel non ricevono danni. Il limite vale per attacco base e abilità Q.
 
 ## Stanze e ricompense
 

@@ -22,7 +22,7 @@ const traduzioniGioco = {
     'Nuovo piano: la discesa continua': 'New floor: the descent continues', 'Bottino raccolto': 'Loot collected',
     'Comune': 'Common', 'Raro': 'Rare', 'Epico': 'Epic', 'Leggendario': 'Legendary',
     'Classe': 'Class', 'Ricomincia': 'Restart', 'Torna al menu': 'Back to menu',
-    'Guerriero': 'Warrior', 'Mago': 'Mage', 'Assassino': 'Assassin', 'Guaritore': 'Healer',
+    'Guerriero': 'Warrior', 'Mago': 'Mage', 'Assassino': 'Assassin', 'Punisher': 'Judicator',
     'Spada': 'Sword', 'Bastone arcano': 'Arcane staff', 'Lama da lancio': 'Throwing blade', 'Bastone della luce': 'Staff of light',
     'WASD: movimento · Shift: corsa · Mouse: mira · Click: attacco · Q: abilità · E: apri forziere': 'WASD: move · Shift: run · Mouse: aim · Click: attack · Q: ability · E: open chest',
     'Mercante · presto disponibile': 'Merchant · coming soon', 'E · Apri': 'E · Open',

@@ -1,5 +1,5 @@
 const sessione = (() => {
-    const classes = { warrior: 'Guerriero', mage: 'Mago', assassin: 'Assassino', healer: 'Guaritore' };
+    const classes = { warrior: 'Guerriero', mage: 'Mago', assassin: 'Assassino', healer: 'Punisher' };
     let selected = new URLSearchParams(location.search).get('class');
     if (!Object.hasOwn(classes, selected)) {
         try { selected = localStorage.getItem('selectedClass'); } catch {}

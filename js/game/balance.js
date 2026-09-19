@@ -13,8 +13,8 @@ const bilanciamentoClassi = {
         { danno: 42, consumo: 30, recupero: 1000, delay: 80 }
     ] },
     healer: { hp: 120, mp: 120, velocita: 4, cura: 5, mana: 11, attacchi: [
-        { danno: 22, consumo: 15, recupero: 420, delay: 120 },
-        { danno: 50, consumo: 35, recupero: 1300, delay: 220 }
+        { danno: 22, consumo: 10, recupero: 420, delay: 120 },
+        { danno: 50, consumo: 30, recupero: 1300, delay: 220 }
     ] }
 };
 const statisticheClasse = bilanciamentoClassi[sessione.classe];

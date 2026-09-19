@@ -9,11 +9,11 @@ I valori effettivi sono centralizzati in js/game/balance.js. Gli attacchi del ca
 | Guerriero | 140 | 80 | 3,8 | 28 / 60 | 0 / 35 | 400 / 1400 ms |
 | Mago | 90 | 140 | 4,0 | 24 / 64 | 15 / 40 | 350 / 1200 ms |
 | Assassino | 100 | 100 | 4,6 | 18 / 42 | 0 / 30 | 230 / 1000 ms |
-| Guaritore | 120 | 120 | 4,0 | 22 / 50 | 15 / 35 | 420 / 1300 ms |
+| Punisher | 120 | 120 | 4,0 | 22 / 50 | 10 / 30 | 420 / 1300 ms |
 
 La velocità è espressa in pixel per passo della simulazione a 60 Hz. Lo speciale del guerriero usa Blue Group Slashes. La lama dell'assassino percorre 70 pixel; ogni attacco rotante colpisce ciascun nemico una sola volta. Un proiettile consumato non può danneggiare altri bersagli nello stesso passo.
 
-Obiettivi: resistenza per il guerriero, riserva di mana per il mago, mobilità e ritmo rapido per l'assassino, maggiore sopravvivenza e attacchi ad area per il guaritore. I recuperi impediscono che la velocità dei clic determini il danno massimo.
+Obiettivi: resistenza per il guerriero, riserva di mana per il mago, mobilità e ritmo rapido per l'assassino, maggiore sopravvivenza e attacchi ad area per il Punisher. I recuperi impediscono che la velocità dei clic determini il danno massimo.
 
 ## Rigenerazione
 
@@ -22,7 +22,7 @@ Obiettivi: resistenza per il guerriero, riserva di mana per il mago, mobilità e
 | Guerriero | 4 | 2 | 5 | 7,5 |
 | Mago | 3 | 1,5 | 6 | 9 |
 | Assassino | 3 | 1,5 | 5 | 7,5 |
-| Guaritore | 5 | 2,5 | 5,5 | 8,25 |
+| Punisher | 5 | 2,5 | 5,5 | 8,25 |
 
 Il recupero del mana in combattimento è dimezzato rispetto alla taratura precedente; fuori combattimento aumenta del 50% rispetto al nuovo recupero in combattimento. La rigenerazione della salute resta invariata.
 
@@ -38,7 +38,7 @@ Gli aumenti percentuali di libro, caffè e cibo partono dai valori della classe.
 - Il contatto può colpire al massimo ogni 1,2 s per nemico. Dopo qualsiasi danno ricevuto ci sono 650 ms di invulnerabilità globale: niente svuotamento della barra a ogni fotogramma.
 - Per piano successivo, HP e danni crescono del 20% del valore di base. La frequenza non cresce.
 
-Contro 90 HP, senza bonus, servono circa 4 colpi base del guerriero o del mago e 5 dell'assassino o del guaritore. Gli attacchi ad area premiano il posizionamento. Sono obiettivi iniziali: schivate, geometria della mappa e precisione cambiano la durata reale dei combattimenti.
+Contro 90 HP, senza bonus, servono circa 4 colpi base del guerriero o del mago e 5 dell'assassino o del Punisher. Gli attacchi ad area premiano il posizionamento. Sono obiettivi iniziali: schivate, geometria della mappa e precisione cambiano la durata reale dei combattimenti.
 
 ## Verifica
 

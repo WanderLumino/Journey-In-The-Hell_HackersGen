@@ -1,6 +1,11 @@
 .language-toggle { position: fixed; top: 16px; right: 18px; z-index: 10; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: 8px 12px; color: #ead9b7; background: #201a14ed; border: 1px solid #82643d; border-radius: 6px; cursor: pointer; font: 12px Georgia,serif; letter-spacing: .1em; }
 .language-toggle img { object-fit: cover; border-radius: 2px; }
 .language-toggle:focus-visible { outline: 2px solid #edc77f; outline-offset: 3px; }
+.back-link { font-size: 1rem; letter-spacing: .08em; min-height: 46px; padding: 10px 14px; gap: 10px; color: #ead5a8; background: #201a14f2; border: 1px solid #987647; border-radius: 6px; box-shadow: 0 3px 14px #0008; }
+.back-link svg { width: 20px; height: 20px; flex-shrink: 0; }
+.back-link:hover { color: #fff0cc; background: #38291c; border-color: #d4aa74; }
+.back-link:focus-visible { outline: 2px solid #edc77f; outline-offset: 3px; }
+@media (max-width: 500px) { .back-link { font-size: .85rem; left: 12px; top: 12px; padding: 10px; max-width: calc(100vw - 116px); } }
 .hub-panel { max-width: 720px; margin: 80px auto 40px; padding: 28px; border: 1px solid #735632; border-radius: 10px; background: #17130fed; color: #e8d7b8; position: relative; z-index: 2; }
 .hub-panel h1, .hub-panel h2 { font-family: 'Cinzel',Georgia,serif; color: #c8a96e; }
 .hub-panel h1 { margin-bottom: 22px; }
